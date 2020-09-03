@@ -36,6 +36,7 @@ Imports:
     stringr,
     purrr,
     htmltools,
-    cli
+    cli,
+    styler
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues

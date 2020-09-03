@@ -52,15 +52,15 @@ render_node <- function(node, indent = 0, prefix = FALSE) {
 #' @author Alan Dipert, RStudio
 #' @importFrom XML htmlParse getNodeSet
 #' @import cli
+#' @importFrom styler style_text
 #' @examples
 #' if (interactive()) {
 #'  library(charpente)
-#'  library(htmltools)
 #'  bs4_card <- '<div class="card" style="width: 18rem;">
 #'    <img class="card-img-top" src="..." alt="Card image cap">
 #'      <div class="card-body">
 #'      <h5 class="card-title">Card title</h5>
-#'      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card content.</p>
+#'      <p class="card-text">Some quick example text.</p>
 #'        <a href="#" class="btn btn-primary">Go somewhere</a>
 #'      </div>
 #'    </div>'
@@ -82,7 +82,7 @@ html_2_R <- function(html, prefix = FALSE) {
     cli_alert_success("Code converted with success.")
     cli_alert_info("Copy and paste the following R code")
     cli_rule()
-    cli_code(r_output)
+    cli_code(style_text(r_output))
   } else {
     cli_alert_danger("Failed to convert code.")
   }
