@@ -1,0 +1,34 @@
+Package: charpente
+Title: Seamlessly design robust 'shiny' extensions
+Version: 0.0.0.9000
+Authors@R: c(
+    person(
+      given = "David",
+      family = "Granjon",
+      role = c("aut", "cre"),
+      email = "dgranjon@ymail.com"
+    ),
+    person("John", "Coene", email = "jcoenep@gmail.com", role = "aut"),
+    person(
+      given = "Alan",
+      family = "Dipert",
+      role = "ctb",
+      comment = "Functions from html2r"
+    ),
+    person(family = "RinteRface", role = "cph")
+  )
+Description: 'charpente' eases the creation of 'shiny' extensions like 'shinydashboard',
+    'bs4Dash', 'shinyMobile'. It provides helpers to quickly set up a relevant package 
+    structure, import all external web dependencies (JavaScript, CSS) as well as initialize
+    input/output bindings and custom handlers boilerplates. 'charpente' offers tools
+    to convert HTML code into R to dramatically speed up the development of the template 
+    components as well as an high level interface to 'htmltools'. 
+    'charpente' is a chatty package relying on the same principle as 'usethis' and 
+    more recently 'golem', that is make ('shiny') developer's life much easier.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1.9000
+Imports: 
+    magrittr
