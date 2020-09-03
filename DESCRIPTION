@@ -38,6 +38,7 @@ Imports:
     htmltools,
     cli,
     styler,
-    fs
+    fs,
+    jsonlite
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues

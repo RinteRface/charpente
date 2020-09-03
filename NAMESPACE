@@ -2,6 +2,7 @@
 
 export("%>%")
 export(create_dependency)
+export(get_dependency_versions)
 export(html_2_R)
 import(cli)
 importFrom(XML,getNodeSet)
