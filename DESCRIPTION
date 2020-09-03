@@ -31,6 +31,11 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9000
 Imports: 
-    magrittr
+    magrittr,
+    XML,
+    stringr,
+    purrr,
+    htmltools,
+    cli
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues
