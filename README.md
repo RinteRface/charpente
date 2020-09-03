@@ -2,6 +2,7 @@
 # charpente
 
 <!-- badges: start -->
+[![R build status](https://github.com/RinteRface/charpente/workflows/R-CMD-check/badge.svg)](https://github.com/RinteRface/charpente/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/charpente)](https://CRAN.R-project.org/package=charpente)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
