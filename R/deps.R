@@ -6,6 +6,7 @@
 #' @param pkg Package where to create the dependency.
 #' @param tag Library version. Default to NULL. If NULL, takes the latest version.
 #' @param options See \link{charpente_options}.
+#' @param open Whether to allow rstudioapi to open the newly created script. Default to TRUE.
 #'
 #' @export
 #' @examples
@@ -18,7 +19,7 @@
 #'   options = charpente_options(local = FALSE)
 #'  )
 #' }
-create_dependency <- function(name, pkg, tag = NULL, options = charpente_options()){
+create_dependency <- function(name, pkg, tag = NULL, open = TRUE, options = charpente_options()){
 
   # assert is in package
   # should further check valid name, e.g.: no spaces or punctuation
@@ -118,6 +119,9 @@ create_dependency <- function(name, pkg, tag = NULL, options = charpente_options
     # end function
     write_there("}")
     write_there("    ")
+
+    if (open) rstudioapi::navigateToFile(path)
+
   } else {
     cli::cli_alert_danger("Unable to create the dependency")
   }

@@ -40,6 +40,7 @@ Imports:
     cli,
     styler,
     fs,
-    jsonlite
+    jsonlite,
+    rstudioapi
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues

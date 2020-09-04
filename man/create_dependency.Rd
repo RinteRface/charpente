@@ -4,7 +4,13 @@
 \alias{create_dependency}
 \title{Imports External Dependencies}
 \usage{
-create_dependency(name, pkg, tag = NULL, options = charpente_options())
+create_dependency(
+  name,
+  pkg,
+  tag = NULL,
+  open = TRUE,
+  options = charpente_options()
+)
 }
 \arguments{
 \item{name}{Name of library.}
@@ -12,6 +18,8 @@ create_dependency(name, pkg, tag = NULL, options = charpente_options())
 \item{pkg}{Package where to create the dependency.}
 
 \item{tag}{Library version. Default to NULL. If NULL, takes the latest version.}
+
+\item{open}{Whether to allow rstudioapi to open the newly created script. Default to TRUE.}
 
 \item{options}{See \link{charpente_options}.}
 }
