@@ -19,7 +19,7 @@
 #'   options = charpente_options(local = FALSE)
 #'  )
 #' }
-create_dependency <- function(name, pkg, tag = NULL, open = TRUE, options = charpente_options()){
+create_dependency <- function(name, pkg, tag = NULL, open = interactive(), options = charpente_options()){
 
   # assert is in package
   # should further check valid name, e.g.: no spaces or punctuation
