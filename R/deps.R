@@ -79,6 +79,16 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
       write(..., file = path, append = TRUE)
     }
 
+    insert_multiple_lines <- function(what) {
+      lapply(seq_along(what), function (i) {
+        if (i == length(what)) {
+          write_there(sprintf('   "%s"', what[[i]]))
+        } else {
+          write_there(sprintf('   "%s",', what[[i]]))
+        }
+      })
+    }
+
     # write in the file
     tag <- strsplit(strsplit(assets$url, "@")[[1]][2], "/")[[1]][1]
     # attach function
@@ -94,17 +104,13 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
       write_there(sprintf('  src = c(href = "%s"),', assets$url))
     }
     if (!is.null(scripts)) {
-      write_there(sprintf('  script = c("%s"),', scripts))
+      write_there("  script = c(")
+      insert_multiple_lines(scripts)
+      write_there("  ),")
     }
     if (!is.null(stylesheets)) {
       write_there("  stylesheet = c(")
-      lapply(seq_along(stylesheets), function (i) {
-        if (i == length(stylesheets)) {
-          write_there(sprintf('   "%s"', stylesheets[[i]]))
-        } else {
-          write_there(sprintf('   "%s",', stylesheets[[i]]))
-        }
-      })
+      insert_multiple_lines(stylesheets)
       write_there("  ),")
     }
     if (options$local) {
