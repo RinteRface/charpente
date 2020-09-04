@@ -3,7 +3,6 @@
 #' Download and create dependency function.
 #'
 #' @param name Name of library.
-#' @param pkg Package where to create the dependency.
 #' @param tag Library version. Default to NULL. If NULL, takes the latest version.
 #' @param options See \link{charpente_options}.
 #' @param open Whether to allow rstudioapi to open the newly created script. Default to TRUE.
@@ -19,14 +18,15 @@
 #'   options = charpente_options(local = FALSE)
 #'  )
 #' }
-create_dependency <- function(name, pkg, tag = NULL, open = interactive(), options = charpente_options()){
+create_dependency <- function(name, tag = NULL, open = interactive(), options = charpente_options()){
 
   # assert is in package
   # should further check valid name, e.g.: no spaces or punctuation
 
   # checks
   if (missing(name)) stop("Missing `name`")
-  if (missing(pkg)) stop("Missing `pkg`")
+
+  pkg <- get_pkg_name()
 
   # discover assets and stop if not
   if (is.null(tag)) tag <- get_dependency_versions(name, TRUE)

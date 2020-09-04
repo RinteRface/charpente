@@ -6,16 +6,13 @@
 \usage{
 create_dependency(
   name,
-  pkg,
   tag = NULL,
-  open = TRUE,
+  open = interactive(),
   options = charpente_options()
 )
 }
 \arguments{
 \item{name}{Name of library.}
-
-\item{pkg}{Package where to create the dependency.}
 
 \item{tag}{Library version. Default to NULL. If NULL, takes the latest version.}
 

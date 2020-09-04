@@ -15,7 +15,15 @@ directory_create <- function(path, ...){
   cli::cli_alert_success("Directory {.file {path}} successfully created")
 }
 
-
+#' Retrieves Package Name
+#' 
+#' @return Name of package.
+get_pkg_name <- function(){
+  desc <- readLines("DESCRIPTION")
+  pkg <- desc[grepl("^Package:", desc)]
+  pkg <- gsub("^Package: ", "", pkg)
+  trimws(pkg)
+}
 
 #' Create file
 #'
