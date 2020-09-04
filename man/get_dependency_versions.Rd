@@ -4,12 +4,10 @@
 \alias{get_dependency_versions}
 \title{Get all version for the current dependency}
 \usage{
-get_dependency_versions(dep, cdn = NULL, latest = FALSE)
+get_dependency_versions(dep, latest = FALSE)
 }
 \arguments{
 \item{dep}{Library name.}
-
-\item{cdn}{CDN url. Default to \url{https://api.cdnjs.com}.}
 
 \item{latest}{Whether to get the last version. Default to FALSE.}
 }
@@ -17,10 +15,12 @@ get_dependency_versions(dep, cdn = NULL, latest = FALSE)
 A vector containing all versions
 }
 \description{
-Get all version for the current dependency
+Query from \url{https://data.jsdelivr.com/v1/package/npm/} under the hood.
 }
 \examples{
-get_dependency_versions("framework7")
-get_dependency_versions("bootstrap")
-get_dependency_versions("react", latest = TRUE)
+\dontrun{
+ get_dependency_versions("framework7")
+ get_dependency_versions("bootstrap")
+ get_dependency_versions("react", latest = TRUE)
+}
 }

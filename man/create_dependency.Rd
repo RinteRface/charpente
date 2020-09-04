@@ -4,14 +4,15 @@
 \alias{create_dependency}
 \title{Imports External Dependencies}
 \usage{
-create_dependency(name, scripts = NULL, stylesheets = NULL)
+create_dependency(name, local = TRUE, version = NULL)
 }
 \arguments{
 \item{name}{Name of library.}
 
-\item{scripts, stylesheets}{Vector of JavaScript and CSS files to use
-as depdendencies.}
+\item{local}{Whether to download files locally or to point to a CDN. Default to TRUE.}
+
+\item{version}{Library version. Default to NULL. If NULL, takes the latest version.}
 }
 \description{
-Download and create depdendency function.
+Download and create dependency function.
 }
