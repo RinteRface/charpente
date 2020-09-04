@@ -55,6 +55,8 @@ create_dependency <- function(name, local = TRUE, version = NULL){
 #' @noRd
 #' @keywords internal
 select_asset <- function(assets, type, name) {
+  # TO DO: fine tune the regex -> maybe people only want minified files, maybe they
+  # want everything, ...
   selected_assets <- assets[grep(sprintf("^.+\\.min\\.%s$", type), assets$name), ]$name
   # this will prevent to create a directory for nothing
   if (length(selected_assets) == 0) return(NULL)
