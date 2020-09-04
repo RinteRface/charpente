@@ -10,11 +10,10 @@
 #' @export
 #' @examples
 #' \dontrun{
-#'  create_dependency("tabler", pkg = "tablerDash")
+#'  create_dependency("tabler")
 #'  # Use CDNs
 #'  create_dependency(
 #'   "framework7",
-#'   pkg = "shinyMobile",
 #'   options = charpente_options(local = FALSE)
 #'  )
 #' }
