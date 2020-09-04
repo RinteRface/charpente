@@ -4,15 +4,28 @@
 \alias{create_dependency}
 \title{Imports External Dependencies}
 \usage{
-create_dependency(name, version = NULL, options = charpente_options())
+create_dependency(name, pkg, tag = NULL, options = charpente_options())
 }
 \arguments{
 \item{name}{Name of library.}
 
-\item{version}{Library version. Default to NULL. If NULL, takes the latest version.}
+\item{pkg}{Package where to create the dependency.}
+
+\item{tag}{Library version. Default to NULL. If NULL, takes the latest version.}
 
 \item{options}{See \link{charpente_options}.}
 }
 \description{
 Download and create dependency function.
+}
+\examples{
+\dontrun{
+ create_dependency("tabler", pkg = "tablerDash")
+ # Use CDNs
+ create_dependency(
+  "framework7",
+  pkg = "shinyMobile",
+  options = charpente_options(local = FALSE)
+ )
+}
 }

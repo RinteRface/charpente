@@ -4,12 +4,12 @@
 \alias{get_dependency_assets}
 \title{Get all links to dependencies}
 \usage{
-get_dependency_assets(dep, version = "latest")
+get_dependency_assets(dep, tag = "latest")
 }
 \arguments{
 \item{dep}{Library name.}
 
-\item{version}{Library version. Default to latest.}
+\item{tag}{Library version. Default to latest.}
 }
 \value{
 A list of url containing links to CSS and JS dependencies for the given library.
@@ -20,6 +20,6 @@ Query from \url{https://data.jsdelivr.com/v1/package/npm/} under the hood.
 \examples{
 \dontrun{
  get_dependency_assets("bootstrap")
- get_dependency_assets("framework7", version = "5.5.5")
+ get_dependency_assets("framework7", tag = "5.5.5")
 }
 }

@@ -3,44 +3,57 @@
 #' Download and create dependency function.
 #'
 #' @param name Name of library.
-#' @param version Library version. Default to NULL. If NULL, takes the latest version.
+#' @param pkg Package where to create the dependency.
+#' @param tag Library version. Default to NULL. If NULL, takes the latest version.
 #' @param options See \link{charpente_options}.
 #'
 #' @export
-create_dependency <- function(name, version = NULL, options = charpente_options()){
+#' @examples
+#' \dontrun{
+#'  create_dependency("tabler", pkg = "tablerDash")
+#'  # Use CDNs
+#'  create_dependency(
+#'   "framework7",
+#'   pkg = "shinyMobile",
+#'   options = charpente_options(local = FALSE)
+#'  )
+#' }
+create_dependency <- function(name, pkg, tag = NULL, options = charpente_options()){
 
   # assert is in package
   # should further check valid name, e.g.: no spaces or punctuation
 
   # checks
-  if(missing(name)) stop("Missing `name`")
+  if (missing(name)) stop("Missing `name`")
+  if (missing(pkg)) stop("Missing `pkg`")
 
   # discover assets and stop if not
-  if (is.null(version)) version <- get_dependency_versions(name, TRUE)
-  assets <- get_dependency_assets(name, version)
+  if (is.null(tag)) tag <- get_dependency_versions(name, TRUE)
+  assets <- get_dependency_assets(name, tag)
   if(nrow(assets$files) == 0) stop(sprintf("No assets found for %s", name))
+
+
+  # path to dependency
+  path <- sprintf("inst/%s-%s", name, tag)
+
+  # below we select step by step. It possible that a repo does not have bundle of minified
+  # files. We inspect the content each time, if it's NULL, we change options.
+  scripts <- select_asset(assets$files, "js", name, options)
+  if (is.null(scripts)) {
+    scripts <- select_asset(assets$files, "js", name, options = charpente_options(bundle = FALSE))
+  }
+  if (is.null(scripts)) {
+    scripts <- select_asset(assets$files, "js", name, options = charpente_options(bundle = FALSE, minified = FALSE))
+  }
+  # CSS files are not in bundles
+  stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE))
+  if (is.null(stylesheets)) {
+    stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE, minified = FALSE))
+  }
 
 
   # if local download files and create directories
   if (options$local) {
-    # path to dependency
-    path <- sprintf("inst/%s-%s", name, version)
-
-    # below we select step by step. It possible that a repo does not have bundle of minified
-    # files. We inspect the content each time, if it's NULL, we change options.
-    scripts <- select_asset(assets$files, "js", name, options)
-    if (is.null(scripts)) {
-      scripts <- select_asset(assets$files, "js", name, options = charpente_options(bundle = FALSE))
-    }
-    if (is.null(scripts)) {
-      scripts <- select_asset(assets$files, "js", name, options = charpente_options(bundle = FALSE, minified = FALSE))
-    }
-    # CSS files are not in bundles
-    stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE))
-    if (is.null(stylesheets)) {
-      stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE, minified = FALSE))
-    }
-
     # create directories only when necessary and download files
     if(!is.null(scripts)) {
       directory_create_asset(path, "js")
@@ -52,9 +65,62 @@ create_dependency <- function(name, version = NULL, options = charpente_options(
     }
   }
 
-  # TO DO ... create html_dependencies.R
-  #file_create(path = "")
 
+  # TO DO ... create html_dependencies.R. Only if it does not exist ...
+  if (!is.null(scripts) || !is.null(stylesheets)) {
+
+    # need to overwrite path which was used before
+    path <- sprintf("R/%s-dependencies.R", pkg)
+
+    file_create(path)
+
+    # taken from golem ;)
+    write_there <- function(...){
+      write(..., file = path, append = TRUE)
+    }
+
+    # write in the file
+    tag <- strsplit(strsplit(assets$url, "@")[[1]][2], "/")[[1]][1]
+    # attach function
+    write_there(sprintf("add_%s_deps <- function(tag) {", name))
+
+    # htmlDependency content
+    write_there(sprintf(" %s_deps <- htmltools::htmlDependency(", name))
+    write_there(sprintf('  name = "%s",', name))
+    write_there(sprintf('  version = utils::packageVersion("%s"),', pkg))
+    if (options$local) {
+      write_there(sprintf('  src = c(file = "%s"),', tag))
+    } else {
+      write_there(sprintf('  src = c(href = "%s"),', assets$url))
+    }
+    if (!is.null(scripts)) {
+      write_there(sprintf('  script = c("%s"),', scripts))
+    }
+    if (!is.null(stylesheets)) {
+      write_there("  stylesheet = c(")
+      lapply(seq_along(stylesheets), function (i) {
+        if (i == length(stylesheets)) {
+          write_there(sprintf('   "%s"', stylesheets[[i]]))
+        } else {
+          write_there(sprintf('   "%s",', stylesheets[[i]]))
+        }
+      })
+      write_there("  ),")
+    }
+    if (options$local) {
+      write_there(sprintf('  package = "%s",', pkg))
+    }
+    # end deps
+    write_there(" )")
+
+    # attach deps
+    write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
+    # end function
+    write_there("}")
+    write_there("    ")
+  } else {
+    cli::cli_alert_danger("Unable to create the dependency")
+  }
 }
 
 
@@ -155,7 +221,10 @@ dependencies_download <- function(path, files){
 }
 
 
+# dont change !!! CDNs have different API structure
 options("DEFAULT_CDN" = "https://data.jsdelivr.com/v1/package/npm/")
+
+
 #' Get all version for the current dependency
 #'
 #' Query from \url{https://data.jsdelivr.com/v1/package/npm/} under the hood.
@@ -199,7 +268,7 @@ get_dependency_versions <- function(dep, latest = FALSE) {
 #' Query from \url{https://data.jsdelivr.com/v1/package/npm/} under the hood.
 #'
 #' @param dep Library name.
-#' @param version Library version. Default to latest.
+#' @param tag Library version. Default to latest.
 #'
 #' @return A list of url containing links to CSS and JS dependencies for the given library.
 #' @export
@@ -207,16 +276,16 @@ get_dependency_versions <- function(dep, latest = FALSE) {
 #' @examples
 #' \dontrun{
 #'  get_dependency_assets("bootstrap")
-#'  get_dependency_assets("framework7", version = "5.5.5")
+#'  get_dependency_assets("framework7", tag = "5.5.5")
 #' }
-get_dependency_assets <- function(dep, version = "latest") {
+get_dependency_assets <- function(dep, tag = "latest") {
   # get all js and css assets from jsdelivr
   cdn <- getOption("DEFAULT_CDN")
-  if (version == "latest") version <- get_dependency_versions(dep, TRUE)
-  temp <- jsonlite::fromJSON(sprintf("%s%s@%s", cdn, dep, version))$files
+  if (tag == "latest") tag <- get_dependency_versions(dep, TRUE)
+  temp <- jsonlite::fromJSON(sprintf("%s%s@%s", cdn, dep, tag))$files
 
   download_endpoint <- "https://cdn.jsdelivr.net/npm/"
-  url <- sprintf("%s%s@%s/", download_endpoint, dep, version)
+  url <- sprintf("%s%s@%s/", download_endpoint, dep, tag)
 
   # bootstrap has a dist folder
   if ("dist" %in% temp$name) {

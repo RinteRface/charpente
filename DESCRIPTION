@@ -15,7 +15,8 @@ Authors@R: c(
       role = "ctb",
       comment = "Functions from html2r"
     ),
-    person(family = "RinteRface", role = "cph")
+    person(family = "RinteRface", role = "cph"),
+    person(family = "ThinkR", role = "cph", comment = "Some utils from golem")
   )
 Description: 'charpente' eases the creation of 'shiny' extensions like 'shinydashboard',
     'bs4Dash', 'shinyMobile'. It provides helpers to quickly set up a relevant package 

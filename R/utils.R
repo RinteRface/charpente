@@ -20,18 +20,14 @@ directory_create <- function(path, ...){
 #' Create file
 #'
 #' @param path Path to file.
-#' @param ... Elements to add.
 #' @noRd
 #' @keywords internal
-file_create <- function(path, ...){
-
-  exists <- fs::file_exists(paste(path, ..., sep ="/"))
+file_create <- function(path){
+  exists <- fs::file_exists(path)
   if(exists) {
     cli::cli_alert_warning("Editing file at {.file {path}}")
-    write(..., file = path, append = TRUE)
   } else {
     fs::file_create(path)
-    write(..., file = path)
     cli::cli_alert_success("File {.file {path}} successfully created")
   }
 }
