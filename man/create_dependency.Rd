@@ -4,14 +4,14 @@
 \alias{create_dependency}
 \title{Imports External Dependencies}
 \usage{
-create_dependency(name, local = TRUE, version = NULL)
+create_dependency(name, version = NULL, options = charpente_options())
 }
 \arguments{
 \item{name}{Name of library.}
 
-\item{local}{Whether to download files locally or to point to a CDN. Default to TRUE.}
-
 \item{version}{Library version. Default to NULL. If NULL, takes the latest version.}
+
+\item{options}{See \link{charpente_options}.}
 }
 \description{
 Download and create dependency function.

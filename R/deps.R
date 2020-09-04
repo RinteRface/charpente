@@ -3,11 +3,11 @@
 #' Download and create dependency function.
 #'
 #' @param name Name of library.
-#' @param local Whether to download files locally or to point to a CDN. Default to TRUE.
 #' @param version Library version. Default to NULL. If NULL, takes the latest version.
+#' @param options See \link{charpente_options}.
 #'
 #' @export
-create_dependency <- function(name, local = TRUE, version = NULL){
+create_dependency <- function(name, version = NULL, options = charpente_options()){
 
   # assert is in package
   # should further check valid name, e.g.: no spaces or punctuation
@@ -21,21 +21,35 @@ create_dependency <- function(name, local = TRUE, version = NULL){
   if(nrow(assets$files) == 0) stop(sprintf("No assets found for %s", name))
 
 
-
   # if local download files and create directories
-  if (local) {
+  if (options$local) {
     # path to dependency
     path <- sprintf("inst/%s-%s", name, version)
 
-    scripts <- select_asset(assets$files, "js", name)
-    stylesheets <- select_asset(assets$files, "css", name)
+    # below we select step by step. It possible that a repo does not have bundle of minified
+    # files. We inspect the content each time, if it's NULL, we change options.
+    scripts <- select_asset(assets$files, "js", name, options)
+    if (is.null(scripts)) {
+      scripts <- select_asset(assets$files, "js", name, options = charpente_options(bundle = FALSE))
+    }
+    if (is.null(scripts)) {
+      scripts <- select_asset(assets$files, "js", name, options = charpente_options(bundle = FALSE, minified = FALSE))
+    }
+    # CSS files are not in bundles
+    stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE))
+    if (is.null(scripts)) {
+      stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE, minified = FALSE))
+    }
 
-    if(!is.null(scripts)) directory_create_asset(path, "js")
-    if(!is.null(stylesheets)) directory_create_asset(path, "css")
-
-    # download dependencies
-    dependencies_download(path, paste0(assets$url, scripts))
-    dependencies_download(path, paste0(assets$url, stylesheets))
+    # create directories only when necessary and download files
+    if(!is.null(scripts)) {
+      directory_create_asset(path, "js")
+      dependencies_download(path, paste0(assets$url, scripts))
+    }
+    if(!is.null(stylesheets)) {
+      directory_create_asset(path, "css")
+      dependencies_download(path, paste0(assets$url, stylesheets))
+    }
   }
 
   # TO DO ... create html_dependencies.R
@@ -45,19 +59,50 @@ create_dependency <- function(name, local = TRUE, version = NULL){
 
 
 
+
+#' Configure charpente
+#'
+#' @param local Whether to download files locally or to point to a CDN. Default to TRUE.
+#' @param minified Whether to download minified files. Default to TRUE. Set to FALSE should you need
+#' all files.
+#' @param bundle Some libraries like Bootstrap provide bundles containing all components.
+#' If bundle is TRUE, the download will target only those files.
+#'
+#' @return A list of options.
+#' @export
+charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE) {
+  list(
+    local = local,
+    minified = minified,
+    bundle = bundle
+  )
+}
+
+
+
 #' Select a specific type of asset
 #'
 #' @param name Library name.
 #' @param assets Dataframe of assets.
 #' @param type Type to extract. Could be js, css, ...
+#' @param options See \link{charpente_options}.
 #'
 #' @return A vector
 #' @noRd
 #' @keywords internal
-select_asset <- function(assets, type, name) {
+select_asset <- function(assets, type, name, options) {
   # TO DO: fine tune the regex -> maybe people only want minified files, maybe they
   # want everything, ...
-  selected_assets <- assets[grep(sprintf("^.+\\.min\\.%s$", type), assets$name), ]$name
+  regex <- if (options$bundle) {
+    sprintf("^.+\\.bundle\\.min\\.%s$", type)
+  } else {
+    if (options$minified) {
+      sprintf("^.+\\.min\\.%s$", type)
+    } else {
+      sprintf("^.+\\.%s$", type)
+    }
+  }
+  selected_assets <- assets[grep(regex, assets$name), ]$name
   # this will prevent to create a directory for nothing
   if (length(selected_assets) == 0) return(NULL)
   paste(type, selected_assets, sep = "/")
