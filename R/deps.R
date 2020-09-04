@@ -71,7 +71,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
   if (!is.null(scripts) || !is.null(stylesheets)) {
 
     # need to overwrite path which was used before
-    path <- sprintf("R/%s-dependencies.R", pkg)
+    path <- sprintf("R/%s-dependencies.R", name)
 
     file_create(path)
 
