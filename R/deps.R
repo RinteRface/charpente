@@ -55,7 +55,9 @@ create_dependency <- function(name, local = TRUE, version = NULL){
 #' @noRd
 #' @keywords internal
 select_asset <- function(assets, type, name) {
-  selected_assets <- assets[grep(sprintf("^%s(.bundle)?.min.%s$", name, type), assets$name), ]$name[1]
+  selected_assets <- assets[grep(sprintf("^.+\\.min\\.%s$", type), assets$name), ]$name
+  # this will prevent to create a directory for nothing
+  if (length(selected_assets) == 0) return(NULL)
   paste(type, selected_assets, sep = "/")
 }
 
@@ -93,7 +95,13 @@ dependencies_download <- function(path, files){
   # download files
   purrr::map2(files, file_names, function(file, name, base_path){
     path <- sprintf("%s/%s", base_path, name)
-    utils::download.file(file, path, quiet = TRUE)
+
+    # don't download if empty folder
+    if (extension != "") {
+      utils::download.file(file, path, quiet = TRUE)
+    } else {
+      cli::cli_alert_danger("No file to download")
+    }
   }, base_path = path)
 
   invisible()
