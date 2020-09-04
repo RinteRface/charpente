@@ -135,7 +135,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
 
 
-#' Upgrade the given dependency to a specific version or latest
+#' Update the given dependency to a specific version or latest
 #'
 #' @param name Library name.
 #' @param version_target Targeted version. Defaul to latest.
@@ -144,9 +144,9 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #'
 #' @examples
 #' \donttun{
-#'  upgrade_dependency("framework7")
+#'  update_dependency("framework7")
 #' }
-upgrade_dependency <- function(name, version_target = "latest") {
+update_dependency <- function(name, version_target = "latest") {
   # get the current version
   current <- get_installed_dependency(name)
   # get the latest version
@@ -156,7 +156,7 @@ upgrade_dependency <- function(name, version_target = "latest") {
   # if the version target is latest and current is latest, there is nothing to to
   # and we exit the function.
   browser()
-  comp <- compareVersion(current, latest)
+  comp <- utils::compareVersion(current, latest)
 
   if (comp == 0) {
     cli::cli_alert_info(sprintf("%s is up to date.", name))
@@ -168,6 +168,11 @@ upgrade_dependency <- function(name, version_target = "latest") {
     fs::file_delete(paste0("inst/", find_dep_file(name)))
     create_dependency(name, tag = version_target)
     cli::cli_alert_success(sprintf("Downgraded from %s to %s.", current, version_target))
+  } else if (comp == 1) {
+    # downgrade
+    cli::cli_alert_warning(sprintf("Downgrading %s to %s", name, version_target))
+    fs::file_delete(paste0("inst/", find_dep_file(name)))
+    create_dependency(name, tag = version_target)
   }
 
 }
@@ -190,7 +195,7 @@ extract_dependency_version <- function(name) {
 
 #' Get the version of the current installed dependency
 #'
-#' Used by \link{upgrade_dependency}.
+#' Used by \link{update_dependency}.
 #'
 #' @param name Library name
 #'
@@ -208,7 +213,7 @@ get_installed_dependency <- function(name) {
 
 #' Find the folder corresponding to the given dependency
 #'
-#' Used by \link{get_installed_dependency} and \link{upgrade_dependency}.
+#' Used by \link{get_installed_dependency} and \link{update_dependency}.
 #'
 #' @param name Library name.
 #' @noRd
@@ -224,11 +229,14 @@ find_dep_file <- function(name) {
 #' @param minified Whether to download minified files. Default to TRUE. Set to FALSE should you need
 #' all files.
 #' @param bundle Some libraries like Bootstrap provide bundles containing all components.
-#' If bundle is TRUE, the download will target only those files.
+#' If bundle is TRUE, the download will target only those files. Not compatible with lite.
+#' @param lite Some libraries like framework7 propose lite version of the scripts.
+#' Default to FALSE. Not compatible with bundle.
 #'
 #' @return A list of options.
 #' @export
-charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE) {
+charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE, lite = FALSE) {
+  if (bundle && lite) stop("Cannot choose bundle and lite options!")
   list(
     local = local,
     minified = minified,

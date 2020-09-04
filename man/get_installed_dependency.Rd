@@ -13,5 +13,5 @@ get_installed_dependency(name)
 A character containing the version number
 }
 \description{
-Used by \link{upgrade_dependency}.
+Used by \link{update_dependency}.
 }
