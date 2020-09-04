@@ -129,6 +129,89 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
 
 
+#' Upgrade the given dependency to a specific version or latest
+#'
+#' @param name Library name.
+#' @param version_target Targeted version. Defaul to latest.
+#'
+#' @export
+#'
+#' @examples
+#' \donttun{
+#'  upgrade_dependency("framework7")
+#' }
+upgrade_dependency <- function(name, version_target = "latest") {
+  # get the current version
+  current <- get_installed_dependency(name)
+  # get the latest version
+  latest <- get_dependency_versions(name, latest = TRUE)
+  cli::cli_alert_info(sprintf("current version: %s || latest version: %s", current, latest))
+
+  # if the version target is latest and current is latest, there is nothing to to
+  # and we exit the function.
+  browser()
+  comp <- compareVersion(current, latest)
+
+  if (comp == 0) {
+    cli::cli_alert_info(sprintf("%s is up to date.", name))
+    return()
+  } else if (comp == -1) {
+    # current is outdated, let's upgrade
+    cli::cli_alert_warning(sprintf("%s is outdated. Consider upgrade to %s", name, latest))
+    browser()
+    fs::file_delete(paste0("inst/", find_dep_file(name)))
+    create_dependency(name, tag = version_target)
+    cli::cli_alert_success(sprintf("Downgraded from %s to %s.", current, version_target))
+  }
+
+}
+
+
+
+#' Get the current version of the given dependency
+#'
+#' Used by \link{get_installed_dependency}.
+#'
+#' @param name Library name.
+#' @noRd
+#' @keywords internal
+extract_dependency_version <- function(name) {
+  temp_split <- strsplit(name, "-")[[1]]
+  stringr::str_c(strsplit(name, "-")[[1]][2: length(temp_split)], collapse = "-")
+}
+
+
+
+#' Get the version of the current installed dependency
+#'
+#' Used by \link{upgrade_dependency}.
+#'
+#' @param name Library name
+#'
+#' @return A character containing the version number
+#' @export
+get_installed_dependency <- function(name) {
+  # TO DO: need to handle dependencies with CDN which don't have any folder.
+  # A yaml config file would be good!
+  file_name <- find_dep_file(name)
+  if (purrr::is_empty(file_name)) stop("Dependency not found!")
+  extract_dependency_version(file_name)
+}
+
+
+
+#' Find the folder corresponding to the given dependency
+#'
+#' Used by \link{get_installed_dependency} and \link{upgrade_dependency}.
+#'
+#' @param name Library name.
+#' @noRd
+#' @keywords internal
+find_dep_file <- function(name) {
+  list.files(path = "inst/", pattern = sprintf("%s-", name))
+}
+
+
 #' Configure charpente
 #'
 #' @param local Whether to download files locally or to point to a CDN. Default to TRUE.
