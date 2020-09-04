@@ -37,7 +37,7 @@ create_dependency <- function(name, version = NULL, options = charpente_options(
     }
     # CSS files are not in bundles
     stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE))
-    if (is.null(scripts)) {
+    if (is.null(stylesheets)) {
       stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE, minified = FALSE))
     }
 
