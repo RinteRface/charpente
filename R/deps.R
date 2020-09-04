@@ -55,7 +55,7 @@ create_dependency <- function(name, local = TRUE, version = NULL){
 #' @noRd
 #' @keywords internal
 select_asset <- function(assets, type, name) {
-  selected_assets <- assets[grep(sprintf("^%s.(bundle).min.%s$", name, type), assets$name), ]$name
+  selected_assets <- assets[grep(sprintf("^%s(.bundle)?.min.%s$", name, type), assets$name), ]$name[1]
   paste(type, selected_assets, sep = "/")
 }
 
