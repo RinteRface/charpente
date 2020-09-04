@@ -120,7 +120,7 @@ create_dependency <- function(name, pkg, tag = NULL, open = TRUE, options = char
     write_there("}")
     write_there("    ")
 
-    if (open) rstudioapi::navigateToFile(path)
+    if (open && rstudioapi::isAvailable()) rstudioapi::navigateToFile(path)
 
   } else {
     cli::cli_alert_danger("Unable to create the dependency")
