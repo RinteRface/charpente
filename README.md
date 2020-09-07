@@ -1,5 +1,5 @@
 
-# charpente
+# charpente <img src="https://rinterface.com/inst/images/charpente.png" width="200px" align="right"/>
 
 <!-- badges: start -->
 [![R build status](https://github.com/RinteRface/charpente/workflows/R-CMD-check/badge.svg)](https://github.com/RinteRface/charpente/actions)
@@ -14,6 +14,9 @@ The goal of charpente is to ...
 You can install the released version of charpente from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
+# latest version
+remotes::install_github("RinteRface/charpente")
+# Once on CRAN
 install.packages("charpente")
 ```
 
