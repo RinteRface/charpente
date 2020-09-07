@@ -41,6 +41,10 @@ Imports:
     styler,
     fs,
     jsonlite,
-    rstudioapi
+    rstudioapi,
+    usethis,
+    rlang
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues
+Suggests: 
+    testthat

@@ -15,7 +15,7 @@ update_dependency(name, version_target = "latest")
 Update the given dependency to a specific version or latest
 }
 \examples{
-\donttun{
+\dontrun{
  update_dependency("framework7")
 }
 }

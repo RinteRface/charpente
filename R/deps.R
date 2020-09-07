@@ -143,7 +143,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #' @export
 #'
 #' @examples
-#' \donttun{
+#' \dontrun{
 #'  update_dependency("framework7")
 #' }
 update_dependency <- function(name, version_target = "latest") {
