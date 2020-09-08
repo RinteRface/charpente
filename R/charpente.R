@@ -29,34 +29,40 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
     open = FALSE
   )
 
+  pkg_name <- tail(strsplit(path, "/")[[1]], 1)
+  ui_done("Package {ui_value(pkg_name)} successfuly created!")
+
+  # set new wd
   setwd(path)
-  eval(parse(text = paste0("use_", license, "_license")))
 
-  use_cran_comments()
-  use_readme_md()
+  # LICENSE, ...
+  eval(parse(text = paste0("use_", license, "_license()")))
+  use_cran_comments(FALSE)
+  use_readme_md(FALSE)
+  use_code_of_conduct()
+  use_news_md(FALSE)
 
+  # readme badges
   use_cran_badge()
   use_lifecycle_badge("experimental")
 
+  # testthat
   use_testthat()
-  use_pkgdown()
 
-
-  cli::cli_alert_info("Setting up git and github ...")
+  # version control
   use_git()
   if (!is.null(remote)) {
+    repo_status <- if (private) "private" else "public"
+    #ui_info("Creating {ui_value(repo_status)} remote repository at {ui_value(remote)}")
     use_github(remote, private, protocol = "ssh", auth_token = github_token())
     use_github_action_check_full()
     use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/pkgdown.yaml")
     use_github_actions_badge()
   }
-  cli::cli_alert_success("Done")
-
-
-  use_code_of_conduct()
-  use_news_md()
 
   # only open the project at the end
+  ui_warn("Opening new project in a new session ...")
+  ui_todo("Don't forget to complete the red bullet steps (see above)!")
   rstudioapi::openProject(path, newSession = TRUE)
 
 }
