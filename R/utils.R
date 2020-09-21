@@ -16,7 +16,7 @@ directory_create <- function(path, ...){
 }
 
 #' Retrieves Package Name
-#' 
+#'
 #' @return Name of package.
 get_pkg_name <- function(){
   desc <- readLines("DESCRIPTION")
@@ -32,8 +32,11 @@ get_pkg_name <- function(){
 #' @keywords internal
 file_create <- function(path){
   exists <- fs::file_exists(path)
+  # If there is already a file (might be the case if update a dependency),
+  # we remove the existing file (avoid to append to an existing file)
   if(exists) {
-    cli::cli_alert_warning("Editing file at {.file {path}}")
+    fs::file_delete(path)
+    cli::cli_alert_warning("Remove existing file {.file {path}}")
   } else {
     fs::file_create(path)
     cli::cli_alert_success("File {.file {path}} successfully created")

@@ -71,7 +71,6 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
     # need to overwrite path which was used before
     path <- sprintf("R/%s-dependencies.R", name)
-
     file_create(path)
 
     # taken from golem ;)
@@ -149,31 +148,40 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 update_dependency <- function(name, version_target = "latest") {
   # get the current version
   current <- get_installed_dependency(name)
+  versions <- get_dependency_versions(name)
+  latest <- versions[1]
+
+  # stop if current is version_target
+  if (current == version_target) stop("Versions are identical")
+
   # get the latest version
-  latest <- get_dependency_versions(name, latest = TRUE)
-  cli::cli_alert_info(sprintf("current version: %s || latest version: %s", current, latest))
+  cli::cli_alert_info(
+    sprintf(
+      "current version: %s ||
+      target version: %s ||
+      latest version: %s",
+      current,
+      version_target,
+      latest
+    )
+  )
 
   # if the version target is latest and current is latest, there is nothing to to
-  # and we exit the function.
-  browser()
-  comp <- utils::compareVersion(current, latest)
+  # and we exit the function. TO DO: get_dependency_versions has low perfs!!
+  current_rank <- match(current, versions)
+  target_rank <- match(version_target, versions)
 
-  if (comp == 0) {
-    cli::cli_alert_info(sprintf("%s is up to date.", name))
-    return()
-  } else if (comp == -1) {
-    # current is outdated, let's upgrade
-    cli::cli_alert_warning(sprintf("%s is outdated. Consider upgrade to %s", name, latest))
-    browser()
-    fs::file_delete(paste0("inst/", find_dep_file(name)))
-    create_dependency(name, tag = version_target)
-    cli::cli_alert_success(sprintf("Downgraded from %s to %s.", current, version_target))
-  } else if (comp == 1) {
+  if (current_rank < target_rank) {
     # downgrade
     cli::cli_alert_warning(sprintf("Downgrading %s to %s", name, version_target))
-    fs::file_delete(paste0("inst/", find_dep_file(name)))
-    create_dependency(name, tag = version_target)
+  } else{
+    # current is outdated, let's upgrade
+    cli::cli_alert_warning(sprintf("Upgrading %s to %s", name, version_target))
   }
+
+  # delete all deps and install new ones
+  fs::file_delete(paste0("inst/", find_dep_file(name)))
+  create_dependency(name, tag = version_target)
 
 }
 
