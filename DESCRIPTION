@@ -43,7 +43,9 @@ Imports:
     jsonlite,
     rstudioapi,
     usethis,
-    rlang
+    rlang,
+    golem (>= 0.2.1)
+Remotes: ThinkR-open/golem
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues
 Suggests: 
