@@ -150,6 +150,8 @@ update_dependency <- function(name, version_target = "latest") {
   current <- get_installed_dependency(name)
   versions <- get_dependency_versions(name)
   latest <- versions[1]
+  if (version_target == "latest") version_target <- latest
+
 
   # stop if current is version_target
   if (current == version_target) stop("Versions are identical")
