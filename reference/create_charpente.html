@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • charpente</title>
+<title>Create a package using charpente and usethis conventions — create_charpente • charpente</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Create a package using charpente and usethis conventions — create_charpente" />
+<meta property="og:description" content="A charpente powered package does not differ from other package structure.
+create_charpente calls a series of function to help you quickly setting up the
+package structure." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,90 +111,50 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Create a package using charpente and usethis conventions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/RinteRface/charpente/blob/master/R/charpente.R'><code>R/charpente.R</code></a></small>
+    <div class="hidden name"><code>create_charpente.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>A charpente powered package does not differ from other package structure.
+create_charpente calls a series of function to help you quickly setting up the
+package structure.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>create_charpente</span>(<span class='kw'>path</span>, remote = <span class='kw'>NULL</span>, private = <span class='fl'>FALSE</span>, <span class='kw'>license</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="charpente_options.html">charpente_options()</a></code> </p>
-        </td>
-        <td><p>Configure charpente</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_charpente.html">create_charpente()</a></code> </p>
-        </td>
-        <td><p>Create a package using charpente and usethis conventions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_dependency.html">create_dependency()</a></code> </p>
-        </td>
-        <td><p>Imports External Dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dependency_assets.html">get_dependency_assets()</a></code> </p>
-        </td>
-        <td><p>Get all links to dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dependency_versions.html">get_dependency_versions()</a></code> </p>
-        </td>
-        <td><p>Get all version for the current dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_installed_dependency.html">get_installed_dependency()</a></code> </p>
-        </td>
-        <td><p>Get the version of the current installed dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_pkg_name.html">get_pkg_name()</a></code> </p>
-        </td>
-        <td><p>Retrieves Package Name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_2_R.html">html_2_R()</a></code> </p>
-        </td>
-        <td><p>Convert HTML content to R Shiny tags</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="update_dependency.html">update_dependency()</a></code> </p>
-        </td>
-        <td><p>Update the given dependency to a specific version or latest</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>path</th>
+      <td><p>A path. If it exists, it is used. If it does not exist, it is created,
+provided that the parent path exists.</p></td>
+    </tr>
+    <tr>
+      <th>remote</th>
+      <td><p>Name of the remote Github organization to connect to.</p></td>
+    </tr>
+    <tr>
+      <th>private</th>
+      <td><p>Whether the repository is private. Default to FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>license</th>
+      <td><p>Which license is your project under?</p></td>
+    </tr>
     </table>
-  </div>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+ <span class='fu'>create_charpente</span>(<span class='st'>"bs4Dash"</span>)
+}
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

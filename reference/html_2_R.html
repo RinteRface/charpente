@@ -120,7 +120,7 @@
     <p>Convert HTML content to R Shiny tags</p>
     </div>
 
-    <pre class="usage"><span class='fu'>html_2_R</span>(<span class='no'>html</span>, <span class='kw'>prefix</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>html_2_R</span>(<span class='kw'>html</span>, prefix = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,11 +138,14 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list of R Shiny tags</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Alan Dipert, RStudio</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
- <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>charpente</span>)
- <span class='no'>bs4_card</span> <span class='kw'>&lt;-</span> <span class='st'>'&lt;div class="card" style="width: 18rem;"&gt;
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+ <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/RinteRface/charpente'>charpente</a></span>)
+ <span class='kw'>bs4_card</span> <span class='op'>&lt;-</span> <span class='st'>'&lt;div class="card" style="width: 18rem;"&gt;
    &lt;img class="card-img-top" src="..." alt="Card image cap"&gt;
      &lt;div class="card-body"&gt;
      &lt;h5 class="card-title"&gt;Card title&lt;/h5&gt;
@@ -150,12 +153,13 @@
        &lt;a href="#" class="btn btn-primary"&gt;Go somewhere&lt;/a&gt;
      &lt;/div&gt;
    &lt;/div&gt;'</span>
- <span class='fu'>html_2_R</span>(<span class='no'>bs4_card</span>)
+ <span class='fu'>html_2_R</span>(<span class='kw'>bs4_card</span>)
 
  <span class='co'>## With non standard attributes</span>
- <span class='no'>tag</span> <span class='kw'>&lt;-</span> <span class='st'>"&lt;div data-toggle='accordion'&gt;&lt;/div&gt;"</span>
- <span class='fu'>html_2_R</span>(<span class='no'>tag</span>)
-}</div></pre>
+ <span class='kw'>tag</span> <span class='op'>&lt;-</span> <span class='st'>"&lt;div data-toggle='accordion'&gt;&lt;/div&gt;"</span>
+ <span class='fu'>html_2_R</span>(<span class='kw'>tag</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -171,7 +175,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

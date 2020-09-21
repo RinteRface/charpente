@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • charpente</title>
+<title>Imports External Dependencies — create_dependency • charpente</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Imports External Dependencies — create_dependency" />
+<meta property="og:description" content="Download and create dependency function." />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,90 +109,57 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Imports External Dependencies</h1>
+    <small class="dont-index">Source: <a href='https://github.com/RinteRface/charpente/blob/master/R/deps.R'><code>R/deps.R</code></a></small>
+    <div class="hidden name"><code>create_dependency.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Download and create dependency function.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>create_dependency</span>(
+  <span class='kw'>name</span>,
+  tag = <span class='kw'>NULL</span>,
+  open = <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>(),
+  options = <span class='fu'><a href='charpente_options.html'>charpente_options</a></span>()
+)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="charpente_options.html">charpente_options()</a></code> </p>
-        </td>
-        <td><p>Configure charpente</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_charpente.html">create_charpente()</a></code> </p>
-        </td>
-        <td><p>Create a package using charpente and usethis conventions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_dependency.html">create_dependency()</a></code> </p>
-        </td>
-        <td><p>Imports External Dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dependency_assets.html">get_dependency_assets()</a></code> </p>
-        </td>
-        <td><p>Get all links to dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dependency_versions.html">get_dependency_versions()</a></code> </p>
-        </td>
-        <td><p>Get all version for the current dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_installed_dependency.html">get_installed_dependency()</a></code> </p>
-        </td>
-        <td><p>Get the version of the current installed dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_pkg_name.html">get_pkg_name()</a></code> </p>
-        </td>
-        <td><p>Retrieves Package Name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_2_R.html">html_2_R()</a></code> </p>
-        </td>
-        <td><p>Convert HTML content to R Shiny tags</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="update_dependency.html">update_dependency()</a></code> </p>
-        </td>
-        <td><p>Update the given dependency to a specific version or latest</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>name</th>
+      <td><p>Name of library.</p></td>
+    </tr>
+    <tr>
+      <th>tag</th>
+      <td><p>Library version. Default to NULL. If NULL, takes the latest version.</p></td>
+    </tr>
+    <tr>
+      <th>open</th>
+      <td><p>Whether to allow rstudioapi to open the newly created script. Default to TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>options</th>
+      <td><p>See <a href='charpente_options.html'>charpente_options</a>.</p></td>
+    </tr>
     </table>
-  </div>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+ <span class='fu'>create_dependency</span>(<span class='st'>"tabler"</span>)
+ <span class='co'># Use CDNs</span>
+ <span class='fu'>create_dependency</span>(
+  <span class='st'>"framework7"</span>,
+  options = <span class='fu'><a href='charpente_options.html'>charpente_options</a></span>(local = <span class='fl'>FALSE</span>)
+ )
+}
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

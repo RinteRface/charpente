@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • charpente</title>
+<title>Get all version for the current dependency — get_dependency_versions • charpente</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get all version for the current dependency — get_dependency_versions" />
+<meta property="og:description" content="Query from https://data.jsdelivr.com/v1/package/npm/ under the hood." />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,90 +109,44 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get all version for the current dependency</h1>
+    <small class="dont-index">Source: <a href='https://github.com/RinteRface/charpente/blob/master/R/deps.R'><code>R/deps.R</code></a></small>
+    <div class="hidden name"><code>get_dependency_versions.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Query from <a href='https://data.jsdelivr.com/v1/package/npm/'>https://data.jsdelivr.com/v1/package/npm/</a> under the hood.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>get_dependency_versions</span>(<span class='kw'>dep</span>, latest = <span class='fl'>FALSE</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="charpente_options.html">charpente_options()</a></code> </p>
-        </td>
-        <td><p>Configure charpente</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_charpente.html">create_charpente()</a></code> </p>
-        </td>
-        <td><p>Create a package using charpente and usethis conventions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_dependency.html">create_dependency()</a></code> </p>
-        </td>
-        <td><p>Imports External Dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dependency_assets.html">get_dependency_assets()</a></code> </p>
-        </td>
-        <td><p>Get all links to dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dependency_versions.html">get_dependency_versions()</a></code> </p>
-        </td>
-        <td><p>Get all version for the current dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_installed_dependency.html">get_installed_dependency()</a></code> </p>
-        </td>
-        <td><p>Get the version of the current installed dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_pkg_name.html">get_pkg_name()</a></code> </p>
-        </td>
-        <td><p>Retrieves Package Name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_2_R.html">html_2_R()</a></code> </p>
-        </td>
-        <td><p>Convert HTML content to R Shiny tags</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="update_dependency.html">update_dependency()</a></code> </p>
-        </td>
-        <td><p>Update the given dependency to a specific version or latest</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>dep</th>
+      <td><p>Library name.</p></td>
+    </tr>
+    <tr>
+      <th>latest</th>
+      <td><p>Whether to get the last version. Default to FALSE.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A vector containing all versions</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+ <span class='fu'>get_dependency_versions</span>(<span class='st'>"framework7"</span>)
+ <span class='fu'>get_dependency_versions</span>(<span class='st'>"bootstrap"</span>)
+ <span class='fu'>get_dependency_versions</span>(<span class='st'>"react"</span>, latest = <span class='fl'>TRUE</span>)
+}
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
