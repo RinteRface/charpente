@@ -149,6 +149,12 @@ update_dependency <- function(name, version_target = "latest") {
   # get the current version
   current <- get_installed_dependency(name)
   versions <- get_dependency_versions(name)
+
+  # Little trick: get_dependency_versions with latest = TRUE returns, the latest
+  # stable dep, which is not necessarily the latest version. There might be alpha/beta
+  # releases. We assume people will want to test those non official versions. Latest
+  # is then defined as the first element of versions (versions contains all version
+  # sorted by newer to older).
   latest <- versions[1]
   if (version_target == "latest") version_target <- latest
 
