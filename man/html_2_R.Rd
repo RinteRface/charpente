@@ -4,10 +4,12 @@
 \alias{html_2_R}
 \title{Convert HTML content to R Shiny tags}
 \usage{
-html_2_R(html, prefix = FALSE)
+html_2_R(html, path = "/html/body/*", prefix = FALSE)
 }
 \arguments{
 \item{html}{HTML string}
+
+\item{path}{Path where to extract elements. Default to body content.}
 
 \item{prefix}{Whether to prefix elements by tag$...}
 }

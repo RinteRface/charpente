@@ -45,6 +45,7 @@ render_node <- function(node, indent = 0, prefix = FALSE) {
 #' Convert HTML content to R Shiny tags
 #'
 #' @param html HTML string
+#' @param path Path where to extract elements. Default to body content.
 #' @param prefix Whether to prefix elements by tag$...
 #'
 #' @return A list of R Shiny tags
@@ -70,11 +71,11 @@ render_node <- function(node, indent = 0, prefix = FALSE) {
 #'  tag <- "<div data-toggle='accordion'></div>"
 #'  html_2_R(tag)
 #' }
-html_2_R <- function(html, prefix = FALSE) {
+html_2_R <- function(html, path = "/html/body/*", prefix = FALSE) {
   cli_h2("Converting code ...")
   r_output <- html %>%
     htmlParse %>%
-    getNodeSet("/html/body/*") %>%
+    getNodeSet(path) %>%
     `[[`(1) %>%
     render_node(prefix = prefix)
 
