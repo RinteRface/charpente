@@ -7,7 +7,8 @@ make_attrs <- function(node) {
   names(attrs) %>%
     Map(function (name) {
       val <- attrs[[name]]
-      if (str_detect(string = name, pattern = "-")) {
+      if (str_detect(string = name, pattern = "-") ||
+          str_detect(string = name, pattern = "for")) {
         name <- paste0("`", name, "`")
       }
       paste0(name, ' = ', if (val == "") "NA" else paste0('"', val, '"'))
