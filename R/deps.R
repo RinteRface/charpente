@@ -51,9 +51,13 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE, minified = FALSE))
   }
 
+  # Handle case with @vizuaalog/bulmajs
+  if (str_detect(name, "/")) name <- str_split_n(name, "/", 2)
 
   # if local download files and create directories
   if (options$local) {
+    # sanitize path name
+    path <- sprintf("inst/%s-%s", name, tag)
     # create directories only when necessary and download files
     if(!is.null(scripts)) {
       directory_create_asset(path, "js")
@@ -402,11 +406,11 @@ get_dependency_assets <- function(dep, tag = "latest") {
   # bootstrap has a dist folder
   if ("dist" %in% temp$name) {
     temp <- temp[temp$name %in% c("dist"), "files"][[1]]
-    temp <- do.call(rbind, temp$files)
+    if (inherits(temp, "list")) temp <- do.call(rbind, temp$files)
     list(url = paste0(url, "dist/"), files = temp[, c("name", "hash")])
   } else {
     temp <- temp[temp$name %in% c("css", "js"), "files"]
-    temp <- do.call(rbind, temp)
+    if (inherits(temp, "list")) temp <- do.call(rbind, temp)
     list(url = url, files = temp[, c("name", "hash")])
   }
 }
