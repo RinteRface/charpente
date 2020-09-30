@@ -337,10 +337,6 @@ dependencies_download <- function(path, files){
 }
 
 
-# dont change !!! CDNs have different API structure
-options("DEFAULT_CDN" = "https://data.jsdelivr.com/v1/package/npm/")
-
-
 #' Get all version for the current dependency
 #'
 #' Query from \url{https://data.jsdelivr.com/v1/package/npm/} under the hood.
