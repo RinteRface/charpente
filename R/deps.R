@@ -397,7 +397,7 @@ get_dependency_versions <- function(dep, latest = FALSE) {
 get_dependency_assets <- function(dep, tag = "latest") {
   # get all js and css assets from jsdelivr
   cdn <- getOption("DEFAULT_CDN")
-  if (tag == "latest") tag <- get_dependency_versions(dep, TRUE)
+  if (tag == "latest") tag <- get_dependency_versions(dep, latest = TRUE)
   temp <- jsonlite::fromJSON(sprintf("%s%s@%s", cdn, dep, tag))$files
 
   download_endpoint <- "https://cdn.jsdelivr.net/npm/"
