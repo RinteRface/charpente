@@ -12,6 +12,7 @@
 #'
 #' @export
 #' @import usethis
+#' @importFrom utils tail
 #'
 #' @examples
 #' \dontrun{
