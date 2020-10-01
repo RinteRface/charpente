@@ -52,7 +52,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
   }
 
   # Handle case with @vizuaalog/bulmajs
-  if (str_detect(name, "/")) name <- str_split_n(name, "/", 2)
+  if (grep("/", name)) name <- strsplit(name, "/")[[1]][2]
 
   # if local download files and create directories
   if (options$local) {
