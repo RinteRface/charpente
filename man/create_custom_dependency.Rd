@@ -14,9 +14,9 @@ create_custom_dependency(
 \arguments{
 \item{name}{Name of library.}
 
-\item{script}{List of scripts to include.}
+\item{script}{List of scripts to include. Assumes scripts are located at the root of the inst folder.}
 
-\item{stylesheet}{List of stylesheets to include.}
+\item{stylesheet}{List of stylesheets to include. Assumes stylesheets are located at the root of the inst folder.}
 
 \item{open}{Whether to allow rstudioapi to open the newly created script. Default to TRUE.}
 }

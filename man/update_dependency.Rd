@@ -9,7 +9,7 @@ update_dependency(name, version_target = "latest")
 \arguments{
 \item{name}{Library name.}
 
-\item{version_target}{Targeted version. Defaul to latest.}
+\item{version_target}{Targeted version. Default to latest.}
 }
 \description{
 Update the given dependency to a specific version or latest

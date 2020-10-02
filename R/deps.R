@@ -131,7 +131,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
 
     # return invisible (needed by gather_dependencies)
-    write_there(sprintf("invisible(%s_deps)", name))
+    write_there(sprintf(" invisible(%s_deps)", name))
     # end function
     write_there("}")
     write_there("    ")
@@ -171,17 +171,17 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
 
   if (!is.null(script)) {
     dir_path <- paste0("inst/", name, "-", pkg_version, "/js")
-    dir_create(dir_path)
+    fs::dir_create(dir_path)
     old_path <- system.file(paste0("inst/", script), package = pkg)
     new_path <- system.file(dir_path, package = pkg)
-    file_move(old_path, new_path)
+    fs::file_move(old_path, new_path)
   }
   if (!is.null(stylesheet)) {
     dir_path <- paste0("inst/", name, "-", pkg_version, "/css")
-    dir_create(dir_path)
+    fs::dir_create(dir_path)
     old_path <- system.file(paste0("inst/", stylesheet), package = pkg)
     new_path <- system.file(dir_path, package = pkg)
-    file_move(old_path, new_path)
+    fs::file_move(old_path, new_path)
   }
 
 
@@ -236,7 +236,7 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
     write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
 
     # return invisible (needed by gather_dependencies)
-    write_there(sprintf("invisible(%s_deps)", name))
+    write_there(sprintf(" invisible(%s_deps)", name))
     # end function
     write_there("}")
     write_there("    ")
@@ -247,6 +247,31 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
   if (open && rstudioapi::isAvailable()) rstudioapi::navigateToFile(path)
 }
 
+
+
+
+#' Attach all created dependencies in the ./R directory to the tag
+#'
+#' @param tag Tag to attach the dependencies
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'  library(htmltools)
+#'  findDependencies(add_all_dependencies(div()))
+#' }
+add_all_dependencies <- function(tag) {
+  temp_names <- list.files("./R", pattern = "dependencies.R$")
+  temp_names <- unlist(lapply(temp_names, str_split_n, pattern = "-", n = 1))
+  deps <- lapply(temp_names, function(x) {
+    eval(
+      parse(
+        text = sprintf("add_%s_deps(div())", x)
+      )
+    )
+  })
+  tagList(tag, deps)
+}
 
 
 
