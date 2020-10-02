@@ -138,6 +138,107 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
 
 
+
+#' Imports Internal Dependencies
+#'
+#' Wrap internal scripts and stylesheets in one \link[htmltools]{htmlDependency}.
+#'
+#' @param name Name of library.
+#' @param script List of scripts to include. Assumes scripts are located at the root of the inst folder.
+#' @param stylesheet List of stylesheets to include. Assumes stylesheets are located at the root of the inst folder.
+#' @param open Whether to allow rstudioapi to open the newly created script. Default to TRUE.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'  create_custom_dependency("custom", script = c("hello.js", "blabla.js"))
+#' }
+create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
+                                     open = interactive()) {
+  # checks
+  if (missing(name)) stop("Missing `name`")
+
+  pkg <- get_pkg_name()
+  pkg_version <- utils::packageVersion(pkg)
+
+  if (!is.null(script)) {
+    dir_path <- paste0("inst/", name, "-", pkg_version, "/js")
+    dir_create(dir_path)
+    old_path <- system.file(paste0("inst/", script), package = pkg)
+    new_path <- system.file(dir_path, package = pkg)
+    file_move(old_path, new_path)
+  }
+  if (!is.null(stylesheet)) {
+    dir_path <- paste0("inst/", name, "-", pkg_version, "/css")
+    dir_create(dir_path)
+    old_path <- system.file(paste0("inst/", stylesheet), package = pkg)
+    new_path <- system.file(dir_path, package = pkg)
+    file_move(old_path, new_path)
+  }
+
+
+  if (!is.null(script) || !is.null(stylesheets)) {
+
+    # need to overwrite path which was used before
+    path <- sprintf("R/%s-dependencies.R", name)
+    file_create(path)
+
+    # taken from golem ;)
+    write_there <- function(...){
+      write(..., file = path, append = TRUE)
+    }
+
+    # if we have multiple scripts/stylesheets
+    insert_multiple_lines <- function(what) {
+      lapply(seq_along(what), function (i) {
+        if (i == length(what)) {
+          write_there(sprintf('   "%s"', what[[i]]))
+        } else {
+          write_there(sprintf('   "%s",', what[[i]]))
+        }
+      })
+    }
+
+
+    # attach function
+    write_there(sprintf("add_%s_deps <- function(tag) {", name))
+
+    # htmlDependency content
+    write_there(sprintf(" %s_deps <- htmltools::htmlDependency(", name))
+    write_there(sprintf('  name = "%s",', name))
+    write_there(sprintf('  version = utils::packageVersion("%s"),', pkg))
+    write_there(sprintf('  src = c(file = "%s-%s"),', name, pkg_version))
+    if (!is.null(script)) {
+      script <- paste0("js/", script)
+      write_there("  script = c(")
+      insert_multiple_lines(script)
+      write_there("  ),")
+    }
+    if (!is.null(stylesheet)) {
+      stylesheet <- paste0("css/", stylesheet)
+      write_there("  stylesheet = c(")
+      insert_multiple_lines(stylesheet)
+      write_there("  ),")
+    }
+    write_there(sprintf('  package = "%s",', pkg))
+    # end deps
+    write_there(" )")
+
+    # attach deps
+    write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
+    # end function
+    write_there("}")
+    write_there("    ")
+  }
+
+
+  # path to dependency
+  if (open && rstudioapi::isAvailable()) rstudioapi::navigateToFile(path)
+}
+
+
+
+
 #' Update the given dependency to a specific version or latest
 #'
 #' @param name Library name.
