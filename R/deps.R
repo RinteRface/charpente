@@ -252,25 +252,36 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
 
 #' Attach all created dependencies in the ./R directory to the tag
 #'
+#' This function only works if there are existing dependencies. Otherwise,
+#' an error is raised.
+#'
 #' @param tag Tag to attach the dependencies
+#' @param deps Dependencies to add. Expect a vector of names. If NULL, all dependencies
+#' are added.
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #'  library(htmltools)
-#'  findDependencies(add_all_dependencies(div()))
+#'  findDependencies(add_dependencies(div()))
+#'  findDependencies(add_dependencies(div(), deps = "bulma"))
 #' }
-add_all_dependencies <- function(tag) {
-  temp_names <- list.files("./R", pattern = "dependencies.R$")
-  temp_names <- unlist(lapply(temp_names, str_split_n, pattern = "-", n = 1))
-  deps <- lapply(temp_names, function(x) {
+add_dependencies <- function(tag, deps = NULL) {
+  if (is.null(deps)) {
+    temp_names <- list.files("./R", pattern = "dependencies.R$")
+    deps <- unlist(lapply(temp_names, stringr::str_split_n, pattern = "-", n = 1))
+  }
+
+  if (length(deps) == 0) stop("No dependencies found.")
+
+  deps <- lapply(deps, function(x) {
     eval(
       parse(
-        text = sprintf("add_%s_deps(div())", x)
+        text = sprintf("add_%s_deps(htmltools::div())", x)
       )
     )
   })
-  tagList(tag, deps)
+  htmltools::tagList(tag, deps)
 }
 
 
