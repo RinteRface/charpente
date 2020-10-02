@@ -129,6 +129,9 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
     # attach deps
     write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
+
+    # return invisible (needed by gather_dependencies)
+    write_there(sprintf("invisible(%s_deps)", name))
     # end function
     write_there("}")
     write_there("    ")
@@ -231,6 +234,9 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
 
     # attach deps
     write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
+
+    # return invisible (needed by gather_dependencies)
+    write_there(sprintf("invisible(%s_deps)", name))
     # end function
     write_there("}")
     write_there("    ")
@@ -247,7 +253,7 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
 #' Update the given dependency to a specific version or latest
 #'
 #' @param name Library name.
-#' @param version_target Targeted version. Defaul to latest.
+#' @param version_target Targeted version. Default to latest.
 #'
 #' @export
 #'
