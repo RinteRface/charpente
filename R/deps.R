@@ -51,8 +51,13 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE, minified = FALSE))
   }
 
-  # Handle case with @vizuaalog/bulmajs
-  if (grep("/", name)) name <- strsplit(name, "/")[[1]][2]
+  # Handle case like @vizuaalog/bulmajs
+
+  if (length(grep("/", name)) > 0) {
+    if (grep("/", name)) {
+      name <- strsplit(name, "/")[[1]][2]
+    }
+  }
 
   # if local download files and create directories
   if (options$local) {
@@ -100,9 +105,9 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     # htmlDependency content
     write_there(sprintf(" %s_deps <- htmltools::htmlDependency(", name))
     write_there(sprintf('  name = "%s",', name))
-    write_there(sprintf('  version = utils::packageVersion("%s"),', pkg))
+    write_there(sprintf('  version = "%s",', tag))
     if (options$local) {
-      write_there(sprintf('  src = c(file = "%s"),', tag))
+      write_there(sprintf('  src = c(file = "%s-%s"),', name, tag))
     } else {
       write_there(sprintf('  src = c(href = "%s"),', assets$url))
     }
