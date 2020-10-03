@@ -40,11 +40,7 @@
 
 
 <meta property="og:title" content="Create a shiny custom input binding boilerplate — create_input_binding" />
-<meta property="og:description" content="Create a shiny custom input binding boilerplate
-Create a shiny output binding boilerplate
-Create a shiny custom handler boilerplate
-Create a JavaScript file
-Create a css file" />
+<meta property="og:description" content="Creates a script in inst and the R part in ./R" />
 
 
 
@@ -121,18 +117,20 @@ Create a css file" />
     </div>
 
     <div class="ref-description">
-    <p>Create a shiny custom input binding boilerplate</p>
-<p>Create a shiny output binding boilerplate</p>
-<p>Create a shiny custom handler boilerplate</p>
-<p>Create a JavaScript file</p>
-<p>Create a css file</p>
+    <p>Creates a script in inst and the R part in ./R</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_input_binding</span>(<span class='kw'>...</span>)
 
 <span class='fu'>create_output_binding</span>(<span class='kw'>...</span>)
 
-<span class='fu'>create_custom_handler</span>(<span class='kw'>...</span>)
+<span class='fu'>create_custom_handler</span>(
+  <span class='kw'>name</span>,
+  pkg = <span class='st'>"."</span>,
+  dir = <span class='st'>"inst"</span>,
+  open = <span class='fl'>TRUE</span>,
+  dir_create = <span class='fl'>TRUE</span>
+)
 
 <span class='fu'>create_js</span>(<span class='kw'>...</span>)
 
@@ -144,6 +142,26 @@ Create a css file" />
     <tr>
       <th>...</th>
       <td><p>Arguments to be passed to the <code>module_template</code> function.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>The name of the module</p></td>
+    </tr>
+    <tr>
+      <th>pkg</th>
+      <td><p>Path to the root of the package. Default is <code>get_golem_wd()</code>.</p></td>
+    </tr>
+    <tr>
+      <th>dir</th>
+      <td><p>Path to the dir where the file while be created.</p></td>
+    </tr>
+    <tr>
+      <th>open</th>
+      <td><p>Should the file be opened?</p></td>
+    </tr>
+    <tr>
+      <th>dir_create</th>
+      <td><p>Creates the directory if it doesn't exist, default is <code>TRUE</code>.</p></td>
     </tr>
     </table>
 
