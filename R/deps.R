@@ -185,7 +185,7 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
   }
 
 
-  if (!is.null(script) || !is.null(stylesheets)) {
+  if (!is.null(script) || !is.null(stylesheet)) {
 
     # need to overwrite path which was used before
     path <- sprintf("R/%s-dependencies.R", name)

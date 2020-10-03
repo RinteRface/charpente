@@ -12,7 +12,13 @@ create_input_binding(...)
 
 create_output_binding(...)
 
-create_custom_handler(...)
+create_custom_handler(
+  name,
+  pkg = ".",
+  dir = "inst",
+  open = TRUE,
+  dir_create = TRUE
+)
 
 create_js(...)
 
@@ -20,15 +26,17 @@ create_css(...)
 }
 \arguments{
 \item{...}{Arguments to be passed to the \code{module_template} function.}
+
+\item{name}{The name of the module}
+
+\item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
+
+\item{dir}{Path to the dir where the file while be created.}
+
+\item{open}{Should the file be opened?}
+
+\item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
 }
 \description{
-Create a shiny custom input binding boilerplate
-
-Create a shiny output binding boilerplate
-
-Create a shiny custom handler boilerplate
-
-Create a JavaScript file
-
-Create a css file
+Creates a script in inst and the R part in ./R
 }

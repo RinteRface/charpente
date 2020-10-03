@@ -22,14 +22,42 @@ create_output_binding <- purrr::partial(
 
 #' Create a shiny custom handler boilerplate
 #'
+#' Creates a script in inst and the R part in ./R
+#'
 #' @inheritParams golem::add_js_handler
 #' @export
 #' @rdname create_file
-create_custom_handler <- purrr::partial(
-  golem::add_js_handler,
+create_custom_handler <- function(
+  name,
   pkg = ".",
-  dir = "inst"
-)
+  dir = "inst",
+  open = TRUE,
+  dir_create = TRUE
+) {
+
+  # create the JS part
+  golem::add_js_handler(name, pkg, dir, open, dir_create)
+
+  # create the R part
+  path <- sprintf("R/%s-handler.R", name)
+  file_create(path)
+
+  write_there <- function(...){
+    write(..., file = path, append = TRUE)
+  }
+
+  # TO DO: add dropNulls
+  write_there(sprintf("send_%s_message <- function(id = NULL, options = NULL, session = shiny::getDefaultReactiveDomain()) {", name))
+  write_there(" message <- list(")
+  write_there("  # your logic")
+  write_there(" )")
+  write_there(" ")
+  write_there(sprintf(" session$sendCustomMessage(type = \"%s\", message)", name))
+  write_there("}")
+
+  if (open && rstudioapi::isAvailable()) rstudioapi::navigateToFile(path)
+}
+
 
 #' Create a JavaScript file
 #'
