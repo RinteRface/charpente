@@ -38,17 +38,17 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
   # below we select step by step. It possible that a repo does not have bundle of minified
   # files. We inspect the content each time, if it's NULL, we change options.
-  scripts <- select_asset(assets$files, "js", name, options)
+  scripts <- select_asset(assets$files, "js", name, nested = assets$hasSubfolders, options)
   if (is.null(scripts)) {
-    scripts <- select_asset(assets$files, "js", name, options = charpente_options(bundle = FALSE))
+    scripts <- select_asset(assets$files, "js", name, nested = assets$hasSubfolders, options = charpente_options(bundle = FALSE))
   }
   if (is.null(scripts)) {
-    scripts <- select_asset(assets$files, "js", name, options = charpente_options(bundle = FALSE, minified = FALSE))
+    scripts <- select_asset(assets$files, "js", name, nested = assets$hasSubfolders, options = charpente_options(bundle = FALSE, minified = FALSE))
   }
   # CSS files are not in bundles
-  stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE))
+  stylesheets <- select_asset(assets$files, "css", name, nested = assets$hasSubfolders, options = charpente_options(bundle = FALSE))
   if (is.null(stylesheets)) {
-    stylesheets <- select_asset(assets$files, "css", name, options = charpente_options(bundle = FALSE, minified = FALSE))
+    stylesheets <- select_asset(assets$files, "css", name, nested = assets$hasSubfolders, options = charpente_options(bundle = FALSE, minified = FALSE))
   }
 
   # Handle case like @vizuaalog/bulmajs
@@ -98,7 +98,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     }
 
     # write in the file
-    tag <- strsplit(strsplit(assets$url, "@")[[1]][2], "/")[[1]][1]
+    tag <- strsplit(utils::tail(strsplit(assets$url, "@")[[1]], n = 1), "/")[[1]][1]
     # attach function
     write_there(sprintf("add_%s_deps <- function(tag) {", name))
 
@@ -416,15 +416,16 @@ charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE, lite
 
 #' Select a specific type of asset
 #'
-#' @param name Library name.
 #' @param assets Dataframe of assets.
 #' @param type Type to extract. Could be js, css, ...
+#' @param name Library name.
+#' @param nested Whether assets are in a subfolder.
 #' @param options See \link{charpente_options}.
 #'
 #' @return A vector
 #' @noRd
 #' @keywords internal
-select_asset <- function(assets, type, name, options) {
+select_asset <- function(assets, type, name, nested, options) {
   # TO DO: fine tune the regex -> maybe people only want minified files, maybe they
   # want everything, ...
   regex <- if (options$bundle) {
@@ -439,7 +440,12 @@ select_asset <- function(assets, type, name, options) {
   selected_assets <- assets[grep(regex, assets$name), ]$name
   # this will prevent to create a directory for nothing
   if (length(selected_assets) == 0) return(NULL)
-  paste(type, selected_assets, sep = "/")
+  if (nested) {
+    paste(type, selected_assets, sep = "/")
+  } else {
+    paste(selected_assets, sep = "/")
+  }
+
 }
 
 
@@ -554,12 +560,13 @@ get_dependency_assets <- function(dep, tag = "latest") {
   # bootstrap has a dist folder
   if ("dist" %in% temp$name) {
     temp <- temp[temp$name %in% c("dist"), "files"][[1]]
-    if (inherits(temp, "list")) temp <- do.call(rbind, temp$files)
-    list(url = paste0(url, "dist/"), files = temp[, c("name", "hash")])
+    hasSubfolders <- inherits(temp$files, "list")
+    if (inherits(temp$files, "list")) temp <- do.call(rbind, temp$files)
+    list(url = paste0(url, "dist/"), files = temp[, c("name", "hash")], hasSubfolders = hasSubfolders)
   } else {
-    temp <- temp[temp$name %in% c("css", "js"), "files"]
-    if (inherits(temp, "list")) temp <- do.call(rbind, temp)
-    list(url = url, files = temp[, c("name", "hash")])
+    temp <- temp[temp$name %in% c("css", "js"), "files"][[1]]
+    if (inherits(temp$files, "list")) temp <- do.call(rbind, temp)
+    list(url = url, files = temp[, c("name", "hash")], hasSubfolders = TRUE)
   }
 }
 
