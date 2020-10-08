@@ -129,9 +129,6 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
     # attach deps
     write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
-
-    # return invisible (needed by gather_dependencies)
-    write_there(sprintf(" invisible(%s_deps)", name))
     # end function
     write_there("}")
     write_there("    ")
@@ -234,9 +231,6 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
 
     # attach deps
     write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
-
-    # return invisible (needed by gather_dependencies)
-    write_there(sprintf(" invisible(%s_deps)", name))
     # end function
     write_there("}")
     write_there("    ")
@@ -275,12 +269,15 @@ add_dependencies <- function(tag, deps = NULL) {
   if (length(deps) == 0) stop("No dependencies found.")
 
   deps <- lapply(deps, function(x) {
-    eval(
+    temp <- eval(
       parse(
-        text = sprintf("add_%s_deps(htmltools::div())", x)
+        text = sprintf("htmltools::findDependencies(add_%s_deps(htmltools::div()))", x)
       )
     )
+    # this assumes all add_*_deps function only add 1 dependency
+    temp[[1]]
   })
+
   htmltools::tagList(tag, deps)
 }
 
