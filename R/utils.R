@@ -42,3 +42,29 @@ file_create <- function(path){
     cli::cli_alert_success("File {.file {path}} successfully created")
   }
 }
+
+
+
+#' Golem's default custom templates
+#'
+#' These functions do not aim at being called as is by users, but to be
+#' passed as an argument to the \link{create_custom_handler} function.
+#'
+#' @param path The path to the JS script where this template will be written.
+#' @param name Shiny's custom handler name.
+#' @param code JavaScript code to be written in the function.
+#'
+#' @keywords internal
+#' @export
+js_handler_template <- function (path, name = "fun", code = " ")
+{
+  write_there <- function(...) {
+    write(..., file = path, append = TRUE)
+  }
+  write_there("$(function() {")
+  write_there(sprintf("  Shiny.addCustomMessageHandler('%s', function(message) {",
+                      name))
+  write_there(code)
+  write_there("  })")
+  write_there("});")
+}

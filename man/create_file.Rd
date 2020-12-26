@@ -25,7 +25,7 @@ create_js(...)
 create_css(...)
 }
 \arguments{
-\item{...}{Arguments to be passed to the \code{module_template} function.}
+\item{...}{Arguments to be passed to the \code{template} function.}
 
 \item{name}{The name of the module}
 

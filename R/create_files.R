@@ -36,7 +36,14 @@ create_custom_handler <- function(
 ) {
 
   # create the JS part
-  golem::add_js_handler(name, pkg, dir, open, dir_create)
+  golem::add_js_handler(
+    name,
+    pkg,
+    dir,
+    open,
+    dir_create,
+    template = js_handler_template(name = name)
+  )
 
   # create the R part
   path <- sprintf("R/%s-handler.R", name)
