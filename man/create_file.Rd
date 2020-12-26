@@ -15,7 +15,7 @@ create_output_binding(...)
 create_custom_handler(
   name,
   pkg = ".",
-  dir = "inst",
+  dir = "srcjs",
   open = TRUE,
   dir_create = TRUE
 )

@@ -6,7 +6,7 @@
 create_input_binding <- purrr::partial(
   golem::add_js_input_binding,
   pkg = ".",
-  dir = "inst"
+  dir = "srcjs"
 )
 
 #' Create a shiny output binding boilerplate
@@ -17,7 +17,7 @@ create_input_binding <- purrr::partial(
 create_output_binding <- purrr::partial(
   golem::add_js_output_binding,
   pkg = ".",
-  dir = "inst"
+  dir = "srcjs"
 )
 
 #' Create a shiny custom handler boilerplate
@@ -30,7 +30,7 @@ create_output_binding <- purrr::partial(
 create_custom_handler <- function(
   name,
   pkg = ".",
-  dir = "inst",
+  dir = "srcjs",
   open = TRUE,
   dir_create = TRUE
 ) {
@@ -78,7 +78,7 @@ create_custom_handler <- function(
 create_js <- purrr::partial(
   golem::add_js_file,
   pkg = ".",
-  dir = "inst"
+  dir = "srcjs"
 )
 
 #' Create a css file
