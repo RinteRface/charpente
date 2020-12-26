@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Update the given dependency to a specific version or latest — update_dependency • charpente</title>
+<title>Golem's default custom templates — js_handler_template • charpente</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Update the given dependency to a specific version or latest — update_dependency" />
-<meta property="og:description" content="Update the given dependency to a specific version or latest" />
+<meta property="og:title" content="Golem's default custom templates — js_handler_template" />
+<meta property="og:description" content="These functions do not aim at being called as is by users, but to be
+passed as an argument to the create_custom_handler function." />
 
 
 
@@ -111,36 +112,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Update the given dependency to a specific version or latest</h1>
-    <small class="dont-index">Source: <a href='https://github.com/RinteRface/charpente/blob/master/R/deps.R'><code>R/deps.R</code></a></small>
-    <div class="hidden name"><code>update_dependency.Rd</code></div>
+    <h1>Golem's default custom templates</h1>
+    <small class="dont-index">Source: <a href='https://github.com/RinteRface/charpente/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>js_handler_template.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Update the given dependency to a specific version or latest</p>
+    <p>These functions do not aim at being called as is by users, but to be
+passed as an argument to the <a href='create_input_binding.html'>create_custom_handler</a> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>update_dependency</span><span class='op'>(</span><span class='va'>name</span>, version_target <span class='op'>=</span> <span class='st'>"latest"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>js_handler_template</span><span class='op'>(</span><span class='va'>path</span>, name <span class='op'>=</span> <span class='st'>"fun"</span>, code <span class='op'>=</span> <span class='st'>" "</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>name</th>
-      <td><p>Library name.</p></td>
+      <th>path</th>
+      <td><p>The path to the JS script where this template will be written.</p></td>
     </tr>
     <tr>
-      <th>version_target</th>
-      <td><p>Targeted version. Default to latest.</p></td>
+      <th>name</th>
+      <td><p>Shiny's custom handler name.</p></td>
+    </tr>
+    <tr>
+      <th>code</th>
+      <td><p>JavaScript code to be written in the function.</p></td>
     </tr>
     </table>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
- <span class='fu'>update_dependency</span><span class='op'>(</span><span class='st'>"framework7"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

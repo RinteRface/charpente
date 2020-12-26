@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -94,7 +94,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/RinteRface/charpente/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -120,28 +120,28 @@
     <p>Creates a script in inst and the R part in ./R</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_input_binding</span>(<span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>create_input_binding</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>create_output_binding</span>(<span class='kw'>...</span>)
+<span class='fu'>create_output_binding</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>create_custom_handler</span>(
-  <span class='kw'>name</span>,
-  pkg = <span class='st'>"."</span>,
-  dir = <span class='st'>"inst"</span>,
-  open = <span class='fl'>TRUE</span>,
-  dir_create = <span class='fl'>TRUE</span>
-)
+<span class='fu'>create_custom_handler</span><span class='op'>(</span>
+  <span class='va'>name</span>,
+  pkg <span class='op'>=</span> <span class='st'>"."</span>,
+  dir <span class='op'>=</span> <span class='st'>"inst"</span>,
+  open <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  dir_create <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
-<span class='fu'>create_js</span>(<span class='kw'>...</span>)
+<span class='fu'>create_js</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>create_css</span>(<span class='kw'>...</span>)</pre>
+<span class='fu'>create_css</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>Arguments to be passed to the <code>module_template</code> function.</p></td>
+      <td><p>Arguments to be passed to the <code>template</code> function.</p></td>
     </tr>
     <tr>
       <th>name</th>
