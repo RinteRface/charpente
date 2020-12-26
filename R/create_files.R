@@ -91,3 +91,50 @@ create_css <- partial(
   pkg = ".",
   dir = "inst"
 )
+
+
+
+
+#' Compress and optimize all files in the current folder
+#'
+#' Generates a minified file under inst/pkg_name-pkg_version.
+#'
+#' @param dir Default to srcjs.
+#' @param source_maps Default to TRUE.
+#' @export
+#' @importFrom utils tail packageVersion
+compress_js <- function(dir = "srcjs", source_maps = TRUE) {
+  customJS <- list.files(
+    path = dir,
+    recursive = TRUE,
+    full.names = TRUE
+  )
+
+  pkg_name <- tail(strsplit(getwd(), "/")[[1]], 1)
+  pkg_version <- packageVersion(pkg_name)
+
+  outputDir <- sprintf(
+    "inst/%s-%s",
+    pkg_name,
+    pkg_version
+  )
+
+  dir.create(outputDir)
+
+  # Concat + Compress + source maps ----------------------------------------------------------------
+  sourceMap <- NULL
+  sourceMap <- if (source_maps) {
+    list(
+      root = sprintf("../../%s-build", pkg_name),
+      filename = sprintf("%s.min.js", pkg_name),
+      url = sprintf("%s.min.js.map", pkg_name),
+      includeSources = TRUE
+    )
+  }
+
+  jstools::terser_file(
+    input = customJS,
+    output = sprintf("%s/%s.min.js", outputDir, pkg_name),
+    options = jstools::terser_options(sourceMap = sourceMap)
+  )
+}
