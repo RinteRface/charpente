@@ -44,8 +44,11 @@ Imports:
     rstudioapi,
     usethis,
     rlang,
-    golem (>= 0.2.1)
-Remotes: ThinkR-open/golem
+    golem (>= 0.2.1),
+    jstools
+Remotes: 
+    ThinkR-open/golem@dev,
+    dreamRs/jstools
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues
 Suggests: 
