@@ -72,7 +72,7 @@ render_node <- function(node, indent = 0, prefix = FALSE) {
 #'  tag <- "<div data-toggle='accordion'></div>"
 #'  html_2_R(tag)
 #' }
-html_2_R <- function(html, path = "/html/body/*", prefix = FALSE) {
+html_2_R <- function(html, path = "/html/body/*", prefix = TRUE) {
   cli_h2("Converting code ...")
   r_output <- html %>%
     htmlParse %>%

@@ -4,7 +4,7 @@
 \alias{html_2_R}
 \title{Convert HTML content to R Shiny tags}
 \usage{
-html_2_R(html, path = "/html/body/*", prefix = FALSE)
+html_2_R(html, path = "/html/body/*", prefix = TRUE)
 }
 \arguments{
 \item{html}{HTML string}
