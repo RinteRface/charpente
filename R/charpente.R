@@ -36,6 +36,10 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   # set new wd
   setwd(path)
 
+  # create inst + pkg_name subfolder (contain minified custom js, css ...)
+  dir.create("inst")
+  dir.create(sprintf("inst/%s-0.0.0.9000", pkg_name))
+
   # LICENSE, ...
   eval(parse(text = paste0("use_", license, "_license()")))
   use_cran_comments(FALSE)
@@ -49,6 +53,7 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
 
   # testthat
   use_testthat()
+  use_test("dummy-test")
 
   # version control
   use_git()
