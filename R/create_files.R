@@ -121,6 +121,8 @@ compress_js <- function(dir = "srcjs", source_maps = TRUE) {
 
   dir.create(outputDir)
 
+  ui_warn(sprintf("%s folder created ...", outputDir))
+
   # Concat + Compress + source maps ----------------------------------------------------------------
   sourceMap <- NULL
   sourceMap <- if (source_maps) {
@@ -137,4 +139,6 @@ compress_js <- function(dir = "srcjs", source_maps = TRUE) {
     output = sprintf("%s/%s.min.js", outputDir, pkg_name),
     options = jstools::terser_options(sourceMap = sourceMap)
   )
+
+  ui_done("JavaScript successfully compressed!")
 }
