@@ -42,7 +42,10 @@ create_custom_handler <- function(
     dir,
     open,
     dir_create,
-    template = charpente::js_handler_template(path = sprintf(paste0(dir, "/%s.js"), name))
+    template = charpente::js_handler_template(
+      path = sprintf(paste0(dir, "/%s.js"), name),
+      name = name
+    )
   )
 
   # create the R part

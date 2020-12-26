@@ -56,7 +56,7 @@ file_create <- function(path){
 #'
 #' @keywords internal
 #' @export
-js_handler_template <- function (path, name = "message", code = " ")
+js_handler_template <- function (path, name, code = " ")
 {
   write_there <- function(...) {
     write(..., file = path, append = TRUE)
