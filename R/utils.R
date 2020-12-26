@@ -56,7 +56,7 @@ file_create <- function(path){
 #'
 #' @keywords internal
 #' @export
-js_handler_template <- function (path, name = "fun", code = " ")
+js_handler_template <- function (path, name = "message", code = " ")
 {
   write_there <- function(...) {
     write(..., file = path, append = TRUE)
@@ -65,6 +65,6 @@ js_handler_template <- function (path, name = "fun", code = " ")
   write_there(sprintf("  Shiny.addCustomMessageHandler('%s', function(message) {",
                       name))
   write_there(code)
-  write_there("  })")
+  write_there("  });")
   write_there("});")
 }
