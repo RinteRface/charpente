@@ -110,7 +110,7 @@ compress_js <- function(dir = "srcjs", source_maps = TRUE) {
     full.names = TRUE
   )
 
-  pkg_name <- tail(strsplit(getwd(), "/")[[1]], 1)
+  pkg_name <- get_pkg_name()
   pkg_version <- packageVersion(pkg_name)
 
   outputDir <- sprintf(

@@ -32,6 +32,8 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
   assets <- get_dependency_assets(name, tag)
   if(nrow(assets$files) == 0) stop(sprintf("No assets found for %s", name))
 
+  # delete other versions and install new ones
+  fs::file_delete(paste0("inst/", find_dep_file(name)))
 
   # path to dependency
   path <- sprintf("inst/%s-%s", name, tag)
@@ -397,7 +399,8 @@ charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE, lite
   list(
     local = local,
     minified = minified,
-    bundle = bundle
+    bundle = bundle,
+    lite = lite
   )
 }
 
