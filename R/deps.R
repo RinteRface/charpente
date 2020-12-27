@@ -166,13 +166,7 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
   pkg <- get_pkg_name()
   pkg_version <- utils::packageVersion(pkg)
 
-  if (!is.null(script)) {
-    dir_path <- paste0("inst/", name, "-", pkg_version, "/js")
-    fs::dir_create(dir_path)
-    old_path <- system.file(paste0("inst/", script), package = pkg)
-    new_path <- system.file(dir_path, package = pkg)
-    fs::file_move(old_path, new_path)
-  }
+  # TO DO: find a way to better handle CSS (like JS)
   if (!is.null(stylesheet)) {
     dir_path <- paste0("inst/", name, "-", pkg_version, "/css")
     fs::dir_create(dir_path)
@@ -214,10 +208,8 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
     write_there(sprintf('  version = utils::packageVersion("%s"),', pkg))
     write_there(sprintf('  src = c(file = "%s-%s"),', name, pkg_version))
     if (!is.null(script)) {
-      script <- paste0("js/", script)
-      write_there("  script = c(")
-      insert_multiple_lines(script)
-      write_there("  ),")
+      script <- sprintf("js/%s.min.js", name)
+      write_there(sprintf('  script = "%s",', script))
     }
     if (!is.null(stylesheet)) {
       stylesheet <- paste0("css/", stylesheet)

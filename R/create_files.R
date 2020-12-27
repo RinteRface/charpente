@@ -114,12 +114,12 @@ compress_js <- function(dir = "srcjs", source_maps = TRUE) {
   pkg_version <- packageVersion(pkg_name)
 
   outputDir <- sprintf(
-    "inst/%s-%s",
+    "inst/%s-%s/js",
     pkg_name,
     pkg_version
   )
 
-  dir.create(outputDir)
+  dir.create(outputDir, recursive = TRUE)
 
   ui_warn(sprintf("%s folder created ...", outputDir))
 
@@ -141,4 +141,8 @@ compress_js <- function(dir = "srcjs", source_maps = TRUE) {
   )
 
   ui_done("JavaScript successfully compressed!")
+
+  # create custom dependency
+  create_custom_dependency(pkg_name, script = customJS)
+  ui_done("Dependency successfully created!")
 }
