@@ -120,7 +120,13 @@
     <p>Configure charpente</p>
     </div>
 
-    <pre class="usage"><span class='fu'>charpente_options</span><span class='op'>(</span>local <span class='op'>=</span> <span class='cn'>TRUE</span>, minified <span class='op'>=</span> <span class='cn'>TRUE</span>, bundle <span class='op'>=</span> <span class='cn'>TRUE</span>, lite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>charpente_options</span><span class='op'>(</span>
+  local <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  minified <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  bundle <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  lite <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  rtl <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,12 +143,16 @@ all files.</p></td>
     <tr>
       <th>bundle</th>
       <td><p>Some libraries like Bootstrap provide bundles containing all components.
-If bundle is TRUE, the download will target only those files. Not compatible with lite.</p></td>
+If bundle is TRUE, the download will target only those files.</p></td>
     </tr>
     <tr>
       <th>lite</th>
       <td><p>Some libraries like framework7 propose lite version of the scripts.
-Default to FALSE. Not compatible with bundle.</p></td>
+Default to FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>rtl</th>
+      <td><p>Some templates provide a right to left design. Disabled by default.</p></td>
     </tr>
     </table>
 
