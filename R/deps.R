@@ -33,25 +33,16 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
   if(nrow(assets$files) == 0) stop(sprintf("No assets found for %s", name))
 
   # delete other versions and install new ones
-  fs::file_delete(paste0("inst/", find_dep_file(name)))
+  if (length(find_dep_file(name)) > 0) {
+    fs::file_delete(paste0("inst/", find_dep_file(name)))
+  }
 
   # path to dependency
   path <- sprintf("inst/%s-%s", name, tag)
 
-  # below we select step by step. It possible that a repo does not have bundle of minified
-  # files. We inspect the content each time, if it's NULL, we change options.
+  # select assets
   scripts <- select_asset(assets$files, "js", name, nested = assets$hasSubfolders, options)
-  if (is.null(scripts)) {
-    scripts <- select_asset(assets$files, "js", name, nested = assets$hasSubfolders, options = charpente_options(bundle = FALSE))
-  }
-  if (is.null(scripts)) {
-    scripts <- select_asset(assets$files, "js", name, nested = assets$hasSubfolders, options = charpente_options(bundle = FALSE, minified = FALSE))
-  }
-  # CSS files are not in bundles
-  stylesheets <- select_asset(assets$files, "css", name, nested = assets$hasSubfolders, options = charpente_options(bundle = FALSE))
-  if (is.null(stylesheets)) {
-    stylesheets <- select_asset(assets$files, "css", name, nested = assets$hasSubfolders, options = charpente_options(bundle = FALSE, minified = FALSE))
-  }
+  stylesheets <- select_asset(assets$files, "css", name, nested = assets$hasSubfolders, options)
 
   # Handle case like @vizuaalog/bulmajs
 
@@ -388,19 +379,21 @@ find_dep_file <- function(name) {
 #' @param minified Whether to download minified files. Default to TRUE. Set to FALSE should you need
 #' all files.
 #' @param bundle Some libraries like Bootstrap provide bundles containing all components.
-#' If bundle is TRUE, the download will target only those files. Not compatible with lite.
+#' If bundle is TRUE, the download will target only those files.
 #' @param lite Some libraries like framework7 propose lite version of the scripts.
-#' Default to FALSE. Not compatible with bundle.
+#' Default to FALSE.
+#' @param rtl Some templates provide a right to left design. Disabled by default.
 #'
 #' @return A list of options.
 #' @export
-charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE, lite = FALSE) {
-  if (bundle && lite) stop("Cannot choose bundle and lite options!")
+charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE, lite = FALSE,
+                              rtl = FALSE) {
   list(
     local = local,
     minified = minified,
     bundle = bundle,
-    lite = lite
+    lite = lite,
+    rtl = rtl
   )
 }
 
@@ -420,16 +413,36 @@ charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE, lite
 select_asset <- function(assets, type, name, nested, options) {
   # TO DO: fine tune the regex -> maybe people only want minified files, maybe they
   # want everything, ...
-  regex <- if (options$bundle) {
-    sprintf("^.+\\.bundle\\.min\\.%s$", type)
+
+  regex <- "^(?!.*map)"
+
+  if (options$lite) {
+    regex <- paste0(regex, "(?=.*lite)")
   } else {
-    if (options$minified) {
-      sprintf("^.+\\.min\\.%s$", type)
-    } else {
-      sprintf("^.+\\.%s$", type)
-    }
+    regex <- paste0(regex, "(?!.*lite)")
   }
-  selected_assets <- assets[grep(regex, assets$name), ]$name
+
+  if (options$bundle) {
+    regex <- paste0(regex, "(?=.*bundle)")
+  } else {
+    regex <- paste0(regex, "(?!.*bundle)")
+  }
+
+  if (options$rtl) {
+    regex <- paste0(regex, "(?=.*rtl)")
+  } else {
+    regex <- paste0(regex, "(?!.*rtl)")
+  }
+
+  if (options$minified) {
+    regex <- paste0(regex, "(?=.*min)")
+  } else {
+    regex <- paste0(regex, "(?!.*min)")
+  }
+
+  regex <- paste0(regex, sprintf("(?=.*%s)", type))
+
+  selected_assets <- assets[grep(regex, assets$name, perl = TRUE), ]$name
   # this will prevent to create a directory for nothing
   if (length(selected_assets) == 0) return(NULL)
   if (nested) {

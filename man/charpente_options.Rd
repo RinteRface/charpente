@@ -4,7 +4,13 @@
 \alias{charpente_options}
 \title{Configure charpente}
 \usage{
-charpente_options(local = TRUE, minified = TRUE, bundle = TRUE, lite = FALSE)
+charpente_options(
+  local = TRUE,
+  minified = TRUE,
+  bundle = TRUE,
+  lite = FALSE,
+  rtl = FALSE
+)
 }
 \arguments{
 \item{local}{Whether to download files locally or to point to a CDN. Default to TRUE.}
@@ -13,10 +19,12 @@ charpente_options(local = TRUE, minified = TRUE, bundle = TRUE, lite = FALSE)
 all files.}
 
 \item{bundle}{Some libraries like Bootstrap provide bundles containing all components.
-If bundle is TRUE, the download will target only those files. Not compatible with lite.}
+If bundle is TRUE, the download will target only those files.}
 
 \item{lite}{Some libraries like framework7 propose lite version of the scripts.
-Default to FALSE. Not compatible with bundle.}
+Default to FALSE.}
+
+\item{rtl}{Some templates provide a right to left design. Disabled by default.}
 }
 \value{
 A list of options.
