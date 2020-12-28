@@ -551,13 +551,14 @@ get_dependency_assets <- function(dep, tag = "latest") {
 
   # bootstrap has a dist folder
   if ("dist" %in% temp$name) {
-    temp <- temp[temp$name %in% c("dist"), "files"][[1]]
+    temp <- temp[temp$name == "dist", "files"][[1]]
+    temp <- temp[temp$name %in% c("js", "css"), ]
     hasSubfolders <- inherits(temp$files, "list")
     if (inherits(temp$files, "list")) temp <- do.call(rbind, temp$files)
     list(url = paste0(url, "dist/"), files = temp[, c("name", "hash")], hasSubfolders = hasSubfolders)
   } else {
-    temp <- temp[temp$name %in% c("css", "js"), "files"][[1]]
-    if (inherits(temp$files, "list")) temp <- do.call(rbind, temp)
+    temp <- temp[temp$name %in% c("css", "js"), "files"]
+    if (inherits(temp, "list")) temp <- do.call(rbind, temp)
     list(url = url, files = temp[, c("name", "hash")], hasSubfolders = TRUE)
   }
 }
