@@ -105,14 +105,22 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
       write_there(sprintf('  src = c(href = "%s"),', assets$url))
     }
     if (!is.null(scripts)) {
-      write_there("  script = c(")
-      insert_multiple_lines(scripts)
-      write_there("  ),")
+      if (length(scripts) > 1) {
+        write_there("  script = c(")
+        insert_multiple_lines(scripts)
+        write_there("  ),")
+      } else {
+        write_there(sprintf('  script = "%s",', scripts))
+      }
     }
     if (!is.null(stylesheets)) {
-      write_there("  stylesheet = c(")
-      insert_multiple_lines(stylesheets)
-      write_there("  ),")
+      if (length(stylesheets) > 1) {
+        write_there("  stylesheet = c(")
+        insert_multiple_lines(stylesheets)
+        write_there("  ),")
+      } else {
+        write_there(sprintf('  stylesheet = "%s",', stylesheets))
+      }
     }
     if (options$local) {
       write_there(sprintf('  package = "%s",', pkg))
