@@ -101,11 +101,20 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
     # write in the file
     tag <- strsplit(utils::tail(strsplit(assets$url, "@")[[1]], n = 1), "/")[[1]][1]
+    # roxygen export tag
+    write_there(sprintf("#' %s dependencies utils", name))
+    write_there("#'")
+    write_there(sprintf("#' @description This function attaches %s. dependencies to the given tag", name))
+    write_there("#'")
+    write_there("#' @param tag Element to attach the dependencies.")
+    write_there("#'")
+    write_there("#' @importFrom htmltools tagList htmlDependency")
+    write_there("#' @export")
     # attach function
     write_there(sprintf("add_%s_deps <- function(tag) {", name))
 
     # htmlDependency content
-    write_there(sprintf(" %s_deps <- htmltools::htmlDependency(", name))
+    write_there(sprintf(" %s_deps <- htmlDependency(", name))
     write_there(sprintf('  name = "%s",', name))
     write_there(sprintf('  version = "%s",', tag))
     if (options$local) {
@@ -138,7 +147,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     write_there(" )")
 
     # attach deps
-    write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
+    write_there(sprintf(" tagList(tag, %s_deps)", name))
     # end function
     write_there("}")
     write_there("    ")
@@ -209,13 +218,23 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
     }
 
 
+    # roxygen export
+    write_there(sprintf("#' %s dependencies utils", name))
+    write_there("#'")
+    write_there(sprintf("#' @description This function attaches %s. dependencies to the given tag", name))
+    write_there("#'")
+    write_there("#' @param tag Element to attach the dependencies.")
+    write_there("#'")
+    write_there("#' @importFrom utils packageVersion")
+    write_there("#' @importFrom htmltools tagList htmlDependency")
+    write_there("#' @export")
     # attach function
     write_there(sprintf("add_%s_deps <- function(tag) {", name))
 
     # htmlDependency content
-    write_there(sprintf(" %s_deps <- htmltools::htmlDependency(", name))
+    write_there(sprintf(" %s_deps <- htmlDependency(", name))
     write_there(sprintf('  name = "%s",', name))
-    write_there(sprintf('  version = utils::packageVersion("%s"),', pkg))
+    write_there(sprintf('  version = packageVersion("%s"),', pkg))
     write_there(sprintf('  src = c(file = "%s-%s"),', name, pkg_version))
     if (!is.null(script)) {
       script <- sprintf("js/%s.min.js", name)
@@ -232,7 +251,7 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
     write_there(" )")
 
     # attach deps
-    write_there(sprintf(" htmltools::tagList(tag, %s_deps)", name))
+    write_there(sprintf(" tagList(tag, %s_deps)", name))
     # end function
     write_there("}")
     write_there("    ")
@@ -241,46 +260,6 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
 
   # path to dependency
   if (open && rstudioapi::isAvailable()) rstudioapi::navigateToFile(path)
-}
-
-
-
-
-#' Attach all created dependencies in the ./R directory to the tag
-#'
-#' This function only works if there are existing dependencies. Otherwise,
-#' an error is raised.
-#'
-#' @param tag Tag to attach the dependencies
-#' @param deps Dependencies to add. Expect a vector of names. If NULL, all dependencies
-#' are added.
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#'  library(htmltools)
-#'  findDependencies(add_dependencies(div()))
-#'  findDependencies(add_dependencies(div(), deps = "bulma"))
-#' }
-add_dependencies <- function(tag, deps = NULL) {
-  if (is.null(deps)) {
-    temp_names <- list.files("./R", pattern = "dependencies.R$")
-    deps <- unlist(lapply(temp_names, stringr::str_split_n, pattern = "-", n = 1))
-  }
-
-  if (length(deps) == 0) stop("No dependencies found.")
-
-  deps <- lapply(deps, function(x) {
-    temp <- eval(
-      parse(
-        text = sprintf("htmltools::findDependencies(add_%s_deps(htmltools::div()))", x)
-      )
-    )
-    # this assumes all add_*_deps function only add 1 dependency
-    temp[[1]]
-  })
-
-  htmltools::tagList(tag, deps)
 }
 
 

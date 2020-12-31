@@ -23,7 +23,10 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   # create package + project but don't open until all files are added
   create_package(
     path,
-    fields = list(),
+    # To add pkg imports, remotes, ...
+    fields = list(
+      Imports = "shiny, htmltools, utils"
+    ),
     rstudio = rstudioapi::isAvailable(),
     roxygen = TRUE,
     check_name = TRUE,
@@ -54,6 +57,12 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   # testthat
   use_testthat()
   use_test("dummy-test")
+
+  # Copy charpente-utils
+  fs::file_copy(
+    system.file("utils/charpente-utils.R", package = "charpente"),
+    sprintf("./R/%s-utils.R", pkg_name)
+  )
 
   # version control
   use_git()
