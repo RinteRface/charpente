@@ -30,7 +30,16 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
   # discover assets and stop if not
   if (is.null(tag)) tag <- get_dependency_versions(name, TRUE)
   assets <- get_dependency_assets(name, tag)
-  if(nrow(assets$files) == 0) stop(sprintf("No assets found for %s", name))
+
+  if(inherits(assets$files, "data.frame")) {
+    if (nrow(assets$files) == 0) {
+      stop(sprintf("No assets found for %s", name))
+    }
+  } else {
+    if (length(assets$files) == 0) {
+      stop(sprintf("No assets found for %s", name))
+    }
+  }
 
   # delete other versions and install new ones
   if (length(find_dep_file(name)) > 0) {
@@ -449,8 +458,12 @@ select_asset <- function(assets, type, name, nested, options) {
   }
 
   regex <- paste0(regex, sprintf("(?=.*%s)", type))
+  if (inherits(assets, "data.frame")) {
+    selected_assets <- assets[grep(regex, assets$name, perl = TRUE), ]$name
+  } else if (is.atomic(assets)) {
+    selected_assets <- assets[grep(regex, assets, perl = TRUE)]
+  }
 
-  selected_assets <- assets[grep(regex, assets$name, perl = TRUE), ]$name
   # this will prevent to create a directory for nothing
   if (length(selected_assets) == 0) return(NULL)
   if (nested) {
@@ -577,10 +590,12 @@ get_dependency_assets <- function(dep, tag = "latest") {
     hasSubfolders <- inherits(temp$files, "list")
     if (inherits(temp$files, "list")) temp <- do.call(rbind, temp$files)
     list(url = paste0(url, "dist/"), files = temp[, c("name", "hash")], hasSubfolders = hasSubfolders)
-  } else {
+  } else if ("css" %in% temp$name || "js" %in% temp$name) {
     temp <- temp[temp$name %in% c("css", "js"), "files"]
     if (inherits(temp, "list")) temp <- do.call(rbind, temp)
     list(url = url, files = temp[, c("name", "hash")], hasSubfolders = TRUE)
+  } else {
+    list(url = url, files = temp$name, hasSubfolders = FALSE)
   }
 }
 
