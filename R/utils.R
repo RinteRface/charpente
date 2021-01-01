@@ -34,7 +34,7 @@ file_create <- function(path){
   exists <- fs::file_exists(path)
   # If there is already a file (might be the case if update a dependency),
   # we remove the existing file (avoid to append to an existing file)
-  if(exists) {
+  if (exists) {
     fs::file_delete(path)
     cli::cli_alert_warning("Remove existing file {.file {path}}")
   } else {

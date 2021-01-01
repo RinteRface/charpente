@@ -7,7 +7,7 @@
 charpente_options(
   local = TRUE,
   minified = TRUE,
-  bundle = TRUE,
+  bundle = FALSE,
   lite = FALSE,
   rtl = FALSE
 )

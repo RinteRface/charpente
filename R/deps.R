@@ -31,7 +31,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
   if (is.null(tag)) tag <- get_dependency_versions(name, TRUE)
   assets <- get_dependency_assets(name, tag)
 
-  if(inherits(assets$files, "data.frame")) {
+  if (inherits(assets$files, "data.frame")) {
     if (nrow(assets$files) == 0) {
       stop(sprintf("No assets found for %s", name))
     }
@@ -394,7 +394,7 @@ find_dep_file <- function(name) {
 #'
 #' @return A list of options.
 #' @export
-charpente_options <- function(local = TRUE, minified = TRUE, bundle = TRUE, lite = FALSE,
+charpente_options <- function(local = TRUE, minified = TRUE, bundle = FALSE, lite = FALSE,
                               rtl = FALSE) {
   list(
     local = local,
