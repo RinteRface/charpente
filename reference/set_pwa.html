@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • charpente</title>
+<title>Utils to set up a PWA compatible structure — set_pwa • charpente</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Utils to set up a PWA compatible structure — set_pwa" />
+<meta property="og:description" content="Creates a web manifest, service-worker.js, icons and set the
+necessary dependencies. The app must be part of a package.
+Must not be used from the package root but from the app root." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,126 +111,81 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Utils to set up a PWA compatible structure</h1>
+    <small class="dont-index">Source: <a href='https://github.com/RinteRface/charpente/blob/master/R/pwa.R'><code>R/pwa.R</code></a></small>
+    <div class="hidden name"><code>set_pwa.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Creates a web manifest, service-worker.js, icons and set the
+necessary dependencies. The app must be part of a package.
+Must not be used from the package root but from the app root.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>set_pwa</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  name <span class='op'>=</span> <span class='st'>"My Progressive Web App"</span>,
+  shortName <span class='op'>=</span> <span class='st'>"My App"</span>,
+  description <span class='op'>=</span> <span class='st'>"What it does!"</span>,
+  lang <span class='op'>=</span> <span class='st'>"en-US"</span>,
+  startUrl <span class='op'>=</span> <span class='st'>"/"</span>,
+  display <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"minimal-ui"</span>, <span class='st'>"standalone"</span>, <span class='st'>"fullscreen"</span>, <span class='st'>"browser"</span><span class='op'>)</span>,
+  background_color <span class='op'>=</span> <span class='st'>"#ffffff"</span>,
+  theme_color <span class='op'>=</span> <span class='st'>"#ffffff"</span>,
+  register_service_worker <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="charpente_options.html">charpente_options()</a></code> </p>
-        </td>
-        <td><p>Configure charpente</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="compress_js.html">compress_js()</a></code> </p>
-        </td>
-        <td><p>Compress and optimize all files in the current folder</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_charpente.html">create_charpente()</a></code> </p>
-        </td>
-        <td><p>Create a package using charpente and usethis conventions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_custom_dependency.html">create_custom_dependency()</a></code> </p>
-        </td>
-        <td><p>Imports Internal Dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_dependency.html">create_dependency()</a></code> </p>
-        </td>
-        <td><p>Imports External Dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_file.html">create_input_binding()</a></code> <code><a href="create_file.html">create_output_binding()</a></code> <code><a href="create_file.html">create_custom_handler()</a></code> <code><a href="create_file.html">create_js()</a></code> <code><a href="create_file.html">create_css()</a></code> </p>
-        </td>
-        <td><p>Create a shiny custom input binding boilerplate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_manifest.html">create_manifest()</a></code> </p>
-        </td>
-        <td><p>Create a manifest for your shiny app</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_pwa_dependency.html">create_pwa_dependency()</a></code> </p>
-        </td>
-        <td><p>Create a PWA dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dependency_assets.html">get_dependency_assets()</a></code> </p>
-        </td>
-        <td><p>Get all links to dependencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_dependency_versions.html">get_dependency_versions()</a></code> </p>
-        </td>
-        <td><p>Get all version for the current dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_installed_dependency.html">get_installed_dependency()</a></code> </p>
-        </td>
-        <td><p>Get the version of the current installed dependency</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_pkg_name.html">get_pkg_name()</a></code> </p>
-        </td>
-        <td><p>Retrieves Package Name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="html_2_R.html">html_2_R()</a></code> </p>
-        </td>
-        <td><p>Convert HTML content to R Shiny tags</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_pwa.html">set_pwa()</a></code> </p>
-        </td>
-        <td><p>Utils to set up a PWA compatible structure</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="update_dependency.html">update_dependency()</a></code> </p>
-        </td>
-        <td><p>Update the given dependency to a specific version or latest</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>path</th>
+      <td><p>App path.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>App name.</p></td>
+    </tr>
+    <tr>
+      <th>shortName</th>
+      <td><p>App short name.</p></td>
+    </tr>
+    <tr>
+      <th>description</th>
+      <td><p>App description</p></td>
+    </tr>
+    <tr>
+      <th>lang</th>
+      <td><p>App language (en-US by default).</p></td>
+    </tr>
+    <tr>
+      <th>startUrl</th>
+      <td><p>Page to open at start.</p></td>
+    </tr>
+    <tr>
+      <th>display</th>
+      <td><p>Display mode. Choose among <code><a href='https://rdrr.io/r/base/c.html'>c("minimal-ui", "standalone", "fullscreen", "browser")</a></code>.
+In practice, you want the standalone mode so that the app looks like a native app.</p></td>
+    </tr>
+    <tr>
+      <th>background_color</th>
+      <td><p>The background_color property is used on the splash screen when the application is first launched.</p></td>
+    </tr>
+    <tr>
+      <th>theme_color</th>
+      <td><p>The theme_color sets the color of the tool bar, and may be reflected in the app's preview in task switchers.</p></td>
+    </tr>
+    <tr>
+      <th>register_service_worker</th>
+      <td><p>Whether to register the service worker. Default to
+TRUE. Don't change the file name of service-worker.js!!!</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
