@@ -144,7 +144,7 @@ compress_js <- function(dir = "srcjs", source_maps = TRUE) {
 
   # create custom dependency only if the script
   # does not exist yet
-  if (!dir.exists(outputDir)) {
+  if (!file.exists(sprintf("%s-dependencies.R", pkg_name))) {
     create_custom_dependency(pkg_name, script = customJS)
     ui_done("Dependency successfully created!")
   }

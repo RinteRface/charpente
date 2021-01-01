@@ -233,7 +233,7 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
     # roxygen export
     write_there(sprintf("#' %s dependencies utils", name))
     write_there("#'")
-    write_there(sprintf("#' @description This function attaches %s. dependencies to the given tag", name))
+    write_there(sprintf("#' @description This function attaches %s dependencies to the given tag", name))
     write_there("#'")
     write_there("#' @param tag Element to attach the dependencies.")
     write_there("#'")
