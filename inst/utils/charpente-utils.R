@@ -1,11 +1,11 @@
-#' Attach all created dependencies in the ./R directory to the tag
+#' Attach all created dependencies in the ./R directory to the provided tag
 #'
 #' This function only works if there are existing dependencies. Otherwise,
 #' an error is raised.
 #'
-#' @param tag Tag to attach the dependencies
-#' @param deps Dependencies to add. Expect a vector of names. If NULL, all dependencies
-#' are added.
+#' @param tag Tag to attach the dependencies.
+#' @param deps Dependencies to add. Expect a vector of names.
+#' If NULL, all dependencies are added.
 #' @export
 #'
 #' @examples
