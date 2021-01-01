@@ -99,6 +99,14 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
       })
     }
 
+    # handle missing js/ and css/ in file path (the CDN location
+    # may be different from the local file location), only for
+    # local option!
+    if (options$local) {
+      if (length(grep("js/", scripts[1])) == 0) scripts <- paste0("js/", scripts)
+      if (length(grep("css/", stylesheets[1])) == 0) stylesheets <- paste0("css/", stylesheets)
+    }
+
     # write in the file
     tag <- strsplit(utils::tail(strsplit(assets$url, "@")[[1]], n = 1), "/")[[1]][1]
     # roxygen export tag
