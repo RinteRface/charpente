@@ -174,7 +174,7 @@ create_manifest <- function(path, name = "My Progressive Web App", shortName = "
     background_color = background_color,
     theme_color = theme_color,
     icons = data.frame(
-      src = "icons/logo-144.png",
+      src = "icons/icon-144.png",
       sizes = "144x144"
     )
   )
