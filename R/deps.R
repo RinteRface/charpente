@@ -183,14 +183,15 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #' @param script List of scripts to include. Assumes scripts are located at the root of the inst folder.
 #' @param stylesheet List of stylesheets to include. Assumes stylesheets are located at the root of the inst folder.
 #' @param open Whether to allow rstudioapi to open the newly created script. Default to TRUE.
-#' @export
+#' @param mode Internal. Don't use.
+#' @keywords Internal
 #'
 #' @examples
 #' \dontrun{
 #'  create_custom_dependency("custom", script = c("hello.js", "blabla.js"))
 #' }
 create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
-                                     open = interactive()) {
+                                     open = interactive(), mode) {
   # checks
   if (missing(name)) stop("Missing `name`")
 
@@ -229,7 +230,6 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
       })
     }
 
-
     # roxygen export
     write_there(sprintf("#' %s dependencies utils", name))
     write_there("#'")
@@ -249,14 +249,12 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
     write_there(sprintf('  version = packageVersion("%s"),', pkg))
     write_there(sprintf('  src = c(file = "%s-%s"),', name, pkg_version))
     if (!is.null(script)) {
-      script <- sprintf("js/%s.min.js", name)
+      script <- sprintf("js/%s%s.js", name, mode)
       write_there(sprintf('  script = "%s",', script))
     }
     if (!is.null(stylesheet)) {
-      stylesheet <- paste0("css/", stylesheet)
-      write_there("  stylesheet = c(")
-      insert_multiple_lines(stylesheet)
-      write_there("  ),")
+      stylesheet <- sprintf("css/%s%s.css", name, mode)
+      write_there(sprintf('  stylesheet = "%s",', stylesheet))
     }
     write_there(sprintf('  package = "%s",', pkg))
     # end deps

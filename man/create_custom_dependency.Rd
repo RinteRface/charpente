@@ -8,7 +8,8 @@ create_custom_dependency(
   name,
   script = NULL,
   stylesheet = NULL,
-  open = interactive()
+  open = interactive(),
+  mode
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ create_custom_dependency(
 \item{stylesheet}{List of stylesheets to include. Assumes stylesheets are located at the root of the inst folder.}
 
 \item{open}{Whether to allow rstudioapi to open the newly created script. Default to TRUE.}
+
+\item{mode}{Internal. Don't use.}
 }
 \description{
 Wrap internal scripts and stylesheets in one \link[htmltools]{htmlDependency}.
@@ -28,3 +31,4 @@ Wrap internal scripts and stylesheets in one \link[htmltools]{htmlDependency}.
  create_custom_dependency("custom", script = c("hello.js", "blabla.js"))
 }
 }
+\keyword{Internal}
