@@ -50,7 +50,10 @@ set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
     js_code <- "
       window.addEventListener('load', () => {
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('service-worker.js');
+          var pathname = window.location.pathname;
+          navigator.serviceWorker
+            .register(pathname + 'service-worker.js', { scope: pathname})
+            .then(function() { console.log('Service Worker Registered'); });
         };
       });
     "
