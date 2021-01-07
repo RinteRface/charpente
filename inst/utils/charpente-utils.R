@@ -17,7 +17,7 @@
 add_dependencies <- function(tag, deps = NULL) {
   if (is.null(deps)) {
     temp_names <- list.files("./R", pattern = "dependencies.R$")
-    deps <- unlist(lapply(temp_names, stringr::str_split_n, pattern = "-", n = 1))
+    deps <- unlist(lapply(temp_names, strsplit, split = "-dependencies.R"))
   }
 
   if (length(deps) == 0) stop("No dependencies found.")
