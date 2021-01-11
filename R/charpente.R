@@ -64,6 +64,10 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
     sprintf("./R/%s-utils.R", pkg_name)
   )
 
+  # Ignore files/folders: srcjs is the only 1 non standard folder that can
+  # be created by charpente
+  use_build_ignore("srcjs")
+
   # version control
   use_git()
   if (!is.null(remote)) {
