@@ -54,6 +54,12 @@ findDependencies(add_bulma_deps(div()))
 # Create JS handler
 create_custom_handler("modal")
 
+# Create input binding
+create_input_binding("myinput")
+
+# Create output binding
+create_output_binding("myoutput")
+
 # Compress JS for production
 build_js()
 devtools::load_all()
