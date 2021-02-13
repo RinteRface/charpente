@@ -527,8 +527,7 @@ dependencies_download <- function(path, files){
 #'  get_dependency_versions("react", latest = TRUE)
 #' }
 get_dependency_versions <- function(dep, latest = FALSE) {
-  # default to cdnjs
-  cdn <- getOption("DEFAULT_CDN")
+  cdn <- "https://data.jsdelivr.com/v1/package/npm/"
   tryCatch({
     cli::cli_alert_info(sprintf("Trying with %s%s", cdn, dep))
     temp <- jsonlite::fromJSON(sprintf("%s%s", cdn, dep))
