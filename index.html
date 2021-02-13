@@ -82,16 +82,26 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of charpente is to …</p>
+<p>The goal of <a href="https://github.com/RinteRface/charpente">charpente</a> is to significantly reduce the complexity of creating new HTML templates for Shiny:</p>
+<ul>
+<li>
+<a href="https://github.com/RinteRface/charpente">charpente</a> creates a plug and play package structure.</li>
+<li>
+<a href="https://github.com/RinteRface/charpente">charpente</a> automatically import dependencies from <a href="https://www.jsdelivr.com/">jsdelivr</a>, so that you don’t have to do it by hand!</li>
+<li>
+<a href="https://github.com/RinteRface/charpente">charpente</a> eases the conversion from HTML to R.</li>
+<li>
+<a href="https://github.com/RinteRface/charpente">charpente</a> offers multiple R and JS boilerplate for <a href="https://shiny.rstudio.com/">shiny</a> input bindings, <a href="https://shiny.rstudio.com/">shiny</a> message handlers, …</li>
+<li>
+<a href="https://github.com/RinteRface/charpente">charpente</a> enable seamless JavaScript code management (powered by <a href="https://github.com/dreamRs/jstools"><code>{jstools}</code></a>), with <a href="https://terser.org/">Terser</a>, providing source maps for debugging purposes.</li>
+</ul>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of charpente from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<p>You can install the development version of <a href="https://github.com/RinteRface/charpente">charpente</a> from Github with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># latest version</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"RinteRface/charpente"</span><span class="op">)</span>
-<span class="co"># Once on CRAN</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"charpente"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"RinteRface/charpente"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
@@ -99,12 +109,42 @@
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RinteRface/charpente">charpente</a></span><span class="op">)</span>
-<span class="co">## basic example code</span></code></pre></div>
+
+<span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span>
+<span class="fu"><a href="reference/create_charpente.html">create_charpente</a></span><span class="op">(</span><span class="va">path</span>, license <span class="op">=</span> <span class="st">"mit"</span><span class="op">)</span>
+
+<span class="co"># Once the package is created and opened</span>
+
+<span class="co"># Look for all bulma flavors</span>
+<span class="fu"><a href="reference/get_dependency_versions.html">get_dependency_versions</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span>
+<span class="co"># Get latest stable</span>
+<span class="fu"><a href="reference/get_dependency_versions.html">get_dependency_versions</a></span><span class="op">(</span><span class="st">"bulma"</span>, latest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co"># Inspect bulma</span>
+<span class="fu"><a href="reference/get_dependency_assets.html">get_dependency_assets</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span>
+
+<span class="co"># Download bulma locally</span>
+<span class="fu"><a href="reference/create_dependency.html">create_dependency</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span>
+<span class="co"># Test the newly added dependencies tools</span>
+<span class="fu">findDependencies</span><span class="op">(</span><span class="fu">add_bulma_deps</span><span class="op">(</span><span class="fu">div</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Create JS handler</span>
+<span class="fu"><a href="reference/create_input_binding.html">create_custom_handler</a></span><span class="op">(</span><span class="st">"modal"</span><span class="op">)</span>
+
+<span class="co"># Create input binding</span>
+<span class="fu"><a href="reference/create_input_binding.html">create_input_binding</a></span><span class="op">(</span><span class="st">"myinput"</span><span class="op">)</span>
+
+<span class="co"># Create output binding</span>
+<span class="fu"><a href="reference/create_input_binding.html">create_output_binding</a></span><span class="op">(</span><span class="st">"myoutput"</span><span class="op">)</span>
+
+<span class="co"># Compress JS for production</span>
+<span class="fu"><a href="reference/build_js.html">build_js</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
 <a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the charpente project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the <a href="https://github.com/RinteRface/charpente">charpente</a> project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
