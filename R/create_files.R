@@ -3,22 +3,42 @@
 #' @inheritParams golem::add_js_input_binding
 #' @export
 #' @rdname create_file
-create_input_binding <- purrr::partial(
-  golem::add_js_input_binding,
-  pkg = ".",
-  dir = "srcjs"
-)
+create_input_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
+                                 dir_create = TRUE, initialize = FALSE, dev = FALSE,
+                                 events = list(name = "click", rate_policy = FALSE)) {
+  golem::add_js_input_binding(
+    name,
+    pkg,
+    dir,
+    open,
+    dir_create = FALSE,
+    initialize,
+    dev,
+    events
+  )
+
+  # Add entry to main.js
+  reference_script(name)
+}
 
 #' Create a shiny output binding boilerplate
 #'
 #' @inheritParams golem::add_js_output_binding
 #' @export
 #' @rdname create_file
-create_output_binding <- purrr::partial(
-  golem::add_js_output_binding,
-  pkg = ".",
-  dir = "srcjs"
-)
+create_output_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
+                                  dir_create = TRUE) {
+  golem::add_js_output_binding(
+    name,
+    pkg,
+    dir,
+    open,
+    dir_create = FALSE
+  )
+
+  # Add entry to main.js
+  reference_script(name)
+}
 
 #' Create a shiny custom handler boilerplate
 #'
@@ -47,6 +67,9 @@ create_custom_handler <- function(
       name = name
     )
   )
+
+  # Add entry to main.js
+  reference_script(name)
 
   # create the R part
   path <- sprintf("R/%s-handler.R", name)
