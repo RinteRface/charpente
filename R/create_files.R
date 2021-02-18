@@ -84,7 +84,7 @@ create_js <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
     pkg,
     dir ,
     open,
-    dir_create,
+    dir_create = FALSE,
     with_doc_ready,
     template,
     ...

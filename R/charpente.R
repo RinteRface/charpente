@@ -69,6 +69,8 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
 
   # Setup esbuild for JS code management
   npm::npm_install("esbuild", scope = "dev")
+  dir.create("srcjs")
+  file.create("./srcjs/main.js")
 
   # Ignore files/folders: srcjs, node_modules, ...
   use_build_ignore("srcjs")
