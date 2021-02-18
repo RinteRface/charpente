@@ -8,8 +8,7 @@ build_js(
   dir = "srcjs",
   files = NULL,
   mode = c("prod", "dev"),
-  source_maps = TRUE,
-  ...
+  entry_point = "main.js"
 )
 }
 \arguments{
@@ -18,12 +17,11 @@ build_js(
 \item{files}{Use to specify custom order for files processing.
 Default to NULL.}
 
-\item{mode}{Production or development mode. Choose either "prod" or "dev".}
+\item{mode}{Production or development mode. Choose either "prod" or "dev".
+"prod" bundles, aggregates and minifyies files. "dev" only bundles the code.
+Modules follow the ES6 format (import/export).}
 
-\item{source_maps}{Default to TRUE. Whether to include sourceMaps
-for minified scripts. Default to TRUE.}
-
-\item{...}{Other options. See \url{https://github.com/terser/terser}.}
+\item{entry_point}{Required internally to setup the esbuild config.}
 }
 \description{
 Generates a minified file under inst/pkg_name-pkg_version, if mode

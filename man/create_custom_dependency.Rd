@@ -6,6 +6,7 @@
 \usage{
 create_custom_dependency(
   name,
+  version,
   script = NULL,
   stylesheet = NULL,
   open = interactive(),
@@ -13,7 +14,9 @@ create_custom_dependency(
 )
 }
 \arguments{
-\item{name}{Name of library.}
+\item{name}{Package name.}
+
+\item{version}{Package version.}
 
 \item{script}{List of scripts to include. Assumes scripts are located at the root of the inst folder.}
 

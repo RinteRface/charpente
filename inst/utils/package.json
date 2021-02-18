@@ -1,0 +1,19 @@
+{
+  "name": "<<name>>",
+  "version": "<<split_version>>",
+  "description": "",
+  "main": "<<entry_point>>",
+  "directories": {
+    "man": "man"
+  },
+  "scripts": {
+    "build-dev": "esbuild srcjs/<<entry_point>> --bundle --format=esm --outfile=inst/<<name>>-<<version>>/js/<<name>>.js",
+    "build-prod": "esbuild srcjs/<<entry_point>> --bundle --minify --sourcemap --format=esm --outfile=inst/<<name>>-<<version>>/js/<<name>>.min.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "<<license>>",
+  "devDependencies": {
+    "esbuild": "^0.8.46"
+  }
+}

@@ -68,3 +68,42 @@ js_handler_template <- function (path, name, code = " ")
   write_there("  });")
   write_there("});")
 }
+
+
+
+#' Return the full path for a default file template
+#'
+#' @keywords internal
+#' @param file Name of the file including the file extension.
+#' @param where Where to find the template.
+get_template <- function(file, where) {
+  paste0(where, "/", file)
+}
+
+
+#' Insert provided parameters into template
+#'
+#' @keywords internal
+#' @param template Template obtained with \link{get_template}.
+#' @param ... List of parameters to insert in the template.
+#' @param where Where to find the template.
+#' @importFrom glue glue
+#' @importFrom readr read_file
+process_template <- function(template, ..., where = system.file("utils", package = "charpente")) {
+  pars <- list(...)
+  temp <- glue::glue(
+    readr::read_file(get_template(template, where)),
+    name = pars$name,
+    split_version = paste(head(strsplit(pars$version, ".", fixed = TRUE)[[1]], -1), collapse = "."),
+    version = pars$version,
+    entry_point = "main.js",
+    license = pars$license,
+    .open = "<<",
+    .close = ">>"
+  )
+
+  write_there <- function(...) {
+    write(..., file = "./package.json", append = FALSE)
+  }
+  write_there(temp)
+}

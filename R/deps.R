@@ -179,7 +179,8 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #'
 #' Wrap internal scripts and stylesheets in one \link[htmltools]{htmlDependency}.
 #'
-#' @param name Name of library.
+#' @param name Package name.
+#' @param version Package version.
 #' @param script List of scripts to include. Assumes scripts are located at the root of the inst folder.
 #' @param stylesheet List of stylesheets to include. Assumes stylesheets are located at the root of the inst folder.
 #' @param open Whether to allow rstudioapi to open the newly created script. Default to TRUE.
@@ -190,20 +191,15 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #' \dontrun{
 #'  create_custom_dependency("custom", script = c("hello.js", "blabla.js"))
 #' }
-create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
+create_custom_dependency <- function(name, version, script = NULL, stylesheet = NULL,
                                      open = interactive(), mode) {
-  # checks
-  if (missing(name)) stop("Missing `name`")
-
-  pkg <- get_pkg_name()
-  pkg_version <- utils::packageVersion(pkg)
 
   # TO DO: find a way to better handle CSS (like JS)
   if (!is.null(stylesheet)) {
-    dir_path <- paste0("inst/", name, "-", pkg_version, "/css")
+    dir_path <- paste0("inst/", name, "-", version, "/css")
     fs::dir_create(dir_path)
-    old_path <- system.file(paste0("inst/", stylesheet), package = pkg)
-    new_path <- system.file(dir_path, package = pkg)
+    old_path <- system.file(paste0("inst/", stylesheet), package = name)
+    new_path <- system.file(dir_path, package = name)
     fs::file_move(old_path, new_path)
   }
 
@@ -246,8 +242,8 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
     # htmlDependency content
     write_there(sprintf(" %s_deps <- htmlDependency(", name))
     write_there(sprintf('  name = "%s",', name))
-    write_there(sprintf('  version = packageVersion("%s"),', pkg))
-    write_there(sprintf('  src = c(file = "%s-%s"),', name, pkg_version))
+    write_there(sprintf('  version = "%s",', version))
+    write_there(sprintf('  src = c(file = "%s-%s"),', name, version))
     if (!is.null(script)) {
       script <- sprintf("js/%s%s.js", name, mode)
       write_there(sprintf('  script = "%s",', script))
@@ -256,7 +252,7 @@ create_custom_dependency <- function(name, script = NULL, stylesheet = NULL,
       stylesheet <- sprintf("css/%s%s.css", name, mode)
       write_there(sprintf('  stylesheet = "%s",', stylesheet))
     }
-    write_there(sprintf('  package = "%s",', pkg))
+    write_there(sprintf('  package = "%s",', name))
     # end deps
     write_there(" )")
 

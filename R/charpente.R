@@ -20,12 +20,15 @@
 #' }
 create_charpente <- function(path, remote = NULL, private = FALSE, license) {
 
+  pkg_name <- tail(strsplit(path, "/")[[1]], 1)
   # create package + project but don't open until all files are added
   create_package(
     path,
     # To add pkg imports, remotes, ...
     fields = list(
-      Imports = "shiny, htmltools, utils"
+      Package = pkg_name,
+      Imports = "shiny, htmltools, utils",
+      Version = "0.0.0.9000"
     ),
     rstudio = rstudioapi::isAvailable(),
     roxygen = TRUE,
@@ -33,7 +36,6 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
     open = FALSE
   )
 
-  pkg_name <- tail(strsplit(path, "/")[[1]], 1)
   ui_done("Package {ui_value(pkg_name)} successfuly created!")
 
   # set new wd
@@ -64,9 +66,15 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
     sprintf("./R/%s-utils.R", pkg_name)
   )
 
-  # Ignore files/folders: srcjs is the only 1 non standard folder that can
-  # be created by charpente
+
+  # Setup esbuild for JS code management
+  npm::npm_install("esbuild", scope = "dev")
+
+  # Ignore files/folders: srcjs, node_modules, ...
   use_build_ignore("srcjs")
+  use_build_ignore("node_modules")
+  use_build_ignore("package.json")
+  use_build_ignore("package-lock.json")
 
   # version control
   use_git()

@@ -105,21 +105,14 @@ create_css <- partial(
 #' @param files Use to specify custom order for files processing.
 #' Default to NULL.
 #' @param mode Production or development mode. Choose either "prod" or "dev".
-#' @param source_maps Default to TRUE. Whether to include sourceMaps
-#' for minified scripts. Default to TRUE.
-#' @param ... Other options. See \url{https://github.com/terser/terser}.
+#' "prod" bundles, aggregates and minifyies files. "dev" only bundles the code.
+#' Modules follow the ES6 format (import/export).
+#' @param entry_point Required internally to setup the esbuild config.
 #' @export
 #' @importFrom utils tail packageVersion
-build_js <- function(dir = "srcjs", files = NULL, mode = c("prod", "dev"),
-                        source_maps = TRUE, ...) {
+build_js <- function(dir = "srcjs", files = NULL, mode = c("prod", "dev"), entry_point = "main.js") {
 
   mode <- match.arg(mode)
-
-  # dev mode
-  opts <- list(...)
-  if (mode == "dev") opts$output$beautify <- TRUE
-  if (mode == "dev" && is.null(opts$mangle)) opts$mangle <- FALSE
-  if (mode == "dev" && is.null(opts$compress)) opts$compress <- FALSE
 
   customJS <- if (is.null(files)) {
     list.files(
@@ -131,41 +124,25 @@ build_js <- function(dir = "srcjs", files = NULL, mode = c("prod", "dev"),
     files
   }
 
-  pkg_name <- get_pkg_name()
-  pkg_version <- packageVersion(pkg_name)
+  pkg_desc <- desc::description$new("./DESCRIPTION")$get(c("Package", "Version", "License"))
 
   outputDir <- sprintf(
     "inst/%s-%s/js",
-    pkg_name,
-    pkg_version
+    pkg_desc[1],
+    pkg_desc[2]
   )
 
-  dir.create(outputDir, recursive = TRUE)
-
+  # Configure package.json so that esbuild knows where to build the JS code
+  process_template(
+    "package.json",
+    name = pkg_desc[1],
+    version = pkg_desc[2], # node does not support 0.1.0.9000
+    license = pkg_desc[3]
+  )
+  # run esbuild
+  npm::npm_run(sprintf("run build-%s", mode))
   ui_warn(sprintf("%s folder created ...", outputDir))
-
-  # Concat + Compress + source maps ----------------------------------------------------------------
-  if (mode == "prod" && source_maps) {
-    opts$sourceMap <- list(
-      root = sprintf("../../%s-build", pkg_name),
-      filename = sprintf("%s.min.js", pkg_name),
-      url = sprintf("%s.min.js.map", pkg_name),
-      includeSources = TRUE
-    )
-  }
-
-  jstools::terser_file(
-    input = customJS,
-    # custom file name depends on mode type
-    output = if (mode == "prod") {
-      sprintf("%s/%s.min.js", outputDir, pkg_name)
-    } else if (mode == "dev") {
-      sprintf("%s/%s.js", outputDir, pkg_name)
-    },
-    options = do.call(jstools::terser_options, opts)
-  )
-
-  ui_done("JavaScript successfully compressed!")
+  ui_done("JavaScript successfully processed!")
 
   # create custom dependency
   file_mode <- if (mode == "dev") {
@@ -173,8 +150,16 @@ build_js <- function(dir = "srcjs", files = NULL, mode = c("prod", "dev"),
   } else if (mode == "prod") {
     ".min"
   }
-  create_custom_dependency(pkg_name, script = customJS, open = FALSE, mode = file_mode)
-  if (!file.exists(sprintf("R/%s-dependencies.R", pkg_name))) {
+
+  create_custom_dependency(
+    pkg_desc[1],
+    pkg_desc[2],
+    script = customJS,
+    open = FALSE,
+    mode = file_mode
+  )
+
+  if (!file.exists(sprintf("R/%s-dependencies.R", pkg_desc[1]))) {
     ui_done("Dependency successfully created!")
   } else {
     ui_done("Dependency successfully updated!")
