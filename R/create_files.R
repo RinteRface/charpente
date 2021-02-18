@@ -1,11 +1,13 @@
 #' Create a shiny custom input binding boilerplate
 #'
 #' @inheritParams golem::add_js_input_binding
+#' @param add_reference Whether to add an import statement in main.js. Defaults to TRUE.
 #' @export
 #' @rdname create_file
 create_input_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
                                  dir_create = TRUE, initialize = FALSE, dev = FALSE,
-                                 events = list(name = "click", rate_policy = FALSE)) {
+                                 events = list(name = "click", rate_policy = FALSE),
+                                 add_reference = TRUE) {
   golem::add_js_input_binding(
     name,
     pkg,
@@ -18,16 +20,17 @@ create_input_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
   )
 
   # Add entry to main.js
-  reference_script(name)
+  if (add_reference) reference_script(name)
 }
 
 #' Create a shiny output binding boilerplate
 #'
 #' @inheritParams golem::add_js_output_binding
+#' @param add_reference Whether to add an import statement in main.js. Defaults to TRUE.
 #' @export
 #' @rdname create_file
 create_output_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
-                                  dir_create = TRUE) {
+                                  dir_create = TRUE, add_reference = TRUE) {
   golem::add_js_output_binding(
     name,
     pkg,
@@ -37,7 +40,7 @@ create_output_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
   )
 
   # Add entry to main.js
-  reference_script(name)
+  if (add_reference) reference_script(name)
 }
 
 #' Create a shiny custom handler boilerplate
@@ -45,6 +48,7 @@ create_output_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
 #' Creates a script in inst and the R part in ./R
 #'
 #' @inheritParams golem::add_js_handler
+#' @param add_reference Whether to add an import statement in main.js. Defaults to TRUE.
 #' @export
 #' @rdname create_file
 create_custom_handler <- function(
@@ -52,7 +56,8 @@ create_custom_handler <- function(
   pkg = ".",
   dir = "srcjs",
   open = TRUE,
-  dir_create = TRUE
+  dir_create = TRUE,
+  add_reference = TRUE
 ) {
 
   # create the JS part
@@ -69,7 +74,7 @@ create_custom_handler <- function(
   )
 
   # Add entry to main.js
-  reference_script(name)
+  if (add_reference) reference_script(name)
 
   # create the R part
   path <- sprintf("R/%s-handler.R", name)
@@ -96,11 +101,12 @@ create_custom_handler <- function(
 #'
 #' @inheritParams golem::add_module
 #' @inheritParams golem::add_js_file
+#' @param add_reference Whether to add an import statement in main.js. Defaults to TRUE.
 #' @export
 #' @rdname create_file
 create_js <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
                       dir_create = TRUE, with_doc_ready = TRUE, template = golem::js_template,
-                      ...) {
+                      ..., add_reference = TRUE) {
   # Create JS file
   golem::add_js_file(
     name,
@@ -114,7 +120,7 @@ create_js <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
   )
 
   # Add entry to main.js
-  reference_script(name)
+  if (add_reference) reference_script(name)
 }
 
 #' Create a css file
