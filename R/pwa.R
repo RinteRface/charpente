@@ -58,7 +58,7 @@ set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
       });
     "
     write(js_code, "srcjs/sw-register.js")
-    compress_js()
+    reference_script("sw-register")
   }
 
   # Provide user prescription (update add_dependencies deps)

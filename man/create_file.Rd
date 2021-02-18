@@ -20,7 +20,16 @@ create_custom_handler(
   dir_create = TRUE
 )
 
-create_js(...)
+create_js(
+  name,
+  pkg = ".",
+  dir = "srcjs",
+  open = TRUE,
+  dir_create = TRUE,
+  with_doc_ready = TRUE,
+  template = golem::js_template,
+  ...
+)
 
 create_css(...)
 }
@@ -36,6 +45,11 @@ create_css(...)
 \item{open}{Should the file be opened?}
 
 \item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
+
+\item{with_doc_ready}{Should the default file include \verb{$( document ).ready()}?}
+
+\item{template}{Function writing in the created file.
+You may overwrite this with your own template function.}
 }
 \description{
 Creates a script in inst and the R part in ./R

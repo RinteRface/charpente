@@ -75,11 +75,24 @@ create_custom_handler <- function(
 #' @inheritParams golem::add_js_file
 #' @export
 #' @rdname create_file
-create_js <- purrr::partial(
-  golem::add_js_file,
-  pkg = ".",
-  dir = "srcjs"
-)
+create_js <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
+                      dir_create = TRUE, with_doc_ready = TRUE, template = golem::js_template,
+                      ...) {
+  # Create JS file
+  golem::add_js_file(
+    name,
+    pkg,
+    dir ,
+    open,
+    dir_create,
+    with_doc_ready,
+    template,
+    ...
+  )
+
+  # Add entry to main.js
+  reference_script(name)
+}
 
 #' Create a css file
 #'

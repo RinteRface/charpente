@@ -107,3 +107,20 @@ process_template <- function(template, ..., where = system.file("utils", package
   }
   write_there(temp)
 }
+
+
+
+#' Add script.js to main.js entry point.
+#'
+#' Needed to keep the entry point up to date
+#'
+#' @param name Script name.
+#' @keywords internal
+reference_script <- function(name) {
+  write(
+    sprintf("import './%s.js'", name),
+    file = "./srcjs/main.js",
+    append = TRUE
+  )
+  ui_done("Script successfuly added to JS entry point!")
+}
