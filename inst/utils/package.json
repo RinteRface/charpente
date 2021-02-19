@@ -7,7 +7,7 @@
     "man": "man"
   },
   "scripts": {
-    "test": "mocha srcjs/test/test_basic.js",
+    "test": "mocha srcjs/test",
     "build-dev": "esbuild srcjs/<<entry_point>> --bundle --format=esm --outfile=inst/<<name>>-<<version>>/js/<<name>>.js",
     "build-prod": "esbuild srcjs/<<entry_point>> --bundle --minify --sourcemap --format=esm --outfile=inst/<<name>>-<<version>>/js/<<name>>.min.js"
   },
