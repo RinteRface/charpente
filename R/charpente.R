@@ -72,6 +72,10 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   dir.create("srcjs")
   file.create("./srcjs/main.js")
 
+  # Add mocha for tests
+  npm::npm_install("mocha", scope = "dev")
+  dir.create("srcjs/test")
+
   # Ignore files/folders: srcjs, node_modules, ...
   use_build_ignore("srcjs")
   use_build_ignore("node_modules")
