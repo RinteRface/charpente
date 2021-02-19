@@ -75,6 +75,16 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   # Add mocha for tests
   npm::npm_install("mocha", scope = "dev")
   dir.create("srcjs/test")
+  file.create("srcjs/test/test_basic.js")
+  writeLines(
+    "describe('Basic test', () => {
+      it('should not fail', (done) => {
+        done();
+      });
+    });
+    ",
+    "srcjs/test/test_basic.js"
+  )
 
   # Ignore files/folders: srcjs, node_modules, ...
   use_build_ignore("srcjs")
