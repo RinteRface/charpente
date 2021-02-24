@@ -87,10 +87,7 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   )
 
   # Ignore files/folders: srcjs, node_modules, ...
-  use_build_ignore("srcjs")
-  use_build_ignore("node_modules")
-  use_build_ignore("package.json")
-  use_build_ignore("package-lock.json")
+  use_build_ignore(c("srcjs", "node_modules", "package.json", "package-lock.json"))
 
   # version control
   use_git()

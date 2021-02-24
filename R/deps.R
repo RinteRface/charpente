@@ -181,88 +181,66 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #'
 #' @param name Package name.
 #' @param version Package version.
-#' @param script List of scripts to include. Assumes scripts are located at the root of the inst folder.
-#' @param stylesheet List of stylesheets to include. Assumes stylesheets are located at the root of the inst folder.
 #' @param open Whether to allow rstudioapi to open the newly created script. Default to TRUE.
 #' @param mode Internal. Don't use.
 #' @keywords Internal
-#'
-#' @examples
-#' \dontrun{
-#'  create_custom_dependency("custom", script = c("hello.js", "blabla.js"))
-#' }
-create_custom_dependency <- function(name, version, script = NULL, stylesheet = NULL,
-                                     open = interactive(), mode) {
+create_custom_dependency <- function(name, version, open = interactive(), mode) {
 
-  # TO DO: find a way to better handle CSS (like JS)
+  stylesheet <- NULL # remove when Sass workflow is supported!
+  script <- sprintf("js/%s%s.js", name, mode)
+
+  # need to overwrite path which was used before
+  path <- sprintf("R/%s-dependencies.R", name)
+  file_create(path)
+
+  # taken from golem ;)
+  write_there <- function(...){
+    write(..., file = path, append = TRUE)
+  }
+
+  # if we have multiple scripts/stylesheets
+  insert_multiple_lines <- function(what) {
+    lapply(seq_along(what), function (i) {
+      if (i == length(what)) {
+        write_there(sprintf('   "%s"', what[[i]]))
+      } else {
+        write_there(sprintf('   "%s",', what[[i]]))
+      }
+    })
+  }
+
+  # roxygen export
+  write_there(sprintf("#' %s dependencies utils", name))
+  write_there("#'")
+  write_there(sprintf("#' @description This function attaches %s dependencies to the given tag", name))
+  write_there("#'")
+  write_there("#' @param tag Element to attach the dependencies.")
+  write_there("#'")
+  write_there("#' @importFrom utils packageVersion")
+  write_there("#' @importFrom htmltools tagList htmlDependency")
+  write_there("#' @export")
+  # attach function
+  write_there(sprintf("add_%s_deps <- function(tag) {", name))
+
+  # htmlDependency content
+  write_there(sprintf(" %s_deps <- htmlDependency(", name))
+  write_there(sprintf('  name = "%s",', name))
+  write_there(sprintf('  version = "%s",', version))
+  write_there(sprintf('  src = c(file = "%s-%s"),', name, version))
+  write_there(sprintf('  script = "%s",', script))
   if (!is.null(stylesheet)) {
-    dir_path <- paste0("inst/", name, "-", version, "/css")
-    fs::dir_create(dir_path)
-    old_path <- system.file(paste0("inst/", stylesheet), package = name)
-    new_path <- system.file(dir_path, package = name)
-    fs::file_move(old_path, new_path)
+    stylesheet <- sprintf("css/%s%s.css", name, mode)
+    write_there(sprintf('  stylesheet = "%s",', stylesheet))
   }
+  write_there(sprintf('  package = "%s",', name))
+  # end deps
+  write_there(" )")
 
-
-  if (!is.null(script) || !is.null(stylesheet)) {
-
-    # need to overwrite path which was used before
-    path <- sprintf("R/%s-dependencies.R", name)
-    file_create(path)
-
-    # taken from golem ;)
-    write_there <- function(...){
-      write(..., file = path, append = TRUE)
-    }
-
-    # if we have multiple scripts/stylesheets
-    insert_multiple_lines <- function(what) {
-      lapply(seq_along(what), function (i) {
-        if (i == length(what)) {
-          write_there(sprintf('   "%s"', what[[i]]))
-        } else {
-          write_there(sprintf('   "%s",', what[[i]]))
-        }
-      })
-    }
-
-    # roxygen export
-    write_there(sprintf("#' %s dependencies utils", name))
-    write_there("#'")
-    write_there(sprintf("#' @description This function attaches %s dependencies to the given tag", name))
-    write_there("#'")
-    write_there("#' @param tag Element to attach the dependencies.")
-    write_there("#'")
-    write_there("#' @importFrom utils packageVersion")
-    write_there("#' @importFrom htmltools tagList htmlDependency")
-    write_there("#' @export")
-    # attach function
-    write_there(sprintf("add_%s_deps <- function(tag) {", name))
-
-    # htmlDependency content
-    write_there(sprintf(" %s_deps <- htmlDependency(", name))
-    write_there(sprintf('  name = "%s",', name))
-    write_there(sprintf('  version = "%s",', version))
-    write_there(sprintf('  src = c(file = "%s-%s"),', name, version))
-    if (!is.null(script)) {
-      script <- sprintf("js/%s%s.js", name, mode)
-      write_there(sprintf('  script = "%s",', script))
-    }
-    if (!is.null(stylesheet)) {
-      stylesheet <- sprintf("css/%s%s.css", name, mode)
-      write_there(sprintf('  stylesheet = "%s",', stylesheet))
-    }
-    write_there(sprintf('  package = "%s",', name))
-    # end deps
-    write_there(" )")
-
-    # attach deps
-    write_there(sprintf(" tagList(tag, %s_deps)", name))
-    # end function
-    write_there("}")
-    write_there("    ")
-  }
-
+  # attach deps
+  write_there(sprintf(" tagList(tag, %s_deps)", name))
+  # end function
+  write_there("}")
+  write_there("    ")
 
   # path to dependency
   if (open && rstudioapi::isAvailable()) rstudioapi::navigateToFile(path)

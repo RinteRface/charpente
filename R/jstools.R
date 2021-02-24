@@ -5,27 +5,15 @@
 #' or compression.
 #'
 #' @param dir Default to srcjs.
-#' @param files Use to specify custom order for files processing.
-#' Default to NULL.
 #' @param mode Production or development mode. Choose either "prod" or "dev".
 #' "prod" bundles, aggregates and minifyies files. "dev" only bundles the code.
 #' Modules follow the ES6 format (import/export).
 #' @param entry_point Required internally to setup the esbuild config.
 #' @export
 #' @importFrom utils tail packageVersion
-build_js <- function(dir = "srcjs", files = NULL, mode = c("prod", "dev"), entry_point = "main.js") {
+build_js <- function(dir = "srcjs", mode = c("prod", "dev"), entry_point = "main.js") {
 
   mode <- match.arg(mode)
-
-  customJS <- if (is.null(files)) {
-    list.files(
-      path = dir,
-      recursive = TRUE,
-      full.names = TRUE
-    )
-  } else {
-    files
-  }
 
   pkg_desc <- desc::description$new("./DESCRIPTION")$get(c("Package", "Version", "License"))
 
@@ -57,7 +45,6 @@ build_js <- function(dir = "srcjs", files = NULL, mode = c("prod", "dev"), entry
   create_custom_dependency(
     pkg_desc[1],
     pkg_desc[2],
-    script = customJS,
     open = FALSE,
     mode = file_mode
   )

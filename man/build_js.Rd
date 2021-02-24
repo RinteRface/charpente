@@ -4,18 +4,10 @@
 \alias{build_js}
 \title{Compress and optimize all files in the current folder}
 \usage{
-build_js(
-  dir = "srcjs",
-  files = NULL,
-  mode = c("prod", "dev"),
-  entry_point = "main.js"
-)
+build_js(dir = "srcjs", mode = c("prod", "dev"), entry_point = "main.js")
 }
 \arguments{
 \item{dir}{Default to srcjs.}
-
-\item{files}{Use to specify custom order for files processing.
-Default to NULL.}
 
 \item{mode}{Production or development mode. Choose either "prod" or "dev".
 "prod" bundles, aggregates and minifyies files. "dev" only bundles the code.
