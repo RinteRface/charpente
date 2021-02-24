@@ -14,14 +14,8 @@
 build_js <- function(dir = "srcjs", mode = c("prod", "dev"), entry_point = "main.js") {
 
   mode <- match.arg(mode)
-
   pkg_desc <- desc::description$new("./DESCRIPTION")$get(c("Package", "Version", "License"))
-
-  outputDir <- sprintf(
-    "inst/%s-%s/js",
-    pkg_desc[1],
-    pkg_desc[2]
-  )
+  outputDir <- sprintf("inst/%s-%s/js", pkg_desc[1], pkg_desc[2])
 
   # Configure package.json so that esbuild knows where to build the JS code
   process_template(
@@ -30,30 +24,17 @@ build_js <- function(dir = "srcjs", mode = c("prod", "dev"), entry_point = "main
     version = pkg_desc[2], # node does not support 0.1.0.9000
     license = pkg_desc[3]
   )
+
   # run esbuild
-  npm::npm_run(sprintf("run build-%s", mode))
-  ui_warn(sprintf("%s folder created ...", outputDir))
-  ui_done("JavaScript successfully processed!")
+  run_esbuild(mode, outputDir)
 
   # create custom dependency
-  file_mode <- if (mode == "dev") {
-    ""
-  } else if (mode == "prod") {
-    ".min"
-  }
-
   create_custom_dependency(
     pkg_desc[1],
     pkg_desc[2],
     open = FALSE,
-    mode = file_mode
+    mode = if (mode == "dev") "" else if (mode == "prod") ".min"
   )
-
-  if (!file.exists(sprintf("R/%s-dependencies.R", pkg_desc[1]))) {
-    ui_done("Dependency successfully created!")
-  } else {
-    ui_done("Dependency successfully updated!")
-  }
 }
 
 

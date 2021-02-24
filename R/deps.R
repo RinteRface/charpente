@@ -243,6 +243,11 @@ create_custom_dependency <- function(name, version, open = interactive(), mode) 
   write_there("    ")
 
   # path to dependency
+  if (!file.exists(sprintf("R/%s-dependencies.R", name))) {
+    ui_done("Dependency successfully created!")
+  } else {
+    ui_done("Dependency successfully updated!")
+  }
   if (open && rstudioapi::isAvailable()) rstudioapi::navigateToFile(path)
 }
 

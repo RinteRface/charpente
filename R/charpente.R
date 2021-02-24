@@ -58,47 +58,20 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
 
   # testthat
   use_testthat()
-  use_test("dummy-test")
+  use_test("dummy-test", open = FALSE)
 
   # Copy charpente-utils
-  fs::file_copy(
-    system.file("utils/charpente-utils.R", package = "charpente"),
-    sprintf("./R/%s-utils.R", pkg_name)
-  )
-
+  copy_charpente_utils(pkg_name)
 
   # Setup esbuild for JS code management
-  npm::npm_install("esbuild", scope = "dev")
-  dir.create("srcjs")
-  file.create("./srcjs/main.js")
-
+  set_esbuild()
   # Add mocha for tests
-  npm::npm_install("mocha", scope = "dev")
-  dir.create("srcjs/test")
-  file.create("srcjs/test/test_basic.js")
-  writeLines(
-    "describe('Basic test', () => {
-      it('should not fail', (done) => {
-        done();
-      });
-    });
-    ",
-    "srcjs/test/test_basic.js"
-  )
-
+  set_mocha()
   # Ignore files/folders: srcjs, node_modules, ...
   use_build_ignore(c("srcjs", "node_modules", "package.json", "package-lock.json"))
 
   # version control
-  use_git()
-  if (!is.null(remote)) {
-    repo_status <- if (private) "private" else "public"
-    #ui_info("Creating {ui_value(repo_status)} remote repository at {ui_value(remote)}")
-    use_github(remote, private, protocol = "ssh", auth_token = github_token())
-    use_github_action_check_full()
-    use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/pkgdown.yaml")
-    use_github_actions_badge()
-  }
+  set_version_control(remote, private)
 
   # only open the project at the end
   ui_warn("Opening new project in a new session ...")
