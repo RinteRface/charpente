@@ -8,25 +8,51 @@
 \alias{create_css}
 \title{Create a shiny custom input binding boilerplate}
 \usage{
-create_input_binding(...)
+create_input_binding(
+  name,
+  pkg = ".",
+  dir = "srcjs",
+  open = TRUE,
+  dir_create = TRUE,
+  initialize = FALSE,
+  dev = FALSE,
+  events = list(name = "click", rate_policy = FALSE),
+  add_reference = TRUE
+)
 
-create_output_binding(...)
+create_output_binding(
+  name,
+  pkg = ".",
+  dir = "srcjs",
+  open = TRUE,
+  dir_create = TRUE,
+  add_reference = TRUE
+)
 
 create_custom_handler(
   name,
   pkg = ".",
   dir = "srcjs",
   open = TRUE,
-  dir_create = TRUE
+  dir_create = TRUE,
+  add_reference = TRUE
 )
 
-create_js(...)
+create_js(
+  name,
+  pkg = ".",
+  dir = "srcjs",
+  open = TRUE,
+  dir_create = TRUE,
+  with_doc_ready = TRUE,
+  template = golem::js_template,
+  ...,
+  add_reference = TRUE
+)
 
 create_css(...)
 }
 \arguments{
-\item{...}{Arguments to be passed to the \code{template} function.}
-
 \item{name}{The name of the module}
 
 \item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
@@ -36,6 +62,27 @@ create_css(...)
 \item{open}{Should the file be opened?}
 
 \item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
+
+\item{initialize}{Whether to add the initialize method. Default to FALSE. Some JavaScript API
+require to initialize components before using them.}
+
+\item{dev}{Whether to insert console.log calls in the most important methods of the binding.
+This is only to help building the input binding. Default to FALSE}
+
+\item{events}{List of events to generate event listeners in the subscribe method. For instance,
+\code{list(name = c("click", "keyup"), rate_policy = c(FALSE, TRUE))}.
+The list contain names and rate policies to apply to each event. If a rate policy is found,
+the debounce method with a default delay of 250 ms is applied. You may edit manually according to
+\url{https://shiny.rstudio.com/articles/building-inputs.html}.}
+
+\item{add_reference}{Whether to add an import statement in main.js. Defaults to TRUE.}
+
+\item{with_doc_ready}{Should the default file include \verb{$( document ).ready()}?}
+
+\item{template}{Function writing in the created file.
+You may overwrite this with your own template function.}
+
+\item{...}{Arguments to be passed to the \code{template} function.}
 }
 \description{
 Creates a script in inst and the R part in ./R

@@ -4,20 +4,12 @@
 \alias{create_custom_dependency}
 \title{Imports Internal Dependencies}
 \usage{
-create_custom_dependency(
-  name,
-  script = NULL,
-  stylesheet = NULL,
-  open = interactive(),
-  mode
-)
+create_custom_dependency(name, version, open = interactive(), mode)
 }
 \arguments{
-\item{name}{Name of library.}
+\item{name}{Package name.}
 
-\item{script}{List of scripts to include. Assumes scripts are located at the root of the inst folder.}
-
-\item{stylesheet}{List of stylesheets to include. Assumes stylesheets are located at the root of the inst folder.}
+\item{version}{Package version.}
 
 \item{open}{Whether to allow rstudioapi to open the newly created script. Default to TRUE.}
 
@@ -25,10 +17,5 @@ create_custom_dependency(
 }
 \description{
 Wrap internal scripts and stylesheets in one \link[htmltools]{htmlDependency}.
-}
-\examples{
-\dontrun{
- create_custom_dependency("custom", script = c("hello.js", "blabla.js"))
-}
 }
 \keyword{Internal}

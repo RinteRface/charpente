@@ -20,12 +20,15 @@
 #' }
 create_charpente <- function(path, remote = NULL, private = FALSE, license) {
 
+  pkg_name <- tail(strsplit(path, "/")[[1]], 1)
   # create package + project but don't open until all files are added
   create_package(
     path,
     # To add pkg imports, remotes, ...
     fields = list(
-      Imports = "shiny, htmltools, utils"
+      Package = pkg_name,
+      Imports = "shiny, htmltools, utils",
+      Version = "0.0.0.9000"
     ),
     rstudio = rstudioapi::isAvailable(),
     roxygen = TRUE,
@@ -33,7 +36,6 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
     open = FALSE
   )
 
-  pkg_name <- tail(strsplit(path, "/")[[1]], 1)
   ui_done("Package {ui_value(pkg_name)} successfuly created!")
 
   # set new wd
@@ -56,28 +58,20 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
 
   # testthat
   use_testthat()
-  use_test("dummy-test")
+  use_test("dummy-test", open = FALSE)
 
   # Copy charpente-utils
-  fs::file_copy(
-    system.file("utils/charpente-utils.R", package = "charpente"),
-    sprintf("./R/%s-utils.R", pkg_name)
-  )
+  copy_charpente_utils(pkg_name)
 
-  # Ignore files/folders: srcjs is the only 1 non standard folder that can
-  # be created by charpente
-  use_build_ignore("srcjs")
+  # Setup esbuild for JS code management
+  set_esbuild()
+  # Add mocha for tests
+  set_mocha()
+  # Ignore files/folders: srcjs, node_modules, ...
+  use_build_ignore(c("srcjs", "node_modules", "package.json", "package-lock.json"))
 
   # version control
-  use_git()
-  if (!is.null(remote)) {
-    repo_status <- if (private) "private" else "public"
-    #ui_info("Creating {ui_value(repo_status)} remote repository at {ui_value(remote)}")
-    use_github(remote, private, protocol = "ssh", auth_token = github_token())
-    use_github_action_check_full()
-    use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/pkgdown.yaml")
-    use_github_actions_badge()
-  }
+  set_version_control(remote, private)
 
   # only open the project at the end
   ui_warn("Opening new project in a new session ...")
