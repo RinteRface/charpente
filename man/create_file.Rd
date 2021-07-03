@@ -53,31 +53,33 @@ create_js(
 create_css(...)
 }
 \arguments{
-\item{name}{The name of the module}
+\item{name}{The name of the module.}
 
 \item{pkg}{Path to the root of the package. Default is \code{get_golem_wd()}.}
 
 \item{dir}{Path to the dir where the file while be created.}
 
-\item{open}{Should the file be opened?}
+\item{open}{Should the created file be opened?}
 
 \item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
 
-\item{initialize}{Whether to add the initialize method. Default to FALSE. Some JavaScript API
-require to initialize components before using them.}
+\item{initialize}{For JS file - Whether to add the initialize method.
+Default to FALSE. Some JavaScript API require to initialize components
+before using them.}
 
-\item{dev}{Whether to insert console.log calls in the most important methods of the binding.
-This is only to help building the input binding. Default to FALSE}
+\item{dev}{Whether to insert console.log calls in the most important
+methods of the binding. This is only to help building the input binding.
+Default is FALSE.}
 
-\item{events}{List of events to generate event listeners in the subscribe method. For instance,
-\code{list(name = c("click", "keyup"), rate_policy = c(FALSE, TRUE))}.
+\item{events}{List of events to generate event listeners in the subscribe method.
+For instance, \code{list(name = c("click", "keyup"), rate_policy = c(FALSE, TRUE))}.
 The list contain names and rate policies to apply to each event. If a rate policy is found,
 the debounce method with a default delay of 250 ms is applied. You may edit manually according to
-\url{https://shiny.rstudio.com/articles/building-inputs.html}.}
+\url{https://shiny.rstudio.com/articles/building-inputs.html}}
 
 \item{add_reference}{Whether to add an import statement in main.js. Defaults to TRUE.}
 
-\item{with_doc_ready}{Should the default file include \verb{$( document ).ready()}?}
+\item{with_doc_ready}{For JS file - Should the default file include \verb{$( document ).ready()}?}
 
 \item{template}{Function writing in the created file.
 You may overwrite this with your own template function.}

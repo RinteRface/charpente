@@ -11,10 +11,11 @@ set_pwa(
   description = "What it does!",
   lang = "en-US",
   startUrl = "/",
-  display = c("minimal-ui", "standalone", "fullscreen", "browser"),
+  display = c("standalone", "minimal-ui", "fullscreen", "browser"),
   background_color = "#ffffff",
   theme_color = "#ffffff",
-  register_service_worker = TRUE
+  register_service_worker = TRUE,
+  create_dependencies = TRUE
 )
 }
 \arguments{
@@ -39,6 +40,10 @@ In practice, you want the standalone mode so that the app looks like a native ap
 
 \item{register_service_worker}{Whether to register the service worker. Default to
 TRUE. Don't change the file name of service-worker.js!!!}
+
+\item{create_dependencies}{Default to TRUE. Relevant if used in a shinyMobile context.
+If used outside, you must set it to FALSE and handle the dependencies
+yourself.}
 }
 \description{
 Creates a web manifest, service-worker.js, icons and set the

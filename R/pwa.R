@@ -7,12 +7,15 @@
 #' @inheritParams create_manifest
 #' @param register_service_worker Whether to register the service worker. Default to
 #' TRUE. Don't change the file name of service-worker.js!!!
+#' @param create_dependencies Default to TRUE. Relevant if used in a shinyMobile context.
+#' If used outside, you must set it to FALSE and handle the dependencies
+#' yourself.
 #' @export
 set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
                     description = "What it does!", lang = "en-US",
-                    startUrl = "/", display = c("minimal-ui", "standalone", "fullscreen", "browser"),
+                    startUrl = "/", display = c("standalone", "minimal-ui", "fullscreen", "browser"),
                     background_color = "#ffffff", theme_color = "#ffffff",
-                    register_service_worker = TRUE) {
+                    register_service_worker = TRUE, create_dependencies = TRUE) {
 
   # Create the manifest
   create_manifest(
@@ -26,13 +29,15 @@ set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
     theme_color = theme_color
   )
 
-  # download the Google pwacompat script and make it a dependency
-  create_dependency("pwacompat", options = charpente_options(bundle = FALSE))
+  if (create_dependencies) {
+    # download the Google pwacompat script and make it a dependency
+    create_dependency("pwacompat", options = charpente_options(bundle = FALSE))
 
-  # Link manifest + icons + ...
-  create_pwa_dependency()
+    # Link manifest + icons + ...
+    create_pwa_dependency()
+  }
 
-  # copy service worker + offline templates
+  # copy service worker + offline templates + icons
   fs::file_copy(
     system.file("pwa-utils/js/service-worker.js", package = "charpente"),
     paste0(path, "/www")
@@ -40,6 +45,10 @@ set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
   fs::file_copy(
     system.file("pwa-utils/html/offline.html", package = "charpente"),
     paste0(path, "/www")
+  )
+  fs::dir_copy(
+    system.file("pwa-utils/icons", package = "charpente"),
+    paste0(path, "/www/icons")
   )
   ui_done("pwa-utils successfully copied to /www!")
 
@@ -162,7 +171,7 @@ create_pwa_dependency <- function(open = interactive()) {
 #' )
 create_manifest <- function(path, name = "My Progressive Web App", shortName = "My App",
                             description = "What it does!", lang = "en-US",
-                            startUrl = "/", display = c("minimal-ui", "standalone", "fullscreen", "browser"),
+                            startUrl = "/", display = c("standalone", "minimal-ui", "fullscreen", "browser"),
                             background_color = "#ffffff", theme_color = "#ffffff") {
 
   display <- match.arg(display)
@@ -176,9 +185,27 @@ create_manifest <- function(path, name = "My Progressive Web App", shortName = "
     display = display,
     background_color = background_color,
     theme_color = theme_color,
-    icons = data.frame(
-      src = "icons/icon-144.png",
-      sizes = "144x144"
+    icons = list( # array
+      # icon 1
+      list(
+        src = "icons/icon-144.png",
+        sizes = "144x144"
+      )
+    ),
+    shortcuts = list( # array
+      # shortcut 1
+      list(
+        name = "Shortcut",
+        short_name = "Shortcut",
+        description =  "Do something",
+        url =  "https://dgranjon.shinyapps.io/shinyMobileGolemTest/?foo=1",
+        icons = list(
+          list(
+            src = "icons/shortcut.png",
+            sizes = "192x192"
+          )
+        )
+      )
     )
   )
 

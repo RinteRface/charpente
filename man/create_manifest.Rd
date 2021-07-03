@@ -11,7 +11,7 @@ create_manifest(
   description = "What it does!",
   lang = "en-US",
   startUrl = "/",
-  display = c("minimal-ui", "standalone", "fullscreen", "browser"),
+  display = c("standalone", "minimal-ui", "fullscreen", "browser"),
   background_color = "#ffffff",
   theme_color = "#ffffff"
 )
