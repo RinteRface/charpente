@@ -131,10 +131,11 @@ Must not be used from the package root but from the app root.</p>
   description <span class='op'>=</span> <span class='st'>"What it does!"</span>,
   lang <span class='op'>=</span> <span class='st'>"en-US"</span>,
   startUrl <span class='op'>=</span> <span class='st'>"/"</span>,
-  display <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"minimal-ui"</span>, <span class='st'>"standalone"</span>, <span class='st'>"fullscreen"</span>, <span class='st'>"browser"</span><span class='op'>)</span>,
+  display <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"standalone"</span>, <span class='st'>"minimal-ui"</span>, <span class='st'>"fullscreen"</span>, <span class='st'>"browser"</span><span class='op'>)</span>,
   background_color <span class='op'>=</span> <span class='st'>"#ffffff"</span>,
   theme_color <span class='op'>=</span> <span class='st'>"#ffffff"</span>,
-  register_service_worker <span class='op'>=</span> <span class='cn'>TRUE</span>
+  register_service_worker <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  create_dependencies <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -181,6 +182,12 @@ In practice, you want the standalone mode so that the app looks like a native ap
       <th>register_service_worker</th>
       <td><p>Whether to register the service worker. Default to
 TRUE. Don't change the file name of service-worker.js!!!</p></td>
+    </tr>
+    <tr>
+      <th>create_dependencies</th>
+      <td><p>Default to TRUE. Relevant if used in a shinyMobile context.
+If used outside, you must set it to FALSE and handle the dependencies
+yourself.</p></td>
     </tr>
     </table>
 
