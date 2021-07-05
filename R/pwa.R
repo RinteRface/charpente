@@ -35,6 +35,8 @@ set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
 
     # Link manifest + icons + ...
     create_pwa_dependency()
+    # Provide user prescription (update add_dependencies deps)
+    ui_todo("Don't forget to update the dependencies in add_dependencies!")
   }
 
   # copy service worker + offline templates + icons
@@ -69,9 +71,6 @@ set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
     write(js_code, "srcjs/sw-register.js")
     reference_script("sw-register")
   }
-
-  # Provide user prescription (update add_dependencies deps)
-  ui_todo("Don't forget to update the dependencies in add_dependencies!")
 }
 
 
