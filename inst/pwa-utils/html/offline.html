@@ -1,44 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>You are offline</title>
-
-    <!-- inline the webpage's stylesheet -->
-    <style>
-      body {
-        font-family: helvetica, arial, sans-serif;
-        margin: 2em;
-      }
-
-      h1 {
-        font-style: italic;
-        color: #373fff;
-      }
-
-      p {
-        margin-block: 1rem;
-      }
-
-      button {
-        display: block;
-      }
-    </style>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Color theme for statusbar (Android only) -->
+    <meta name="theme-color" content="#2196f3">
+    <!-- Your app title -->
+    <title>Oups</title>
+    <!-- Path to Framework7 Library Bundle CSS -->
+    <link rel="stylesheet" href="framework7-5.7.14/css/framework7.bundle.min.css">
+    <!-- Path to your custom app styles-->
   </head>
   <body>
-    <h1>You are offline</h1>
+    <!-- App root element -->
+    <div id="app">
 
-    <p>Click the button below to try reloading.</p>
-    <button type="button">⤾ Reload</button>
+      <!-- Your main view, should have "view-main" class -->
+      <div class="view view-main">
+        <!-- Initial Page, "data-name" contains page name -->
+        <div data-name="home" class="page">
 
-    <!-- inline the webpage's javascript file -->
+          <!-- Top Navbar -->
+          <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner">
+              <div class="title">Offline page</div>
+            </div>
+          </div>
+
+          <!-- Bottom Toolbar -->
+          <div class="toolbar toolbar-bottom">
+            <div class="toolbar-inner">
+              <!-- Toolbar links -->
+              <a href="#" class="link">Link 1</a>
+              <a href="#" class="link">Link 2</a>
+            </div>
+          </div>
+
+          <!-- Scrollable page content -->
+          <div class="page-content">
+            <div class="block">
+              <p>Welcome to the offline page</p>
+              <button onclick="location.reload();" class="toast-button button color-red col">Reload</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script type="text/javascript" src="shared/jquery.min.js"></script>
+    <!-- Path to Framework7 Library Bundle JS -->
+    <script type="text/javascript" src="framework7-5.7.14/js/framework7.bundle.min.js"></script>
+    <!-- Path to your app js -->
     <script>
-      document.querySelector("button").addEventListener("click", () => {
-        window.location.reload();
+      var app = new Framework7({
+        // App root element
+        root: '#app',
+        // App Name
+        name: 'My App',
+        // App id
+        id: 'com.myapp.test',
+        // Enable swipe panel
+        panel: {
+          swipe: true,
+        },
+        autoDarkTheme: true,
+        // ... other parameters
       });
+
+      var mainView = app.views.create('.view-main');
+
+      // Few tweaks
+      if (Framework7.device.standalone) {
+        $("html, body").css({ height: "100vh", width: "100vw" });
+        if ($(".appbar").length > 0) {
+          $(".toolbar").css("margin-bottom", "20px");
+        }
+      }
     </script>
   </body>
 </html>
