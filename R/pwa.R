@@ -42,15 +42,18 @@ set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
   # copy service worker + offline templates + icons
   fs::file_copy(
     system.file("pwa-utils/js/service-worker.js", package = "charpente"),
-    paste0(path, "/www")
+    paste0(path, "/www"),
+    overwrite = TRUE
   )
   fs::file_copy(
     system.file("pwa-utils/html/offline.html", package = "charpente"),
-    paste0(path, "/www")
+    paste0(path, "/www"),
+    overwrite = TRUE
   )
   fs::dir_copy(
     system.file("pwa-utils/icons", package = "charpente"),
-    paste0(path, "/www/icons")
+    paste0(path, "/www/icons"),
+    overwrite = TRUE
   )
   ui_done("pwa-utils successfully copied to /www!")
 
