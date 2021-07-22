@@ -53,23 +53,6 @@ validate_width <- function(width) {
 }
 
 
-# Given a Shiny tag object, process singletons and dependencies. Returns a list
-# with rendered HTML and dependency objects.
-processDeps <- function(tags, session) {
-  ui <- htmltools::takeSingletons(tags, session$singletons, desingleton=FALSE)$ui
-  ui <- htmltools::surroundSingletons(ui)
-  dependencies <- lapply(
-    htmltools::resolveDependencies(htmltools::findDependencies(ui)),
-    shiny::createWebDependency
-  )
-  names(dependencies) <- NULL
-
-  list(
-    html = htmltools::doRenderTags(ui),
-    deps = dependencies
-  )
-}
-
 
 
 # Return TRUE if a shiny.tag object has a CSS class, FALSE otherwise.
