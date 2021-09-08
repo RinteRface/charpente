@@ -135,6 +135,19 @@ reference_script <- function(name) {
 #' @return Installs esbuild in node_modules (dev scope), creates srcjs + srcjs/main.js
 #' @keywords internal
 set_esbuild <- function() {
+
+  pkg_desc <- desc::description$
+    new("./DESCRIPTION")$
+    get(c("Package", "Version", "License"))
+
+  # Pull package.json
+  process_template(
+    "package.json",
+    name = pkg_desc[1],
+    version = pkg_desc[2], # node does not support 0.1.0.9000
+    license = pkg_desc[3]
+  )
+
   npm::npm_install("esbuild", scope = "dev")
   dir.create("srcjs")
   file.create("./srcjs/main.js")

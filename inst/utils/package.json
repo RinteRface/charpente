@@ -2,6 +2,7 @@
   "name": "<<name>>",
   "version": "<<split_version>>",
   "description": "",
+  "private": true,
   "main": "<<entry_point>>",
   "directories": {
     "man": "man"
