@@ -200,7 +200,7 @@ create_manifest <- function(path, name = "My Progressive Web App", shortName = "
         name = "Shortcut",
         short_name = "Shortcut",
         description =  "Do something",
-        url =  "https://dgranjon.shinyapps.io/shinyMobileGolemTest/?foo=1",
+        url =  "/?foo=1",
         icons = list(
           list(
             src = "icons/shortcut.png",
