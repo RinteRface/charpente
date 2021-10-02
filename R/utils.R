@@ -118,7 +118,7 @@ process_template <- function(template, ..., where = system.file("utils", package
 #' @keywords internal
 reference_script <- function(name) {
   write(
-    sprintf("import './%s.js;'", name),
+    sprintf("import './%s.js';", name),
     file = "./srcjs/main.js",
     append = TRUE
   )
