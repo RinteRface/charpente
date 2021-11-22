@@ -188,12 +188,18 @@ set_mocha <- function() {
 set_version_control <- function(remote, private) {
   use_git()
   if (!is.null(remote)) {
-    repo_status <- if (private) "private" else "public"
-    #ui_info("Creating {ui_value(repo_status)} remote repository at {ui_value(remote)}")
-    use_github(remote, private, protocol = "ssh", auth_token = github_token())
-    use_github_action_check_full()
-    use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/pkgdown.yaml")
-    use_github_actions_badge()
+    # handle new GH tokens
+    if (nchar(gh::gh_token()) > 0) {
+      repo_status <- if (private) "private" else "public"
+      #ui_info("Creating {ui_value(repo_status)} remote repository at {ui_value(remote)}")
+      use_github(remote, private, protocol = "ssh", auth_token = gh::gh_token())
+      use_github_action_check_full()
+      use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/pkgdown.yaml")
+      use_github_actions_badge()
+    } else {
+      ui_warn("Please create a valid Github token (see usethis::gh_token_help()) and restart.")
+      return()
+    }
   }
 }
 
