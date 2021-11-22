@@ -49,7 +49,7 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   eval(parse(text = paste0("use_", license, "_license()")))
   use_cran_comments(FALSE)
   use_readme_md(FALSE)
-  use_code_of_conduct()
+  use_code_of_conduct(contact = "<YOUR_MAIL>")
   use_news_md(FALSE)
 
   # readme badges
