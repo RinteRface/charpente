@@ -20,7 +20,7 @@ create_input_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
   )
 
   # Add entry to main.js
-  if (add_reference) reference_script(name)
+  if (add_reference) reference_script(sprintf('input-%s',name))
 }
 
 #' Create a shiny output binding boilerplate
@@ -40,7 +40,7 @@ create_output_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
   )
 
   # Add entry to main.js
-  if (add_reference) reference_script(name)
+  if (add_reference) reference_script(sprintf('output-%s',name))
 }
 
 #' Create a shiny custom handler boilerplate
