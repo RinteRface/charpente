@@ -30,7 +30,11 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::., github::JohnCoene/npm
+          extra-packages:
+            any::pkgdown,
+            local::.,
+            github::devOpifex/erratum,
+            github::JohnCoene/npm
           needs: website
 
       - name: Build site
