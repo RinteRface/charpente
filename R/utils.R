@@ -192,8 +192,8 @@ set_version_control <- function(remote, private) {
     if (nchar(gh::gh_token()) > 0) {
       repo_status <- if (private) "private" else "public"
       #ui_info("Creating {ui_value(repo_status)} remote repository at {ui_value(remote)}")
-      use_github(remote, private, protocol = "ssh", auth_token = gh::gh_token())
-      use_github_action_check_full()
+      use_github(remote, private, protocol = "ssh")
+      use_github_action_check_standard()
       use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/pkgdown.yaml")
       use_github_actions_badge()
     } else {
