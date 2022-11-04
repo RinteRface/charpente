@@ -69,6 +69,7 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   set_mocha()
   # Ignore files/folders: srcjs, node_modules, ...
   use_build_ignore(c("srcjs", "node_modules", "package.json", "package-lock.json"))
+  use_git_ignore("node_modules")
 
   # version control
   set_version_control(remote, private)
