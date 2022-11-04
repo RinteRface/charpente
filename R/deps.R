@@ -113,6 +113,10 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 
     # write in the file
     tag <- strsplit(utils::tail(strsplit(assets$url, "@")[[1]], n = 1), "/")[[1]][1]
+
+    # Replace any - in name by _ since - is not handled in R function names
+    func_name <- gsub("-", "_", name)
+
     # roxygen export tag
     write_there(sprintf("#' %s dependencies utils", name))
     write_there("#'")
@@ -123,10 +127,10 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     write_there("#' @importFrom htmltools tagList htmlDependency")
     write_there("#' @export")
     # attach function
-    write_there(sprintf("add_%s_deps <- function(tag) {", name))
+    write_there(sprintf("add_%s_deps <- function(tag) {", func_name))
 
     # htmlDependency content
-    write_there(sprintf(" %s_deps <- htmlDependency(", name))
+    write_there(sprintf(" %s_deps <- htmlDependency(", func_name))
     write_there(sprintf('  name = "%s",', name))
     write_there(sprintf('  version = "%s",', tag))
     if (options$local) {
@@ -159,7 +163,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     write_there(" )")
 
     # attach deps
-    write_there(sprintf(" tagList(tag, %s_deps)", name))
+    write_there(sprintf(" tagList(tag, %s_deps)", func_name))
     # end function
     write_there("}")
     write_there("    ")
