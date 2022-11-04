@@ -563,8 +563,8 @@ get_dependency_assets <- function(dep, tag = "latest") {
       temp <- do.call(rbind, temp$files)
     }
     list(url = paste0(url, "dist/"), files = temp[, c("name", "hash")], hasSubfolders = hasSubfolders)
-  } else if ("css" %in% temp$name || "js" %in% temp$name) {
-    temp <- temp[temp$name %in% c("css", "js"), "files"]
+  } else if (any(c("css", "styles") %in% temp$name) || "js" %in% temp$name) {
+    temp <- temp[temp$name %in% c("css", "styles", "js"), "files"]
     if (inherits(temp, "list")) temp <- do.call(rbind, temp)
     list(url = url, files = temp[, c("name", "hash")], hasSubfolders = TRUE)
   } else {
