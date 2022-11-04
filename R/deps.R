@@ -99,14 +99,15 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     # may be different from the local file location), only for
     # local option!
     if (options$local) {
-      # remove /dist for bootstrap
-      scripts <- utils::tail(strsplit(scripts, "/")[[1]], n = 1)
-      stylesheets <- utils::tail(strsplit(stylesheets, "/")[[1]], n = 1)
 
       if (!is.null(scripts)) {
+        # remove /dist for bootstrap
+        scripts <- utils::tail(strsplit(scripts, "/")[[1]], n = 1)
         if (length(grep("js/", scripts)) == 0) scripts <- file.path("js", scripts)
       }
       if (!is.null(stylesheets)) {
+        # remove /dist for bootstrap
+        stylesheets <- utils::tail(strsplit(stylesheets, "/")[[1]], n = 1)
         if (length(grep("css/", stylesheets)) == 0) stylesheets <- file.path("css", stylesheets)
       }
     }
