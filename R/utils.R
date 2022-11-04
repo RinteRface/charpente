@@ -194,7 +194,7 @@ set_version_control <- function(remote, private) {
       #ui_info("Creating {ui_value(repo_status)} remote repository at {ui_value(remote)}")
       use_github(remote, private, protocol = "ssh")
       use_github_action_check_standard()
-      use_github_action(url = "https://raw.githubusercontent.com/r-lib/actions/master/examples/pkgdown.yaml")
+      use_github_action(name = "pkgdown.yaml")
       use_github_actions_badge()
     } else {
       ui_warn("Please create a valid Github token (see usethis::gh_token_help()) and restart.")
