@@ -31,7 +31,7 @@ set_pwa <- function(path, name = "My Progressive Web App", shortName = "My App",
 
   if (create_dependencies) {
     # download the Google pwacompat script and make it a dependency
-    create_dependency("pwacompat", options = charpente_options(bundle = FALSE))
+    create_dependency("pwacompat")
 
     # Link manifest + icons + ...
     create_pwa_dependency()

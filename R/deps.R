@@ -31,11 +31,7 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
   if (is.null(tag)) tag <- get_dependency_versions(name, TRUE)
   assets <- get_dependency_assets(name, tag)
 
-  if (inherits(assets$files, "data.frame")) {
-    if (nrow(assets$files) == 0) {
-      stop(sprintf("No assets found for %s", name))
-    }
-  } else {
+  if (inherits(assets$files, "list")) {
     if (length(assets$files) == 0) {
       stop(sprintf("No assets found for %s", name))
     }
@@ -50,8 +46,8 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
   path <- sprintf("inst/%s-%s", name, tag)
 
   # select assets
-  scripts <- select_asset(assets$files, "js", name, nested = assets$hasSubfolders, options)
-  stylesheets <- select_asset(assets$files, "css", name, nested = assets$hasSubfolders, options)
+  scripts <- assets$files$js$file
+  stylesheets <- assets$files$css$file
 
   # Handle case like @vizuaalog/bulmajs
 
@@ -103,11 +99,15 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
     # may be different from the local file location), only for
     # local option!
     if (options$local) {
+      # remove /dist for bootstrap
+      scripts <- utils::tail(strsplit(scripts, "/")[[1]], n = 1)
+      stylesheets <- utils::tail(strsplit(stylesheets, "/")[[1]], n = 1)
+
       if (!is.null(scripts)) {
-        if (length(grep("js/", scripts[1])) == 0) scripts <- paste0("js/", scripts)
+        if (length(grep("js/", scripts)) == 0) scripts <- file.path("js", scripts)
       }
       if (!is.null(stylesheets)) {
-        if (length(grep("css/", stylesheets[1])) == 0) stylesheets <- paste0("css/", stylesheets)
+        if (length(grep("css/", stylesheets)) == 0) stylesheets <- file.path("css", stylesheets)
       }
     }
 
@@ -365,87 +365,12 @@ find_dep_file <- function(name) {
 #' Configure charpente
 #'
 #' @param local Whether to download files locally or to point to a CDN. Default to TRUE.
-#' @param minified Whether to download minified files. Default to TRUE. Set to FALSE should you need
-#' all files.
-#' @param bundle Some libraries like Bootstrap provide bundles containing all components.
-#' If bundle is TRUE, the download will target only those files.
-#' @param lite Some libraries like framework7 propose lite version of the scripts.
-#' Default to FALSE.
-#' @param rtl Some templates provide a right to left design. Disabled by default.
 #'
 #' @return A list of options.
 #' @export
-charpente_options <- function(local = TRUE, minified = TRUE, bundle = FALSE, lite = FALSE,
-                              rtl = FALSE) {
-  list(
-    local = local,
-    minified = minified,
-    bundle = bundle,
-    lite = lite,
-    rtl = rtl
-  )
+charpente_options <- function(local = TRUE) {
+  list(local = local)
 }
-
-
-
-#' Select a specific type of asset
-#'
-#' @param assets Dataframe of assets.
-#' @param type Type to extract. Could be js, css, ...
-#' @param name Library name.
-#' @param nested Whether assets are in a subfolder.
-#' @param options See \link{charpente_options}.
-#'
-#' @return A vector
-#' @noRd
-#' @keywords internal
-select_asset <- function(assets, type, name, nested, options) {
-  # TO DO: fine tune the regex -> maybe people only want minified files, maybe they
-  # want everything, ...
-
-  regex <- "^(?!.*map)"
-
-  if (options$lite) {
-    regex <- paste0(regex, "(?=.*lite)")
-  } else {
-    regex <- paste0(regex, "(?!.*lite)")
-  }
-
-  if (options$bundle) {
-    regex <- paste0(regex, "(?=.*bundle)")
-  } else {
-    regex <- paste0(regex, "(?!.*bundle)")
-  }
-
-  if (options$rtl) {
-    regex <- paste0(regex, "(?=.*rtl)")
-  } else {
-    regex <- paste0(regex, "(?!.*rtl)")
-  }
-
-  if (options$minified) {
-    regex <- paste0(regex, "(?=.*min)")
-  } else {
-    regex <- paste0(regex, "(?!.*min)")
-  }
-
-  regex <- paste0(regex, sprintf("(?=.*%s)", type))
-  if (inherits(assets, "data.frame")) {
-    selected_assets <- assets[grep(regex, assets$name, perl = TRUE), ]$name
-  } else if (is.atomic(assets)) {
-    selected_assets <- assets[grep(regex, assets, perl = TRUE)]
-  }
-
-  # this will prevent to create a directory for nothing
-  if (length(selected_assets) == 0) return(NULL)
-  if (nested) {
-    paste(type, selected_assets, sep = "/")
-  } else {
-    paste(selected_assets, sep = "/")
-  }
-
-}
-
 
 #' Creates Assets Directories
 #'
@@ -549,42 +474,10 @@ get_dependency_assets <- function(dep, tag = "latest") {
   # get all js and css assets from jsdelivr
   cdn <- "https://data.jsdelivr.com/v1/package/npm/"
   if (tag == "latest") tag <- get_dependency_versions(dep, latest = TRUE)
-  temp <- jsonlite::fromJSON(sprintf("%s%s@%s", cdn, dep, tag))$files
+  entrypoints <- jsonlite::fromJSON(sprintf("%s%s@%s/entrypoints", cdn, dep, tag))
 
   download_endpoint <- "https://cdn.jsdelivr.net/npm/"
-  url <- sprintf("%s%s@%s/", download_endpoint, dep, tag)
+  url <- sprintf("%s%s@%s", download_endpoint, dep, tag)
 
-  # bootstrap has a dist folder
-  if ("dist" %in% temp$name) {
-    temp <- temp[temp$name == "dist", "files"][[1]]
-    hasSubfolders <- inherits(temp$files, "list")
-    if (hasSubfolders) {
-      temp <- temp[temp$name %in% c("js", "css"), ]
-      temp <- do.call(rbind, temp$files)
-    }
-    list(url = paste0(url, "dist/"), files = temp[, c("name", "hash")], hasSubfolders = hasSubfolders)
-  } else if (any(c("css", "styles") %in% temp$name) || "js" %in% temp$name) {
-    temp <- temp[temp$name %in% c("css", "styles", "js"), "files"]
-    if (inherits(temp, "list")) temp <- do.call(rbind, temp)
-    list(url = url, files = temp[, c("name", "hash")], hasSubfolders = TRUE)
-  } else {
-    list(url = url, files = temp$name, hasSubfolders = FALSE)
-  }
+  list(url = url, files = entrypoints)
 }
-
-
-
-#fromJSON("https://data.jsdelivr.com/v1/package/npm/framework7@5.7.12") %>%
-#  tibble::as_tibble() %>%
-#  dplyr::filter(files$name %in% c("css", "js")) %>%
-#  dplyr::mutate(
-#    files = files$files,
-#    name = files$name
-#  ) %>%
-#  dplyr::select(files) %>%
-#  tidyr::unnest(c(files)) %>%
-#  dplyr::select(name, hash)
-
-
-
-
