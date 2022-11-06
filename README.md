@@ -13,7 +13,8 @@ The goal of `{charpente}` is to significantly reduce the complexity of creating 
   - `{charpente}` automatically import dependencies from [jsdelivr](https://www.jsdelivr.com/), so that you don't have to do it by hand! 
   - `{charpente}` eases the conversion from HTML to R.
   - `{charpente}` offers multiple R and JS boilerplate for `{shiny}` input bindings, `{shiny}` message handlers, ...
-  - `{charpente}` enable seamless JavaScript code management (powered by [esbuild](https://esbuild.github.io/)): concat, compress, mangle, bundle, minify, ...
+  - `{charpente}` enables seamless JavaScript code management (powered by [esbuild](https://esbuild.github.io/)): concat, compress, mangle, bundle, minify, ... for JS and
+  Sass code. 
 
 
 ## Installation
@@ -59,7 +60,7 @@ create_input_binding("myinput")
 # Create output binding
 create_output_binding("myoutput")
 
-# Compress JS for production
+# Compress JS and CSS (Sass) for production
 build_js()
 devtools::load_all()
 ```

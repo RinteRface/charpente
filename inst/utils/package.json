@@ -9,14 +9,17 @@
   },
   "scripts": {
     "test": "mocha srcjs/test",
-    "build-dev": "esbuild srcjs/<<entry_point>> --bundle --format=esm --outfile=inst/<<name>>-<<version>>/js/<<name>>.js",
-    "build-prod": "esbuild srcjs/<<entry_point>> --bundle --minify --sourcemap --format=esm --outfile=inst/<<name>>-<<version>>/js/<<name>>.min.js"
+    "build-dev": "node esbuild.dev.js",
+    "build-prod": "node esbuild.prod.js"
   },
   "keywords": [],
   "author": "",
   "license": "<<license>>",
   "devDependencies": {
     "esbuild": "^0.8.46",
+    "esbuild-sass-plugin": "^2.4.0",
+    "postcss",
+    "autoprefixer",
     "mocha": "^8.3.0"
   }
 }

@@ -94,7 +94,12 @@ process_template <- function(template, ..., where = system.file("utils", package
   temp <- glue::glue(
     readr::read_file(get_template(template, where)),
     name = pars$name,
-    split_version = paste(head(strsplit(pars$version, ".", fixed = TRUE)[[1]], -1), collapse = "."),
+    split_version = if (!is.null(version)) {
+      paste(
+        head(strsplit(pars$version, ".", fixed = TRUE)[[1]], -1),
+        collapse = "."
+      )
+    },
     version = pars$version,
     entry_point = "main.js",
     license = pars$license,
@@ -103,7 +108,7 @@ process_template <- function(template, ..., where = system.file("utils", package
   )
 
   write_there <- function(...) {
-    write(..., file = "./package.json", append = FALSE)
+    write(..., file = template, append = FALSE)
   }
   write_there(temp)
 }
@@ -125,16 +130,34 @@ reference_script <- function(name) {
   ui_done("Script successfuly added to JS entry point!")
 }
 
-
+#' Insert import into main SCSS file
+#'
+#' Useful to reference scss files into the main one.
+#'
+#' @param path Could be file.name or folder/file.name
+#'
+#' @keywords internal
+reference_style <- function(path) {
+  write(
+    sprintf("@import \"%s\";", path),
+    file = "./styles/main.scss",
+    append = TRUE
+  )
+  ui_done("Style file successfuly added to Sass entry point!")
+}
 
 
 #' Setup esbuild
 #'
 #' Installs esbuild for the local project
 #'
+#' @param light Used to only install Sass plugins. This is
+#' to workaround a breaking change in charpente where styles does
+#' not exist in old versions.
+#'
 #' @return Installs esbuild in node_modules (dev scope), creates srcjs + srcjs/main.js
 #' @keywords internal
-set_esbuild <- function() {
+set_esbuild <- function(light = FALSE) {
 
   pkg_desc <- desc::description$
     new("./DESCRIPTION")$
@@ -148,9 +171,25 @@ set_esbuild <- function() {
     license = pkg_desc[3]
   )
 
-  npm::npm_install("esbuild", scope = "dev")
-  dir.create("srcjs")
-  file.create("./srcjs/main.js")
+  npm::npm_install(
+    c(
+      # Don't re-install esbuild. This will install
+      # only missing Sass dependencies.
+      if (!light) "esbuild",
+      "esbuild-sass-plugin",
+      "postcss",
+      "autoprefixer"
+    ),
+    scope = "dev"
+  )
+  # If light, we don't want to recreate srcjs folder
+  # which has always been in charpente since the first release.
+  if (!light) {
+    dir.create("srcjs")
+    file.create("./srcjs/main.js")
+  }
+  dir.create("styles")
+  file.create("styles/main.scss")
 }
 
 
@@ -227,6 +266,24 @@ copy_charpente_utils <- function(pkg_name) {
 #' @param outputDir Output directory
 #' @keywords internal
 run_esbuild <- function(mode, outputDir) {
+  # styles did not exist in previous {charpent} versions
+  if (!dir.exists("styles")) {
+    # Only add missing pieces ...
+    set_esbuild(light = TRUE)
+  }
+
+  # Get pkg info
+  pkg_desc <- desc::description$
+    new("./DESCRIPTION")$
+    get(c("Package", "Version"))
+
+  # Recreate esbuild.prod/dev.js each time
+  process_template(
+    sprintf("esbuild.%s.js", mode),
+    name = pkg_desc[[1]],
+    version = pkg_desc[[2]]
+  )
+
   npm::npm_run(sprintf("run build-%s", mode))
   ui_warn(sprintf("%s folder created ...", outputDir))
   ui_done("JavaScript successfully processed!")

@@ -5,7 +5,7 @@
 #' @export
 #' @rdname create_file
 create_input_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
-                                 dir_create = TRUE, initialize = FALSE, dev = FALSE,
+                                 initialize = FALSE, dev = FALSE,
                                  events = list(name = "click", rate_policy = FALSE),
                                  add_reference = TRUE) {
   golem::add_js_input_binding(
@@ -30,7 +30,7 @@ create_input_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
 #' @export
 #' @rdname create_file
 create_output_binding <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
-                                  dir_create = TRUE, add_reference = TRUE) {
+                                  add_reference = TRUE) {
   golem::add_js_output_binding(
     name,
     pkg,
@@ -56,7 +56,6 @@ create_custom_handler <- function(
   pkg = ".",
   dir = "srcjs",
   open = TRUE,
-  dir_create = TRUE,
   add_reference = TRUE
 ) {
 
@@ -66,7 +65,7 @@ create_custom_handler <- function(
     pkg,
     dir,
     open,
-    dir_create,
+    dir_create = FALSE,
     template = charpente::js_handler_template(
       path = sprintf(paste0(dir, "/%s.js"), name),
       name = name
@@ -104,14 +103,15 @@ create_custom_handler <- function(
 #' @param add_reference Whether to add an import statement in main.js. Defaults to TRUE.
 #' @export
 #' @rdname create_file
-create_js <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
-                      dir_create = TRUE, with_doc_ready = TRUE, template = golem::js_template,
+create_js <- function(name, dir = "srcjs", open = TRUE,
+                      with_doc_ready = FALSE,
+                      template = golem::js_template,
                       ..., add_reference = TRUE) {
   # Create JS file
   golem::add_js_file(
     name,
-    pkg,
-    dir ,
+    pkg = ".",
+    dir,
     open,
     dir_create = FALSE,
     with_doc_ready,
@@ -123,13 +123,27 @@ create_js <- function(name, pkg = ".", dir = "srcjs", open = TRUE,
   if (add_reference) reference_script(name)
 }
 
-#' Create a css file
+#' Create a scss file
 #'
-#' @inheritParams golem::add_css_file
+#' @inheritParams golem::add_sass_file
 #' @export
 #' @rdname create_file
-create_css <- partial(
-  golem::add_css_file,
-  pkg = ".",
-  dir = "inst"
-)
+create_scss <- function(name, dir = "styles", open = TRUE,
+                      template = golem::sass_template,
+                      ..., add_reference = TRUE) {
+  # Create JS file
+  golem::add_sass_file(
+    name,
+    pkg = ".",
+    dir ,
+    open,
+    dir_create = FALSE,
+    template,
+    ...
+  )
+
+  file.rename(sprintf("%s/%s.sass", dir, name), sprintf("%s/%s.scss", dir, name))
+
+  # Import into main.scss
+  if (add_reference) reference_style(name)
+}

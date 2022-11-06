@@ -5,7 +5,7 @@
 \alias{create_output_binding}
 \alias{create_custom_handler}
 \alias{create_js}
-\alias{create_css}
+\alias{create_scss}
 \title{Create a shiny custom input binding boilerplate}
 \usage{
 create_input_binding(
@@ -13,7 +13,6 @@ create_input_binding(
   pkg = ".",
   dir = "srcjs",
   open = TRUE,
-  dir_create = TRUE,
   initialize = FALSE,
   dev = FALSE,
   events = list(name = "click", rate_policy = FALSE),
@@ -25,7 +24,6 @@ create_output_binding(
   pkg = ".",
   dir = "srcjs",
   open = TRUE,
-  dir_create = TRUE,
   add_reference = TRUE
 )
 
@@ -34,23 +32,27 @@ create_custom_handler(
   pkg = ".",
   dir = "srcjs",
   open = TRUE,
-  dir_create = TRUE,
   add_reference = TRUE
 )
 
 create_js(
   name,
-  pkg = ".",
   dir = "srcjs",
   open = TRUE,
-  dir_create = TRUE,
-  with_doc_ready = TRUE,
+  with_doc_ready = FALSE,
   template = golem::js_template,
   ...,
   add_reference = TRUE
 )
 
-create_css(...)
+create_scss(
+  name,
+  dir = "styles",
+  open = TRUE,
+  template = golem::sass_template,
+  ...,
+  add_reference = TRUE
+)
 }
 \arguments{
 \item{name}{The name of the module.}
@@ -60,8 +62,6 @@ create_css(...)
 \item{dir}{Path to the dir where the file while be created.}
 
 \item{open}{Should the created file be opened?}
-
-\item{dir_create}{Creates the directory if it doesn't exist, default is \code{TRUE}.}
 
 \item{initialize}{For JS file - Whether to add the initialize method.
 Default to FALSE. Some JavaScript API require to initialize components
