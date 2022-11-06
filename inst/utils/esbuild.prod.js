@@ -22,5 +22,3 @@ esbuild
   })
   .then(() => console.log("⚡ Build complete! ⚡"))
   .catch(() => process.exit(1));
-
-esbuild srcjs/<<entry_point>> --bundle --minify --sourcemap --format=esm --outfile=inst/<<name>>-<<version>>/js/<<name>>.min.js
