@@ -5,12 +5,12 @@ import autoprefixer from 'autoprefixer';
 
 esbuild
   .build({
-    entryPoints: ["styles/main.scss", "srcjs/main.js"],
-    outdir: "inst/<<name>>-<<version>>",
+    entryPoints: ["./srcjs/main.js"],
+    outfile: "inst/<<name>>-<<version>>/dist/<<name>>.min.js",
     bundle: true,
-    format: "ems",
+    format: "esm",
     minify: true, // prod
-    sourcemap: true, // prod
+    sourcemap: "external", // prod
     plugins: [
       sassPlugin({
         async transform(source) {

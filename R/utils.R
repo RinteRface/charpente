@@ -186,7 +186,7 @@ set_esbuild <- function(light = FALSE) {
   # which has always been in charpente since the first release.
   if (!light) {
     dir.create("srcjs")
-    file.create("./srcjs/main.js")
+    write("import \"../styles/main.scss\";", "./srcjs/main.js")
   }
   dir.create("styles")
   file.create("styles/main.scss")
