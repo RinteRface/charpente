@@ -12,7 +12,8 @@ names but should not change the features.
 - `charpente_options()` will likely be deprecated because of the previous point. 
 - `create_css()` has been replaced by `create_scss()`. SCSS files are referenced into
 the main `styles/main.scss` using `@import path`, which will allow you to have modular
-Sass code. 
+Sass code.
+- Remove `entry_point` param from `build_js()` as it was not used anyway...
 
 # charpente 0.1.0
 
