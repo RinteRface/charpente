@@ -1,6 +1,6 @@
 Package: charpente
 Title: Seamlessly design robust 'shiny' extensions
-Version: 0.2.0.9000
+Version: 0.5.0.9000
 Authors@R: c(
     person(
       given = "David",
@@ -51,7 +51,6 @@ Imports:
     desc,
     gh
 Remotes: 
-    ThinkR-open/golem@dev,
     JohnCoene/npm
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues
