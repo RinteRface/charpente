@@ -191,8 +191,8 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #' @keywords Internal
 create_custom_dependency <- function(name, version, open = interactive(), mode) {
 
-  stylesheet <- sprintf("css/%s%s.css", name, mode)
-  script <- sprintf("js/%s%s.js", name, mode)
+  stylesheet <- sprintf("%s%s.css", name, mode)
+  script <- sprintf("%s%s.js", name, mode)
 
   # need to overwrite path which was used before
   path <- sprintf("R/%s-dependencies.R", name)
