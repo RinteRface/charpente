@@ -1,4 +1,4 @@
-# charpent 0.5.0.9000
+# charpent 0.5.0
 
 ## Breaking change:
 - Include Sass handling. SCSS files are sorted in the `/styles`folder and esbuild
