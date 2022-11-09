@@ -191,8 +191,8 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #' @keywords Internal
 create_custom_dependency <- function(name, version, open = interactive(), mode) {
 
-  stylesheet <- NULL # remove when Sass workflow is supported!
-  script <- sprintf("js/%s%s.js", name, mode)
+  stylesheet <- sprintf("%s%s.css", name, mode)
+  script <- sprintf("%s%s.js", name, mode)
 
   # need to overwrite path which was used before
   path <- sprintf("R/%s-dependencies.R", name)
@@ -232,11 +232,8 @@ create_custom_dependency <- function(name, version, open = interactive(), mode) 
   write_there(sprintf('  name = "%s",', name))
   write_there(sprintf('  version = "%s",', version))
   write_there(sprintf('  src = c(file = "%s-%s"),', name, version))
-  write_there(sprintf('  script = "%s",', script))
-  if (!is.null(stylesheet)) {
-    stylesheet <- sprintf("css/%s%s.css", name, mode)
-    write_there(sprintf('  stylesheet = "%s",', stylesheet))
-  }
+  write_there(sprintf('  script = "dist/%s",', script))
+  write_there(sprintf('  stylesheet = "dist/%s",', stylesheet))
   write_there(sprintf('  package = "%s",', name))
   # end deps
   write_there(" )")

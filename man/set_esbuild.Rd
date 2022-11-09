@@ -4,7 +4,12 @@
 \alias{set_esbuild}
 \title{Setup esbuild}
 \usage{
-set_esbuild()
+set_esbuild(light = FALSE)
+}
+\arguments{
+\item{light}{Used to only install Sass plugins. This is
+to workaround a breaking change in charpente where styles does
+not exist in old versions.}
 }
 \value{
 Installs esbuild in node_modules (dev scope), creates srcjs + srcjs/main.js

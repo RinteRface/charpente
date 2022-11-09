@@ -8,10 +8,9 @@
 #' @param mode Production or development mode. Choose either "prod" or "dev".
 #' "prod" bundles, aggregates and minifyies files. "dev" only bundles the code.
 #' Modules follow the ES6 format (import/export).
-#' @param entry_point Required internally to setup the esbuild config.
 #' @export
 #' @importFrom utils tail packageVersion
-build_js <- function(dir = "srcjs", mode = c("prod", "dev"), entry_point = "main.js") {
+build_js <- function(dir = "srcjs", mode = c("prod", "dev")) {
 
   mode <- match.arg(mode)
   pkg_desc <- desc::description$new("./DESCRIPTION")$get(c("Package", "Version", "License"))

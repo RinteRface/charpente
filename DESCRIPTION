@@ -1,6 +1,6 @@
 Package: charpente
 Title: Seamlessly design robust 'shiny' extensions
-Version: 0.1.0.9000
+Version: 0.5.0.9000
 Authors@R: c(
     person(
       given = "David",
@@ -28,7 +28,6 @@ Description: 'charpente' eases the creation of 'shiny' extensions like 'shinydas
     more recently 'golem', that is make ('shiny') developer's life much easier.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports: 
@@ -52,7 +51,6 @@ Imports:
     desc,
     gh
 Remotes: 
-    ThinkR-open/golem@dev,
     JohnCoene/npm
 URL: https://github.com/RinteRface/charpente
 BugReports: https://github.com/RinteRface/charpente/issues
