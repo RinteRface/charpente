@@ -34,7 +34,8 @@ jobs:
             any::pkgdown,
             local::.,
             github::devOpifex/erratum,
-            github::JohnCoene/npm
+            github::JohnCoene/npm,
+            XML
           needs: website
 
       - name: Build site
