@@ -156,7 +156,7 @@ reference_style <- function(path) {
 #' not exist in old versions.
 #'
 #' @return Installs esbuild in node_modules (dev scope), creates srcjs + srcjs/main.js
-#' @keywords internal
+#' @export
 set_esbuild <- function(light = FALSE) {
 
   pkg_desc <- desc::description$
