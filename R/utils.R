@@ -185,11 +185,24 @@ set_esbuild <- function(light = FALSE) {
   # If light, we don't want to recreate srcjs folder
   # which has always been in charpente since the first release.
   if (!light) {
-    dir.create("srcjs")
-    write("import \"../styles/main.scss\";", "./srcjs/main.js")
+
+    if (!dir.exists("srcjs")) {
+      dir.create("srcjs")
+    }
+
+    write("import \"../styles/main.scss\";",
+          "./srcjs/main.js",
+          append = file.exists("srcjs/main.js"))
+
   }
-  dir.create("styles")
-  file.create("styles/main.scss")
+
+  if (!dir.exists("styles")) {
+    dir.create("styles")
+  }
+
+  if (!file.exists("styles/main.scss")) {
+    file.create("styles/main.scss")
+  }
 }
 
 
@@ -202,17 +215,23 @@ set_esbuild <- function(light = FALSE) {
 #' @export
 set_mocha <- function() {
   npm::npm_install("mocha", scope = "dev")
-  dir.create("srcjs/test")
-  file.create("srcjs/test/test_basic.js")
-  writeLines(
-    "describe('Basic test', () => {
+
+  if (!dir.exists("srcjs/test")) {
+    dir.create("srcjs/test")
+  }
+
+  if (!file.exists("srcjs/test/test_basic.js")) {
+    file.create("srcjs/test/test_basic.js")
+    writeLines(
+      "describe('Basic test', () => {
       it('should not fail', (done) => {
         done();
       });
     });
     ",
-    "srcjs/test/test_basic.js"
-  )
+      "srcjs/test/test_basic.js"
+    )
+  }
 }
 
 
