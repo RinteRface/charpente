@@ -13,4 +13,3 @@ write basic test im test_basic.js
 \description{
 Installs mocha for the local project
 }
-\keyword{internal}

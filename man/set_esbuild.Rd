@@ -17,4 +17,3 @@ Installs esbuild in node_modules (dev scope), creates srcjs + srcjs/main.js
 \description{
 Installs esbuild for the local project
 }
-\keyword{internal}

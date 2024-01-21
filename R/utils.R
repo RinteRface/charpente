@@ -199,7 +199,7 @@ set_esbuild <- function(light = FALSE) {
 #'
 #' @return Installs mocha in node_modules (dev scope), creates srcjs/test folder,
 #' write basic test im test_basic.js
-#' @keywords internal
+#' @export
 set_mocha <- function() {
   npm::npm_install("mocha", scope = "dev")
   dir.create("srcjs/test")
