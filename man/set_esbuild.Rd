@@ -12,9 +12,10 @@ to workaround a breaking change in charpente where styles does
 not exist in old versions.}
 }
 \value{
-Installs esbuild in node_modules (dev scope), creates srcjs + srcjs/main.js
+Installs esbuild in node_modules (dev scope),
+if not existing, creates srcjs + srcjs/main.js andstyles + styles/main.scss,
+and sets relevant files and folders in .gitignore. and .Rbuildignore.
 }
 \description{
 Installs esbuild for the local project
 }
-\keyword{internal}

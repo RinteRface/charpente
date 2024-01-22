@@ -1,4 +1,12 @@
-# charpent 0.5.0
+# charpente 0.6.0
+
+## New:
+- Allow to initialise `esbuild` and `mocha` in a standalone way, without the need of the full `charpente` workflow. This is useful if you want to use `esbuild` and its plugins in already existing projects. See `?set_esbuild` and `?set_mocha` for more details.
+
+## Improvements:
+- Move `use_build_ignore()` and `use_git_ignore()` calls to `set_esbuild()` to enable standalone usage.
+
+# charpente 0.5.0
 
 ## Breaking change:
 - Include Sass handling. SCSS files are sorted in the `/styles`folder and esbuild

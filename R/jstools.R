@@ -14,7 +14,7 @@ build_js <- function(dir = "srcjs", mode = c("prod", "dev")) {
 
   mode <- match.arg(mode)
   pkg_desc <- desc::description$new("./DESCRIPTION")$get(c("Package", "Version", "License"))
-  outputDir <- sprintf("inst/%s-%s/js", pkg_desc[1], pkg_desc[2])
+  outputDir <- sprintf("inst/%s-%s/dist", pkg_desc[1], pkg_desc[2])
 
   # run esbuild
   run_esbuild(mode, outputDir)
