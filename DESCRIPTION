@@ -52,7 +52,7 @@ Imports:
     gh
 Remotes: 
     JohnCoene/npm
-URL: https://github.com/RinteRface/charpente
+URL: https://github.com/RinteRface/charpente, https://rinterface.github.io/charpente/
 BugReports: https://github.com/RinteRface/charpente/issues
 Suggests: 
     testthat
