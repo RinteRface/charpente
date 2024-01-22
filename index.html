@@ -4,14 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="charpente eases the creation of shiny extensions like shinydashboard,
+    bs4Dash, shinyMobile. It provides helpers to quickly set up a relevant package 
+    structure, import all external web dependencies (JavaScript, CSS) as well as initialize
+    input/output bindings and custom handlers boilerplates. charpente offers tools
+    to convert HTML code into R to dramatically speed up the development of the template 
+    components as well as an high level interface to htmltools. 
+    charpente is a chatty package relying on the same principle as usethis and 
+    more recently golem, that is make (shiny) developer's life much easier.">
 <title>Seamlessly design robust shiny extensions • charpente</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Seamlessly design robust shiny extensions">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Seamlessly design robust shiny extensions">
 <meta property="og:description" content="charpente eases the creation of shiny extensions like shinydashboard,
     bs4Dash, shinyMobile. It provides helpers to quickly set up a relevant package 
     structure, import all external web dependencies (JavaScript, CSS) as well as initialize
@@ -25,192 +32,202 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">charpente</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">charpente</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="news/index.html">Changelog</a>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/RinteRface/charpente/">
-    <span class="fab fa-github fa-lg"></span>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/RinteRface/charpente/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div id="charpente-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#charpente-" class="anchor"></a>charpente <img src="https://rinterface.com/inst/images/charpente.png" width="200px" align="right">
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="charpente-">charpente <img src="https://rinterface.com/inst/images/charpente.png" width="200px" align="right"><a class="anchor" aria-label="anchor" href="#charpente-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of <a href="https://github.com/RinteRface/charpente">charpente</a> is to significantly reduce the complexity of creating new HTML templates for Shiny:</p>
+<p>The goal of <a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> is to significantly reduce the complexity of creating new HTML templates for Shiny:</p>
 <ul>
 <li>
-<a href="https://github.com/RinteRface/charpente">charpente</a> creates a plug and play package structure.</li>
+<a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> creates a plug and play package structure.</li>
 <li>
-<a href="https://github.com/RinteRface/charpente">charpente</a> automatically import dependencies from <a href="https://www.jsdelivr.com/">jsdelivr</a>, so that you don’t have to do it by hand!</li>
+<a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> automatically import dependencies from <a href="https://www.jsdelivr.com/" class="external-link">jsdelivr</a>, so that you don’t have to do it by hand!</li>
 <li>
-<a href="https://github.com/RinteRface/charpente">charpente</a> eases the conversion from HTML to R.</li>
+<a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> eases the conversion from HTML to R.</li>
 <li>
-<a href="https://github.com/RinteRface/charpente">charpente</a> offers multiple R and JS boilerplate for <a href="https://shiny.rstudio.com/">shiny</a> input bindings, <a href="https://shiny.rstudio.com/">shiny</a> message handlers, …</li>
+<a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> offers multiple R and JS boilerplate for <a href="https://shiny.posit.co/" class="external-link">shiny</a> input bindings, <a href="https://shiny.posit.co/" class="external-link">shiny</a> message handlers, …</li>
 <li>
-<a href="https://github.com/RinteRface/charpente">charpente</a> enable seamless JavaScript code management (powered by <a href="https://esbuild.github.io/">esbuild</a>): concat, compress, mangle, bundle, minify, …</li>
+<a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> enables seamless JavaScript code management (powered by <a href="https://esbuild.github.io/" class="external-link">esbuild</a>): concat, compress, mangle, bundle, minify, … for JS and Sass code.</li>
 </ul>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the development version of <a href="https://github.com/RinteRface/charpente">charpente</a> from Github with:</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of <a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> from Github with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># latest version</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"RinteRface/charpente"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># latest version</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"RinteRface/charpente"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RinteRface/charpente">charpente</a></span><span class="op">)</span>
-
-<span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span>
-<span class="fu"><a href="reference/create_charpente.html">create_charpente</a></span><span class="op">(</span><span class="va">path</span>, license <span class="op">=</span> <span class="st">"mit"</span><span class="op">)</span>
-
-<span class="co"># Once the package is created and opened</span>
-
-<span class="co"># Look for all bulma flavors</span>
-<span class="fu"><a href="reference/get_dependency_versions.html">get_dependency_versions</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span>
-<span class="co"># Get latest stable</span>
-<span class="fu"><a href="reference/get_dependency_versions.html">get_dependency_versions</a></span><span class="op">(</span><span class="st">"bulma"</span>, latest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co"># Inspect bulma</span>
-<span class="fu"><a href="reference/get_dependency_assets.html">get_dependency_assets</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span>
-
-<span class="co"># Download bulma locally</span>
-<span class="fu"><a href="reference/create_dependency.html">create_dependency</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span>
-<span class="co"># Test the newly added dependencies tools</span>
-<span class="fu">findDependencies</span><span class="op">(</span><span class="fu">add_bulma_deps</span><span class="op">(</span><span class="fu">div</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Create JS handler</span>
-<span class="fu"><a href="reference/create_input_binding.html">create_custom_handler</a></span><span class="op">(</span><span class="st">"modal"</span><span class="op">)</span>
-
-<span class="co"># Create input binding</span>
-<span class="fu"><a href="reference/create_input_binding.html">create_input_binding</a></span><span class="op">(</span><span class="st">"myinput"</span><span class="op">)</span>
-
-<span class="co"># Create output binding</span>
-<span class="fu"><a href="reference/create_input_binding.html">create_output_binding</a></span><span class="op">(</span><span class="st">"myoutput"</span><span class="op">)</span>
-
-<span class="co"># Compress JS for production</span>
-<span class="fu"><a href="reference/build_js.html">build_js</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"mypkg"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/create_charpente.html">create_charpente</a></span><span class="op">(</span><span class="va">path</span>, license <span class="op">=</span> <span class="st">"mit"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Once the package is created and opened</span></span>
+<span></span>
+<span><span class="co"># Look for all bulma flavors</span></span>
+<span><span class="fu"><a href="reference/get_dependency_versions.html">get_dependency_versions</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span></span>
+<span><span class="co"># Get latest stable</span></span>
+<span><span class="fu"><a href="reference/get_dependency_versions.html">get_dependency_versions</a></span><span class="op">(</span><span class="st">"bulma"</span>, latest <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># Inspect bulma</span></span>
+<span><span class="fu"><a href="reference/get_dependency_assets.html">get_dependency_assets</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Download bulma locally</span></span>
+<span><span class="fu"><a href="reference/create_dependency.html">create_dependency</a></span><span class="op">(</span><span class="st">"bulma"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Test the newly added dependencies tools</span></span>
+<span><span class="fu">findDependencies</span><span class="op">(</span><span class="fu">add_bulma_deps</span><span class="op">(</span><span class="fu">div</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create JS handler</span></span>
+<span><span class="fu"><a href="reference/create_file.html">create_custom_handler</a></span><span class="op">(</span><span class="st">"modal"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create input binding</span></span>
+<span><span class="fu"><a href="reference/create_file.html">create_input_binding</a></span><span class="op">(</span><span class="st">"myinput"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create output binding</span></span>
+<span><span class="fu"><a href="reference/create_file.html">create_output_binding</a></span><span class="op">(</span><span class="st">"myoutput"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compress JS and CSS (Sass) for production</span></span>
+<span><span class="fu"><a href="reference/build_js.html">build_js</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="acknowledgment" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknowledgment" class="anchor"></a>Acknowledgment</h2>
-<p>The author would like to warmly thank <a href="https://twitter.com/_pvictorr?lang=fr">Victor Perrier</a>, <a href="https://twitter.com/jdatap">John Coene</a>, <a href="https://twitter.com/_ColinFay">Colin Fay</a>, <a href="https://twitter.com/alandipert">Alan Dipert</a>, <a href="https://twitter.com/timelyportfolio">Kenton Russel</a> for providing many building block and inspiration to this package.</p>
+<div class="section level2">
+<h2 id="using-esbuild-and-mocha">Using esbuild and mocha<a class="anchor" aria-label="anchor" href="#using-esbuild-and-mocha"></a>
+</h2>
+<p>If you want to use <code>esbuild</code> and <code>mocha</code> in an existing project, you can use the functions <code><a href="reference/set_esbuild.html">set_esbuild()</a></code> and <code><a href="reference/set_mocha.html">set_mocha()</a></code>. A simple workflow looks as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Setup esbuild for JS code management</span></span>
+<span><span class="fu"><a href="reference/set_esbuild.html">set_esbuild</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add mocha for tests</span></span>
+<span><span class="fu"><a href="reference/set_mocha.html">set_mocha</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the <a href="https://github.com/RinteRface/charpente">charpente</a> project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<div class="section level2">
+<h2 id="acknowledgment">Acknowledgment<a class="anchor" aria-label="anchor" href="#acknowledgment"></a>
+</h2>
+<p>The author would like to warmly thank <a href="https://twitter.com/_pvictorr?lang=fr" class="external-link">Victor Perrier</a>, <a href="https://twitter.com/jdatap" class="external-link">John Coene</a>, <a href="https://twitter.com/_ColinFay" class="external-link">Colin Fay</a>, <a href="https://twitter.com/alandipert" class="external-link">Alan Dipert</a>, <a href="https://twitter.com/timelyportfolio" class="external-link">Kenton Russel</a> for providing many building block and inspiration to this package.</p>
+</div>
+<div class="section level2">
+<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
+</h2>
+<p>Please note that the <a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
-<h2>Links</h2>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/RinteRface/charpente/">https://​github.com/​RinteRface/​charpente/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/RinteRface/charpente/issues">https://​github.com/​RinteRface/​charpente/​issues</a>
-</li>
+<li><a href="https://github.com/RinteRface/charpente/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/RinteRface/charpente/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing charpente</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>David Granjon <br><small class="roles"> Author, maintainer </small>  </li>
 <li>John Coene <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/RinteRface/charpente/actions"><img src="https://github.com/RinteRface/charpente/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://CRAN.R-project.org/package=charpente"><img src="https://www.r-pkg.org/badges/version/charpente" alt="CRAN status"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://github.com/RinteRface/charpente/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/RinteRface/charpente/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://CRAN.R-project.org/package=charpente" class="external-link"><img src="https://www.r-pkg.org/badges/version/charpente" alt="CRAN status"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 </ul>
 </div>
-</div>
-</div>
 
-
-      <footer><div class="copyright">
-  <p>Developed by David Granjon, John Coene.</p>
+  </aside>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by David Granjon, John Coene.</p>
 </div>
 
-      </footer>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+</div>
+
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
