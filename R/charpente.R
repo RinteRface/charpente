@@ -67,19 +67,6 @@ create_charpente <- function(path, remote = NULL, private = FALSE, license) {
   set_esbuild()
   # Add mocha for tests
   set_mocha()
-  # Ignore files/folders: srcjs, node_modules, ...
-  use_build_ignore(
-    c(
-      "srcjs",
-      "node_modules",
-      "package.json",
-      "package-lock.json",
-      "styles",
-      "esbuild.dev.json",
-      "esbuild.prod.json"
-    )
-  )
-  use_git_ignore("node_modules")
 
   # version control
   set_version_control(remote, private)

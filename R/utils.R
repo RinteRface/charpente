@@ -155,7 +155,9 @@ reference_style <- function(path) {
 #' to workaround a breaking change in charpente where styles does
 #' not exist in old versions.
 #'
-#' @return Installs esbuild in node_modules (dev scope), creates srcjs + srcjs/main.js
+#' @return Installs esbuild in node_modules (dev scope),
+#' if not existing, creates srcjs + srcjs/main.js andstyles + styles/main.scss,
+#' and sets relevant files and folders in .gitignore. and .Rbuildignore.
 #' @export
 set_esbuild <- function(light = FALSE) {
 
@@ -203,6 +205,21 @@ set_esbuild <- function(light = FALSE) {
   if (!file.exists("styles/main.scss")) {
     file.create("styles/main.scss")
   }
+
+  # Ignore files/folders: srcjs, node_modules, ...
+  use_build_ignore(
+    c(
+      "srcjs",
+      "node_modules",
+      "package.json",
+      "package-lock.json",
+      "styles",
+      "esbuild.dev.json",
+      "esbuild.prod.json"
+    )
+  )
+
+  use_git_ignore("node_modules")
 }
 
 

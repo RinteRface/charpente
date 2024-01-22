@@ -67,7 +67,7 @@ devtools::load_all()
 
 ## Using esbuild and mocha
 
-If you want to use `esbuild` and `mocha` in an existing project, you can use the functions `set_esbuild()` and `set_mocha()`. A workflow could look as follows:
+If you want to use `esbuild` and `mocha` in an existing project, you can use the functions `set_esbuild()` and `set_mocha()`. A simple workflow looks as follows:
 
 ```r
 # Setup esbuild for JS code management
@@ -75,21 +75,6 @@ set_esbuild()
 
 # Add mocha for tests
 set_mocha()
-
-# Ignore files/folders: srcjs, node_modules, ...
-usethis::use_build_ignore(
-  c(
-    "srcjs",
-    "node_modules",
-    "package.json",
-    "package-lock.json",
-    "styles",
-    "esbuild.dev.json",
-    "esbuild.prod.json"
-  )
-)
-
-usethis::use_git_ignore("node_modules")
 ```
 
 ## Acknowledgment 
