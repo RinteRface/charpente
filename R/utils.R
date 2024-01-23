@@ -102,6 +102,7 @@ process_template <- function(template, ..., where = system.file("utils", package
     },
     version = pars$version,
     entry_point = paste0(shQuote(pars$entry_point), collapse = ", "),
+    entry_name = pars$entry_name,
     license = pars$license,
     .open = "<<",
     .close = ">>"
@@ -319,6 +320,7 @@ run_esbuild <- function(mode, outputDir, entry_point) {
   process_template(
     sprintf("esbuild.%s.js", mode),
     name = pkg_desc[[1]],
+    entry_name = if (length(entry_point) == 1) pkg_desc[[1]] else "[name]",
     version = pkg_desc[[2]],
     entry_point = entry_point
   )

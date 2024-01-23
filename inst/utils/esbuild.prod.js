@@ -6,7 +6,8 @@ import autoprefixer from 'autoprefixer';
 esbuild
   .build({
     entryPoints: [<<entry_point>>],
-    outfile: "inst/<<name>>-<<version>>/dist/<<name>>.min.js",
+    outdir: "inst/<<name>>-<<version>>/dist",
+    entryNames: "<<entry_name>>.min",
     bundle: true,
     format: "esm",
     minify: true, // prod
