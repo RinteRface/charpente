@@ -8,16 +8,25 @@
 #' @param mode Production or development mode. Choose either "prod" or "dev".
 #' "prod" bundles, aggregates and minifyies files. "dev" only bundles the code.
 #' Modules follow the ES6 format (import/export).
+#' @param entry_point Entry points to use in esbuild configuration. In case of
+#' a monolithic bundle, only one entrypoint is needed. This the default.
+#' In case of component based bundles, a vector of entrypoints is needed.
+#' The output files will match the entrypoints names.
 #' @export
 #' @importFrom utils tail packageVersion
-build_js <- function(dir = "srcjs", mode = c("prod", "dev")) {
+build_js <- function(dir = "srcjs", mode = c("prod", "dev"), entry_point = "main.js") {
 
   mode <- match.arg(mode)
   pkg_desc <- desc::description$new("./DESCRIPTION")$get(c("Package", "Version", "License"))
   outputDir <- sprintf("inst/%s-%s/dist", pkg_desc[1], pkg_desc[2])
 
+  # make sure entrypoints look like ./dir/file.js
+  if (!grepl(sprintf("^\\./%s", dir), entry_point)) {
+    entry_point <- paste0("./", dir, "/", entry_point)
+  }
+
   # run esbuild
-  run_esbuild(mode, outputDir)
+  run_esbuild(mode, outputDir, entry_point)
 
   # create custom dependency
   create_custom_dependency(

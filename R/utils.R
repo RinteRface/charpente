@@ -101,7 +101,7 @@ process_template <- function(template, ..., where = system.file("utils", package
       )
     },
     version = pars$version,
-    entry_point = "main.js",
+    entry_point = paste0(shQuote(pars$entry_point), collapse = ", "),
     license = pars$license,
     .open = "<<",
     .close = ">>"
@@ -170,7 +170,8 @@ set_esbuild <- function(light = FALSE) {
     "package.json",
     name = pkg_desc[1],
     version = pkg_desc[2], # node does not support 0.1.0.9000
-    license = pkg_desc[3]
+    license = pkg_desc[3],
+    entry_point = "main.js"
   )
 
   npm::npm_install(
@@ -300,8 +301,9 @@ copy_charpente_utils <- function(pkg_name) {
 #'
 #' @inheritParams build_js
 #' @param outputDir Output directory
+#' @param entry_point Entry points to be used
 #' @keywords internal
-run_esbuild <- function(mode, outputDir) {
+run_esbuild <- function(mode, outputDir, entry_point) {
   # styles did not exist in previous {charpent} versions
   if (!dir.exists("styles")) {
     # Only add missing pieces ...
@@ -317,7 +319,8 @@ run_esbuild <- function(mode, outputDir) {
   process_template(
     sprintf("esbuild.%s.js", mode),
     name = pkg_desc[[1]],
-    version = pkg_desc[[2]]
+    version = pkg_desc[[2]],
+    entry_point = entry_point
   )
 
   npm::npm_run(sprintf("run build-%s", mode))
