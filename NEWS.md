@@ -1,3 +1,8 @@
+# charpente 0.7.0
+
+## New:
+- Enhanced `esbuild` configuration to allow component based bundling. `build_js` now accepts an `entry_points` argument to specify the entry files processed by `esbuild`. The (minified) output files will correspond to the given entry files. The default is monolithic building with the `./srcjs/main.js` file. See `?build_js` for more details.
+
 # charpente 0.6.0
 
 ## New:
