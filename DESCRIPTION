@@ -15,6 +15,12 @@ Authors@R: c(
       role = "ctb",
       comment = "Functions from html2r"
     ),
+    person(
+      given = "Veerle",
+      family = "van Leemput",
+      role = "ctb",
+      email = "veerle@hypebright.nl"
+    ),
     person(family = "RinteRface", role = "cph"),
     person(family = "ThinkR", role = "cph", comment = "Some utils from golem")
   )
