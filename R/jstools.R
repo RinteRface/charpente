@@ -36,8 +36,9 @@ build_js <- function(dir = "srcjs", mode = c("prod", "dev"), entry_point = "main
 
   # create custom dependency
   create_custom_dependency(
-    pkg_desc[1],
-    pkg_desc[2],
+    name = pkg_desc[1],
+    version = pkg_desc[2],
+    entry_point = entry_point,
     open = FALSE,
     mode = if (mode == "dev") "" else if (mode == "prod") ".min"
   )
