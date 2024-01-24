@@ -40,7 +40,7 @@
     
     <a class="navbar-brand me-2" href="index.html">charpente</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -148,6 +148,23 @@
 <span></span>
 <span><span class="co"># Add mocha for tests</span></span>
 <span><span class="fu"><a href="reference/set_mocha.html">set_mocha</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="monolithic-and-component-based-bundling">Monolithic and component based bundling<a class="anchor" aria-label="anchor" href="#monolithic-and-component-based-bundling"></a>
+</h2>
+<p><a href="https://github.com/RinteRface/charpente" class="external-link">charpente</a> offers two ways of bundling your JS code: monolithic and component based. The monolithic bundling is the default one and is the simplest to use. It will bundle all your JS and CSS code into single files. By default, the entry point is <code>/scrjs/main.js</code>, which will also be created when setting esbuild for the first time with <code>set_esbuid()</code>. In this case bundling is easy and can be achieved with:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/build_js.html">build_js</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Component based bundling might be convenient in situations where you want to create a bundle for each (standalone) component. Bundling per component will make sure that only the necessary assets are loaded. This is particularly useful when you want to create a package with multiple components, and not a complete template. To use component based bundling, you can specify multiple <code>entry_points</code> in <code><a href="reference/build_js.html">build_js()</a></code>.</p>
+<p>For the below structure in the /srcjs folder:</p>
+<pre><code>srcjs
+├── component1.js
+└── component2.js</code></pre>
+<p>You can build as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/build_js.html">build_js</a></span><span class="op">(</span>entry_points <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"component1.js"</span>, <span class="st">"component2.js"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>CSS styles for each component can be loaded in the js files with <code>import</code> statements, e.g. <code>import "../styles/component1.scss";</code>.</p>
+<p>You JS code will be bundled into <code>/inst/{package-name}-{version}/</code>. Dependencies for your HTML are automatically created in <code>R/{package-name}-dependencies.R</code>. There will be only one HTML dependency in case of monolithic building, and multiple in case of component based building.</p>
 </div>
 <div class="section level2">
 <h2 id="acknowledgment">Acknowledgment<a class="anchor" aria-label="anchor" href="#acknowledgment"></a>
