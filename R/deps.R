@@ -186,13 +186,11 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #'
 #' @param name Package name.
 #' @param version Package version.
+#' @param entry_points Entry points to create dependency for.
 #' @param open Whether to allow rstudioapi to open the newly created script. Default to TRUE.
 #' @param mode Internal. Don't use.
 #' @keywords Internal
-create_custom_dependency <- function(name, version, open = interactive(), mode) {
-
-  stylesheet <- sprintf("%s%s.css", name, mode)
-  script <- sprintf("%s%s.js", name, mode)
+create_custom_dependency <- function(name, version, entry_points, open = interactive(), mode) {
 
   # need to overwrite path which was used before
   path <- sprintf("R/%s-dependencies.R", name)
@@ -203,53 +201,82 @@ create_custom_dependency <- function(name, version, open = interactive(), mode) 
     write(..., file = path, append = TRUE)
   }
 
-  # if we have multiple scripts/stylesheets
-  insert_multiple_lines <- function(what) {
-    lapply(seq_along(what), function (i) {
-      if (i == length(what)) {
-        write_there(sprintf('   "%s"', what[[i]]))
-      } else {
-        write_there(sprintf('   "%s",', what[[i]]))
+  if (length(entry_points) > 1) {
+    # remove everything before last / and remove .js
+    entry_point_names <- gsub(".*/|.js", "", entry_points)
+
+    # Check for special characters, digits, and replace - with _
+    has_special_or_digit <- grepl("[^a-zA-Z\\s]|\\d", entry_point_names)
+    has_hyphen <- grepl("-", entry_point_names)
+
+    if (any(has_special_or_digit)) {
+      format_names <- entry_point_names[has_special_or_digit]
+
+      ui_warn(
+        "Consider removing special characters or digits from the following entry point filenames:
+        {paste(format_names, collapse = ', ')}"
+      )
+
+      if (any(has_hyphen)) {
+        entry_point_names[has_hyphen] <- gsub("-", "_", entry_point_names[has_hyphen])
+
+        format_names <- entry_point_names[has_hyphen]
+
+        ui_done(
+          "Replaced - with _ in the following entry points:
+          {paste(format_names, collapse = ', ')}"
+        )
       }
-    })
+    }
+
+  } else {
+    entry_point_names <- name
   }
 
-  # roxygen export
-  write_there(sprintf("#' %s dependencies utils", name))
-  write_there("#'")
-  write_there(sprintf("#' @description This function attaches %s dependencies to the given tag", name))
-  write_there("#'")
-  write_there("#' @param tag Element to attach the dependencies.")
-  write_there("#'")
-  write_there("#' @importFrom utils packageVersion")
-  write_there("#' @importFrom htmltools tagList htmlDependency")
-  write_there("#' @export")
-  # attach function
-  write_there(sprintf("add_%s_deps <- function(tag) {", name))
+  # write in file for each entry point
+  lapply(entry_point_names, function(dep) {
 
-  # htmlDependency content
-  write_there(sprintf(" %s_deps <- htmlDependency(", name))
-  write_there(sprintf('  name = "%s",', name))
-  write_there(sprintf('  version = "%s",', version))
-  write_there(sprintf('  src = c(file = "%s-%s"),', name, version))
-  write_there(sprintf('  script = "dist/%s",', script))
-  write_there(sprintf('  stylesheet = "dist/%s",', stylesheet))
-  write_there(sprintf('  package = "%s",', name))
-  # end deps
-  write_there(" )")
+    stylesheet <- sprintf("%s%s.css", dep, mode)
+    script <- sprintf("%s%s.js", dep, mode)
 
-  # attach deps
-  write_there(sprintf(" tagList(tag, %s_deps)", name))
-  # end function
-  write_there("}")
-  write_there("    ")
+    # roxygen export
+    write_there(sprintf("#' %s dependencies utils", dep))
+    write_there("#'")
+    write_there(sprintf("#' @description This function attaches %s dependencies to the given tag", dep))
+    write_there("#'")
+    write_there("#' @param tag Element to attach the dependencies.")
+    write_there("#'")
+    write_there("#' @importFrom utils packageVersion")
+    write_there("#' @importFrom htmltools tagList htmlDependency")
+    write_there("#' @export")
+    # attach function
+    write_there(sprintf("add_%s_deps <- function(tag) {", dep))
+
+    # htmlDependency content
+    write_there(sprintf(" %s_deps <- htmlDependency(", dep))
+    write_there(sprintf('  name = "%s",', dep))
+    write_there(sprintf('  version = "%s",', version))
+    write_there(sprintf('  src = c(file = "%s-%s"),', name, version))
+    write_there(sprintf('  script = "dist/%s",', script))
+    write_there(sprintf('  stylesheet = "dist/%s",', stylesheet))
+    write_there(sprintf('  package = "%s",', name))
+    # end deps
+    write_there(" )")
+
+    # attach deps
+    write_there(sprintf(" tagList(tag, %s_deps)", dep))
+    # end function
+    write_there("}")
+    write_there("    ")
+  })
 
   # path to dependency
   if (!file.exists(sprintf("R/%s-dependencies.R", name))) {
-    ui_done("Dependency successfully created!")
+    ui_oops("Failed to create dependencies file!")
   } else {
-    ui_done("Dependency successfully updated!")
+    ui_done("Dependencies successfully updated!")
   }
+
   if (open && rstudioapi::isAvailable()) rstudioapi::navigateToFile(path)
 }
 

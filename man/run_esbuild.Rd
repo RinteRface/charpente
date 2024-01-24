@@ -4,7 +4,7 @@
 \alias{run_esbuild}
 \title{Run esbuild}
 \usage{
-run_esbuild(mode, outputDir)
+run_esbuild(mode, outputDir, entry_points)
 }
 \arguments{
 \item{mode}{Production or development mode. Choose either "prod" or "dev".
@@ -12,6 +12,8 @@ run_esbuild(mode, outputDir)
 Modules follow the ES6 format (import/export).}
 
 \item{outputDir}{Output directory}
+
+\item{entry_points}{Entry points to be used}
 }
 \description{
 Apply esbuild to the srcjs folder.

@@ -4,12 +4,20 @@
 \alias{create_custom_dependency}
 \title{Imports Internal Dependencies}
 \usage{
-create_custom_dependency(name, version, open = interactive(), mode)
+create_custom_dependency(
+  name,
+  version,
+  entry_points,
+  open = interactive(),
+  mode
+)
 }
 \arguments{
 \item{name}{Package name.}
 
 \item{version}{Package version.}
+
+\item{entry_points}{Entry points to create dependency for.}
 
 \item{open}{Whether to allow rstudioapi to open the newly created script. Default to TRUE.}
 
