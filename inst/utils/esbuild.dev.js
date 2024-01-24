@@ -7,7 +7,7 @@ esbuild
   .build({
     entryPoints: [<<entry_points>>],
     outdir: "inst/<<name>>-<<version>>/dist",
-    entryNames: "<<entry_name>>.min",
+    entryNames: "<<entry_name>>",
     bundle: true,
     format: "esm",
     minify: false, // dev
