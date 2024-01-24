@@ -77,6 +77,34 @@ set_esbuild()
 set_mocha()
 ```
 
+## Monolithic and component based bundling
+
+`{charpente}` offers two ways of bundling your JS code: monolithic and component based. The monolithic bundling is the default one and is the simplest to use. It will bundle all your JS and CSS code into single files. By default, the entry point is `/scrjs/main.js`, which will also be created when setting esbuild for the first time with `set_esbuid()`. In this case bundling is easy and can be achieved with:
+
+```r
+build_js()
+```
+
+Component based bundling might be convenient in situations where you want to create a bundle for each (standalone) component. Bundling per component will make sure that only the necessary assets are loaded. This is particularly useful when you want to create a package with multiple components, and not a complete template. To use component based bundling, you can specify multiple `entry_points` in `build_js()`. 
+
+For the below structure in the /srcjs folder:
+
+```
+srcjs
+├── component1.js
+└── component2.js
+```
+
+You can build as follows:
+
+```r
+build_js(entry_points = c("component1.js", "component2.js"))
+```
+
+CSS styles for each component can be loaded in the js files with `import` statements, e.g. `import "../styles/component1.scss";`. 
+
+You JS code will be bundled into `/inst/{package-name}-{version}/`. Dependencies for your HTML are automatically created in `R/{package-name}-dependencies.R`. There will be only one HTML dependency in case of monolithic building, and multiple in case of component based building.
+
 ## Acknowledgment 
 The author would like to warmly thank [Victor Perrier](https://twitter.com/_pvictorr?lang=fr), 
 [John Coene](https://twitter.com/jdatap), [Colin Fay](https://twitter.com/_ColinFay), [Alan Dipert](https://twitter.com/alandipert), [Kenton Russel](https://twitter.com/timelyportfolio) for providing many building block and inspiration to this package. 
