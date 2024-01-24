@@ -204,6 +204,29 @@ create_custom_dependency <- function(name, version, entry_points, open = interac
   if (length(entry_points) > 1) {
     # remove everything before last / and remove .js
     entry_point_names <- gsub(".*/|.js", "", entry_points)
+
+    # Check for special characters, digits, and replace - with _
+    has_special_or_digit <- grepl("[^a-zA-Z\\s]|\\d", entry_point_names)
+    has_hyphen <- grepl("-", entry_point_names)
+
+    if (any(has_special_or_digit)) {
+      format_names <- entry_point_names[has_special_or_digit]
+
+      ui_warn(
+        "Consider removing special characters or digits from the following entry point filenames:
+        {paste(format_names, collapse = ', ')}"
+      )
+
+      if (any(has_hyphen)) {
+        entry_point_names[has_hyphen] <- gsub("-", "_", entry_point_names[has_hyphen])
+
+        ui_done(
+          "Replaced - with _ in the following entry points:
+          {paste(format_names, collapse = ', ')}"
+        )
+      }
+    }
+
   } else {
     entry_point_names <- name
   }
