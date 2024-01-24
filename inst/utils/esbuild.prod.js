@@ -5,7 +5,7 @@ import autoprefixer from 'autoprefixer';
 
 esbuild
   .build({
-    entryPoints: [<<entry_point>>],
+    entryPoints: [<<entry_points>>],
     outdir: "inst/<<name>>-<<version>>/dist",
     entryNames: "<<entry_name>>.min",
     bundle: true,

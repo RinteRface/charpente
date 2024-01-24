@@ -186,11 +186,11 @@ create_dependency <- function(name, tag = NULL, open = interactive(), options = 
 #'
 #' @param name Package name.
 #' @param version Package version.
-#' @param entry_point Entry points to create dependency for.
+#' @param entry_points Entry points to create dependency for.
 #' @param open Whether to allow rstudioapi to open the newly created script. Default to TRUE.
 #' @param mode Internal. Don't use.
 #' @keywords Internal
-create_custom_dependency <- function(name, version, entry_point, open = interactive(), mode) {
+create_custom_dependency <- function(name, version, entry_points, open = interactive(), mode) {
 
   # need to overwrite path which was used before
   path <- sprintf("R/%s-dependencies.R", name)
@@ -201,9 +201,9 @@ create_custom_dependency <- function(name, version, entry_point, open = interact
     write(..., file = path, append = TRUE)
   }
 
-  if (length(entry_point) > 1) {
+  if (length(entry_points) > 1) {
     # remove everything before last / and remove .js
-    entry_point_names <- gsub(".*/|.js", "", entry_point)
+    entry_point_names <- gsub(".*/|.js", "", entry_points)
   } else {
     entry_point_names <- name
   }

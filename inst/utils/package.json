@@ -3,7 +3,7 @@
   "version": "<<split_version>>",
   "description": "",
   "private": true,
-  "main": "<<entry_point>>",
+  "main": "<<entry_points>>",
   "directories": {
     "man": "man"
   },
