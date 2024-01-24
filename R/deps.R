@@ -220,6 +220,8 @@ create_custom_dependency <- function(name, version, entry_points, open = interac
       if (any(has_hyphen)) {
         entry_point_names[has_hyphen] <- gsub("-", "_", entry_point_names[has_hyphen])
 
+        format_names <- entry_point_names[has_hyphen]
+
         ui_done(
           "Replaced - with _ in the following entry points:
           {paste(format_names, collapse = ', ')}"
