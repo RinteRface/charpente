@@ -216,8 +216,8 @@ set_esbuild <- function(light = FALSE) {
       "package.json",
       "package-lock.json",
       "styles",
-      "esbuild.dev.json",
-      "esbuild.prod.json"
+      "esbuild.dev.js",
+      "esbuild.prod.js"
     )
   )
 
