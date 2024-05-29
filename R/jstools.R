@@ -28,7 +28,7 @@ build_js <- function(dir = "srcjs", mode = c("prod", "dev"), entry_points = "mai
   # check if entry_points exists
   if (any(!file.exists(entry_points))) {
     missing_entry_points <- entry_points[!file.exists(entry_points)]
-    ui_stop("The following entry points don't exist: {paste0(entry_points, collapse = ', ')}")
+    ui_stop("The following entry points don't exist: {paste0(missing_entry_points, collapse = ', ')}")
   }
 
   # run esbuild
