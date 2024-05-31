@@ -22,10 +22,10 @@ async function cacheResources() {
   const cache = await caches.open(CACHE_NAME);
   const resources = [
     new Request(OFFLINE_URL, { cache: "reload" }),
-    new Request("/shinyMobile-2.0.1/dist/shinyMobile.min.css", { cache: "reload" }),
-    new Request("/shinyMobile-2.0.1/dist/shinyMobile.min.js", { cache: "reload" }),
-    new Request("/jquery-3.6.0/jquery.min.js", { cache: "reload" }),
-    new Request("/shiny-javascript-1.8.1.1/shiny.min.js", { cache: "reload" })
+    new Request("shinyMobile-2.0.1/dist/shinyMobile.min.css", { cache: "reload" }),
+    new Request("shinyMobile-2.0.1/dist/shinyMobile.min.js", { cache: "reload" }),
+    new Request("jquery-3.6.0/jquery.min.js", { cache: "reload" }),
+    new Request("shiny-javascript-1.8.1.1/shiny.min.js", { cache: "reload" })
   ];
 
   for (const resource of resources) {
