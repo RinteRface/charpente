@@ -10,7 +10,7 @@
     <!-- Your app title -->
     <title>Oups</title>
     <!-- Path to Framework7 Library Bundle CSS -->
-    <link rel="stylesheet" href="framework7-5.7.14/css/framework7.bundle.min.css">
+    <link rel="stylesheet" href="shinyMobile-2.0.1/dist/shinyMobile.min.css">
     <!-- Path to your custom app styles-->
   </head>
   <body>
@@ -43,42 +43,38 @@
           <div class="page-content">
             <div class="block">
               <p>Welcome to the offline page</p>
-              <button onclick="location.reload();" class="toast-button button color-red col">Reload</button>
+              <button onclick="location.reload();" class="button button-fill color-red">Reload</button>
             </div>
           </div>
         </div>
       </div>
     </div>
     <!-- jQuery -->
-    <script type="text/javascript" src="shared/jquery.min.js"></script>
-    <!-- Path to Framework7 Library Bundle JS -->
-    <script type="text/javascript" src="framework7-5.7.14/js/framework7.bundle.min.js"></script>
-    <!-- Path to your app js -->
+    <script type="text/javascript" src="jquery-3.6.0/jquery.min.js"></script>
+    <!-- Shiny -->
+    <script type="text/javascript" src="shiny-javascript-1.8.1.1/shiny.min.js"></script>
+    <!-- Path to shinyMobile JS -->
+    <script type="text/javascript" src="shinyMobile-2.0.1/dist/shinyMobile.min.js"></script>
+    <!-- Load your app JS -->
     <script>
-      var app = new Framework7({
-        // App root element
-        root: '#app',
-        // App Name
-        name: 'My App',
-        // App id
-        id: 'com.myapp.test',
-        // Enable swipe panel
-        panel: {
-          swipe: true,
-        },
-        autoDarkTheme: true,
-        // ... other parameters
+      document.addEventListener('DOMContentLoaded', function () {
+          var app = new window.Framework7({
+              // App root element
+              el: '#app',
+              // App Name
+              name: 'My App',
+              // Dark mode
+              darkMode: "auto",
+              // ... other parameters
+          });
+
+          var mainView = app.views.create('.view-main');
+
+          // Few tweaks
+          if (Framework7.device.standalone) {
+              $("html, body").css({ height: "100vh", width: "100vw" });
+          }
       });
-
-      var mainView = app.views.create('.view-main');
-
-      // Few tweaks
-      if (Framework7.device.standalone) {
-        $("html, body").css({ height: "100vh", width: "100vw" });
-        if ($(".appbar").length > 0) {
-          $(".toolbar").css("margin-bottom", "20px");
-        }
-      }
     </script>
   </body>
 </html>

@@ -18,20 +18,27 @@ const CACHE_NAME = "offline";
 // Customize this with a different URL if needed.
 const OFFLINE_URL = "offline.html";
 
+async function cacheResources() {
+  const cache = await caches.open(CACHE_NAME);
+  const resources = [
+    new Request(OFFLINE_URL, { cache: "reload" }),
+    new Request("shinyMobile-2.0.1/dist/shinyMobile.min.css", { cache: "reload" }),
+    new Request("shinyMobile-2.0.1/dist/shinyMobile.min.js", { cache: "reload" }),
+    new Request("jquery-3.6.0/jquery.min.js", { cache: "reload" }),
+    new Request("shiny-javascript-1.8.1.1/shiny.min.js", { cache: "reload" })
+  ];
+
+  for (const resource of resources) {
+    try {
+      await cache.add(resource);
+    } catch (error) {
+      console.error(`Failed to cache ${resource.url}:`, error);
+    }
+  }
+}
+
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    (async () => {
-      const cache = await caches.open(CACHE_NAME);
-      // Setting {cache: 'reload'} in the new request will ensure that the
-      // response isn't fulfilled from the HTTP cache; i.e., it will be from
-      // the network.
-      await cache.add( new Request(OFFLINE_URL, { cache: "reload" }) );
-      await cache.add( new Request("framework7-5.7.14/css/framework7.bundle.min.css", { cache: "reload" }) );
-      await cache.add( new Request("framework7-5.7.14/js/framework7.bundle.min.js", { cache: "reload" }) );
-      await cache.add( new Request("shared/jquery.min.js", { cache: "reload" }) );
-    })()
-  );
-  // Force the waiting service worker to become the active service worker.
+  event.waitUntil(cacheResources());
   self.skipWaiting();
 });
 

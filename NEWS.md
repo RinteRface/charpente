@@ -1,3 +1,9 @@
+# charpente 0.7.1
+
+## New:
+- Update assets to match for shinyMobile's most recent version 2.0.1.
+- Improve service worker script for debugging (async).
+
 # charpente 0.7.0
 
 ## New:
