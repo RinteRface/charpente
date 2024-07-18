@@ -10,7 +10,7 @@
     <!-- Your app title -->
     <title>Oups</title>
     <!-- Path to Framework7 Library Bundle CSS -->
-    <link rel="stylesheet" href="/shinyMobile-2.0.1/dist/shinyMobile.min.css">
+    <link rel="stylesheet" href="shinyMobile-2.0.1/dist/shinyMobile.min.css">
     <!-- Path to your custom app styles-->
   </head>
   <body>
@@ -50,11 +50,11 @@
       </div>
     </div>
     <!-- jQuery -->
-    <script type="text/javascript" src="/jquery-3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery-3.6.0/jquery.min.js"></script>
     <!-- Shiny -->
-    <script type="text/javascript" src="/shiny-javascript-1.8.1.1/shiny.min.js"></script>
+    <script type="text/javascript" src="shiny-javascript-1.8.1.1/shiny.min.js"></script>
     <!-- Path to shinyMobile JS -->
-    <script type="text/javascript" src="/shinyMobile-2.0.1/dist/shinyMobile.min.js"></script>
+    <script type="text/javascript" src="shinyMobile-2.0.1/dist/shinyMobile.min.js"></script>
     <!-- Load your app JS -->
     <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -73,9 +73,6 @@
           // Few tweaks
           if (Framework7.device.standalone) {
               $("html, body").css({ height: "100vh", width: "100vw" });
-              if ($(".appbar").length > 0) {
-                  $(".toolbar").css("margin-bottom", "20px");
-              }
           }
       });
     </script>
