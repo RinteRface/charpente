@@ -1,108 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rinterface.github.io/charpente/404.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/build_js.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/charpente_options.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/copy_charpente_utils.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/create_charpente.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/create_custom_dependency.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/create_dependency.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/create_file.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/create_manifest.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/create_pwa_dependency.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/get_dependency_assets.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/get_dependency_versions.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/get_installed_dependency.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/get_pkg_name.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/get_template.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/html_2_R.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/js_handler_template.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/process_template.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/reference_script.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/reference_style.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/run_esbuild.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/set_esbuild.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/set_mocha.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/set_pwa.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/set_version_control.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/test_js.html</loc>
-  </url>
-  <url>
-    <loc>https://rinterface.github.io/charpente/reference/update_dependency.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://rinterface.github.io/charpente/404.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/LICENSE-text.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/LICENSE.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/authors.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/index.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/news/index.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/build_js.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/charpente_options.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/copy_charpente_utils.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/create_charpente.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/create_custom_dependency.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/create_dependency.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/create_file.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/create_manifest.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/create_pwa_dependency.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/get_dependency_assets.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/get_dependency_versions.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/get_installed_dependency.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/get_pkg_name.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/get_template.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/html_2_R.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/index.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/js_handler_template.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/pipe.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/process_template.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/reference_script.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/reference_style.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/run_esbuild.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/set_esbuild.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/set_mocha.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/set_pwa.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/set_version_control.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/test_js.html</loc></url>
+<url><loc>https://rinterface.github.io/charpente/reference/update_dependency.html</loc></url>
 </urlset>
+
